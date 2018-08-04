@@ -1,6 +1,6 @@
 ![Screenshot 1](https://i.redd.it/9mz7qsymx3e11.png)
 
-# Sensitivity Matcher
+# KovaaK's Sensitivity Matcher
 
 This is a script that can be used to convert your mouse sensitivity between any 3D games.
 
