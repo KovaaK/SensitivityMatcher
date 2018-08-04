@@ -1,4 +1,4 @@
-﻿#NoTrayIcon
+#NoTrayIcon
 #include <Misc.au3>
 #include <GUIConstantsEx.au3>
 #include <EditConstants.au3>
@@ -18,8 +18,8 @@ Global Const $gPi  = 3.141592653589793238462643383279502884197169399375105820974
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = 0.018/$gPi
-Global Const $yawFortniteConfig = 2.222
-Global Const $yawFortniteSlider = 0.5555
+Global Const $yawFortniteConfig = 2.2220
+Global Const $yawFortniteSlider = 0.55550
 ;Global Const $yawPaladins       = 0.009157 ; This is wrong - Paladins sens scales by FOV
 ;Global Const $yawBattalion      = 0.017501 ; Not sure if this is right
 
@@ -27,12 +27,12 @@ Global $gValid = 1
 
 
 If _Singleton("Sensitivity Matcher", 1) = 0 Then
-    MsgBox(0, "Warning", "An occurrence of Sensitivity Matcher is already running.")
+    MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
     Exit
 EndIf
-HotKeySet("!{[}" , "SingleCycle")
+HotKeySet("!{[}", "SingleCycle")
 HotKeySet("!{]}", "AutoCycle")
-HotKeySet("!{\}" , "Halt")
+HotKeySet("!{\}", "Halt")
 MakeGUI()
 
 
@@ -190,9 +190,9 @@ Func MakeGUI()
                                  & "2) Input your sensitivity value from your old game."          & @crlf _
                                  & "3) In your new game, adjust its sens until the test matches." & @crlf _
                                                                                                   & @crlf _
-                                 & "Press Alt+[ to perform one full revolution."             & @crlf _
-                                 & "Press Alt+] to perform " & $gCycle & " full revolutions."  & @crlf _
-                                 & "Press Alt+\ to halt."                                       & @crlf _
+                                 & "Press Alt+[ to perform one full revolution."                  & @crlf _
+                                 & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
+                                 & "Press Alt+\ to halt."                                         & @crlf _
                                                                                                   & @crlf _
                                  & "Interval: " & $gDelay & " ms (rounded to nearest milisecond)" & @crlf _
                                  & "Estimated Completion Time for " & $gCycle & " cycles: " & $time & " sec")
@@ -211,21 +211,21 @@ Func MakeGUI()
 EndFunc
 
 Func TestMouse($cycle)
-   If $gMode > 0 Then
-      $gMode = 0
+   If $gMode > 0 Then           ; three states of $gMode: -1, 0, 1. A 0 means in-progress and ends the command without doing anything.
+      $gMode = 0                ; -1 means manual override and is checked for before performing every action, 1 means all is good to go.
 
       $partition  = $gPartition ; how many movements to perform in a single go.  Don't let this exceed half of your resolution.
       $delay      = $gDelay     ; delay in milliseconds between movements.  Making this lower than frametime causes dropped inputs for non-rawinput games.
       $turn       = 0.0
       $totalcount = 1
 
-      While $cycle
+      While $cycle > 0
          $cycle = $cycle - 1
-
-		 $turn          = 360                                               ; one revolution in deg
-		 $totalcount    = ( $turn + $gResidual ) / ( $gSens )               ; partitioned by user-defined increments
-		 $totalcount    = Round( $totalcount )                              ; round to nearest integer
-		 $gResidual     = ( $turn + $gResidual ) - ( $gSens * $totalcount ) ; save the residual angles
+         
+            $turn          = 360                                               ; one revolution in deg
+            $totalcount    = ( $turn + $gResidual ) / ( $gSens )               ; partitioned by user-defined increments
+            $totalcount    = Round( $totalcount )                              ; round to nearest integer
+            $gResidual     = ( $turn + $gResidual ) - ( $gSens * $totalcount ) ; save the residual angles
 
          While $totalcount > $partition
             If $gMode < 0 Then
