@@ -311,26 +311,26 @@ EndFunc
 
 Func DecreasePolygon()
    $gBounds[0] = $gSens
-   if $gBounds[1] >   $gBounds[0] then
-      $gSens      = ( $gBounds[0] + $gBounds[1] ) / 2
-   else
+   if $gBounds[1] < $gBounds[0] then
       $gBounds[1] = 0
-      $gSens      =   $gBounds[0] * 2
+      $gSens      = $gBounds[0] * 2
+   else
+      $gSens      = ( $gBounds[0] + $gBounds[1] ) / 2
    endif
 EndFunc
 
 Func IncreasePolygon()
    $gBounds[1] = $gSens
-   if $gBounds[1] >   $gBounds[0] then
-      $gSens      = ( $gBounds[0] + $gBounds[1] ) / 2
-   else
+   if $gBounds[1] < $gBounds[0] then
       $gBounds[0] = 0
-      $gSens      =   $gBounds[1] / 2
+      $gSens      = $gBounds[1] / 2
+   else
+      $gSens      = ( $gBounds[0] + $gBounds[1] ) / 2
    endif
    if $gSens == 0 then
-      $gSens = $gBounds[1]
+      $gSens =  $gBounds[1]
       if $gSens == 0 then
-         $gSens = 0.022
+         $gSens =  0.022
       endif
    endif
 EndFunc
