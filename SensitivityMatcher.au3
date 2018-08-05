@@ -74,7 +74,7 @@ Func MakeGUI()
    Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 105, 100,  90, 20)             ; once again, hardcoding initialization
                         GUICtrlSendMsg(      $sCounts      , $EM_SETREADONLY, 1, 0)
    Local $sPartition  = GUICtrlCreateInput( "127"          , 105, 125,  90, 20)
-   Local $sTickRate   = GUICtrlCreateInput( "144"          , 105, 150,  90, 20)
+   Local $sTickRate   = GUICtrlCreateInput( "299"          , 105, 150,  90, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 105, 175,  90, 20)
    Local $sResidual   = GUICtrlCreateInput( $gResidual     , 105, 200,  90, 20)
                         GUICtrlSendMsg(     $sResidual     , $EM_SETREADONLY, 1, 0)
@@ -111,7 +111,7 @@ Func MakeGUI()
    $gMode      = 1
    $gSens      = _GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))
    $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
-   $gDelay     = int(1000/_GetNumberFromString(GuiCtrlRead($sTickRate)))
+   $gDelay     = Ceiling(  1000/_GetNumberFromString( GuiCtrlRead($sTickRate) )  )
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
 
 
@@ -204,7 +204,7 @@ Func MakeGUI()
             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
 
          Case $idMsg == $sTickRate
-            $gDelay     = int( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
+            $gDelay     = Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
 
          Case $idMsg == $sCycle
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
