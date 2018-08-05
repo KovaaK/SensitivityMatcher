@@ -26,6 +26,7 @@ Global Const $yawMeasureDeg     = 1
 Global Const $yawMeasureMrad    = 0.180/$gPi
 
 Global $gValid = 1
+Global $gBounds[2] = [0,0]
 
 
 If _Singleton("Sensitivity Matcher", 1) = 0 Then
@@ -42,7 +43,7 @@ MakeGUI()
 
 
 Func MakeGUI()
-   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)                                      ; used to be 250, 180
+   $idGUI = GUICreate("Sensitivity Matcher", 295, 260)                                      ; used to be 250, 180
 
    GUICtrlCreateLabel( "Select preset yaw:"                ,   5,   7,  90, 15, $SS_LEFT  )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
@@ -60,6 +61,8 @@ Func MakeGUI()
    GUICtrlCreateLabel( "Hz"                                , 200, 152,  60, 15, $SS_LEFT  )
    GUICtrlCreateLabel( "for a Cycle of"                    ,   5, 177,  98, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "rotations."                        , 200, 177,  60, 15, $SS_LEFT  )
+   GUICtrlCreatelabel( "Current Residual is"               ,   5, 202,  98, 15, $SS_RIGHT )
+   GUICtrlCreatelabel( "degrees"                           , 200, 202,  60, 15, $SS_LEFT  )
 
 
    Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
@@ -73,8 +76,10 @@ Func MakeGUI()
    Local $sPartition  = GUICtrlCreateInput( "800"          , 105, 125,  90, 20)
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 105, 150,  90, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 105, 175,  90, 20)
+   Local $sResidual   = GUICtrlCreateInput( $gResidual     , 105, 200,  90, 20)
+                        GUICtrlSendMsg(     $sResidual     , $EM_SETREADONLY, 1, 0)
 
-   Local $idHelp      = GUICtrlCreateButton("Info"         , 105, 205,  90, 25)
+   Local $idHelp      = GUICtrlCreateButton("Info"         , 105, 230,  90, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -112,9 +117,34 @@ Func MakeGUI()
 
    GUISetState(@SW_SHOW)
 
+   Local $lastgSens     = $gSens
+   Local $lastgResidual = $gResidual
+   HotKeySet("!{-}", "DecreasePolygon")
+   HotKeySet("!{=}", "IncreasePolygon")
+   HotKeySet("!{0}", "ClearBounds")
    Local $idMsg
    While 1                                  ; Loop until the user exits.
       $idMsg = GUIGetMsg()
+
+      If $gSens == $lastgSens Then
+      Else
+         $gResidual = 0
+         GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
+        _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
+         GUICtrlSetData(     $sIncr  , String(     $gSens ) )
+        _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
+         GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
+        _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
+         $lastgSens = $gSens
+      EndIf
+
+      If $gResidual == $lastgResidual Then
+      Else
+         GUICtrlSetData(     $sResidual, String( $gResidual ) )
+        _GUICtrlEdit_SetSel( $sResidual, 0, 0 )  
+         $lastgResidual = $gResidual 
+      EndIf
+
       Select
          Case $idMsg == $GUI_EVENT_CLOSE
             Exit
@@ -164,7 +194,7 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawFortniteConfig))
             ElseIf GUICtrlRead($sYawPresets) == "Fortnite Slider"     Then
                    GUICtrlSetData($sYaw, String($yawFortniteSlider))
-            ElseIf GUICtrlRead($sYawPresets) == "Measure any game"   Then
+            ElseIf GUICtrlRead($sYawPresets) == "Measure any game"    Then
                    GUICtrlSetData($sYaw, String($yawMeasureDeg))
             EndIf
 
@@ -196,7 +226,7 @@ Func MakeGUI()
                                                                                                   & @crlf _
                                  & "Press Alt+[ to perform one full revolution."                  & @crlf _
                                  & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
-                                 & "Press Alt+\ to halt (and clear residuals)."                   & @crlf _
+                                 & "Press Alt+\ to halt."                                         & @crlf _
                                                                                                   & @crlf _
                                  & "Interval: " & $gDelay & " ms (rounded to nearest milisecond)" & @crlf _
                                  & "Estimated Completion Time for " & $gCycle & " cycles: " & $time & " sec")
@@ -277,6 +307,37 @@ Func AutoCycle()
    Else
 	  MsgBox(0, "Error", "Inputs must be a number")
    EndIf
+EndFunc
+
+Func DecreasePolygon()
+   $gBounds[0] = $gSens
+   if $gBounds[1] >   $gBounds[0] then
+      $gSens      = ( $gBounds[0] + $gBounds[1] ) / 2
+   else
+      $gBounds[1] = 0
+      $gSens      =   $gBounds[0] * 2
+   endif
+EndFunc
+
+Func IncreasePolygon()
+   $gBounds[1] = $gSens
+   if $gBounds[1] >   $gBounds[0] then
+      $gSens      = ( $gBounds[0] + $gBounds[1] ) / 2
+   else
+      $gBounds[0] = 0
+      $gSens      =   $gBounds[1] / 2
+   endif
+   if $gSens == 0 then
+      $gSens = $gBounds[1]
+      if $gSens == 0 then
+         $gSens = 0.022
+      endif
+   endif
+EndFunc
+
+Func ClearBounds()
+   $gBounds[0] = 0
+   $gBounds[1] = 0
 EndFunc
 
 Func _MouseMovePlus($X = "", $Y = "")
