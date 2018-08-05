@@ -1,8 +1,8 @@
 ![Screenshot 1](https://i.redd.it/9mz7qsymx3e11.png)
 
-# KovaaK's Sensitivity Matcher
+# Sensitivity Matcher
 
-This is a script that can be used to convert your mouse sensitivity between any 3D games.
+This is a script that can be used to convert your mouse sensitivity between any 3D games without preemptive calculation.
 
 Run the script, then:
 
@@ -15,3 +15,7 @@ Press `Alt+[` to perform one full revolution.
 Press `Alt+]` to perform multiple full revolutions.
 
 Press `Alt+\` to halt.
+
+Angle residuals are handled by a floating point accumulator. By observing gradual view drifts over many cycles, the script can be used to accurately measure any game's base yaw to 16 significant digits.
+
+This eliminates the need to trust paywalled calculators that may or may not have accurate numbers.
