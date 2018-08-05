@@ -22,8 +22,8 @@ Global Const $yawFortniteConfig = 2.2220
 Global Const $yawFortniteSlider = 0.55550
 ;Global Const $yawPaladins       = 0.009157 ; This is wrong - Paladins sens scales by FOV
 ;Global Const $yawBattalion      = 0.017501 ; Not sure if this is right
-Global Const $yawTestModeDeg     = 1
-Global Const $yawTestModeMrad    = 0.180/$gPi
+Global Const $yawMeasureDeg     = 1
+Global Const $yawMeasureMrad    = 0.180/$gPi
 
 Global $gValid = 1
 
@@ -63,7 +63,7 @@ Func MakeGUI()
 
 
    Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
-                        GUICtrlSetData(      $sYawPresets  , "Overwatch|Rainbow6/Reflex|Fortnite Config|Fortnite Slider|Test Mode (deg)|Test Mode (mrad)|Custom", "Quake/Source")
+                        GUICtrlSetData(      $sYawPresets  , "Overwatch|Rainbow6/Reflex|Fortnite Config|Fortnite Slider|Measure any game|Custom", "Quake/Source")
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
    Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)             ; hardcoded to initialize to product of above two
@@ -164,10 +164,8 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawFortniteConfig))
             ElseIf GUICtrlRead($sYawPresets) == "Fortnite Slider"     Then
                    GUICtrlSetData($sYaw, String($yawFortniteSlider))
-            ElseIf GUICtrlRead($sYawPresets) == "Test Mode (deg)"   Then
-                   GUICtrlSetData($sYaw, String($yawTestModeDeg))
-            ElseIf GUICtrlRead($sYawPresets) == "Test Mode (mrad)"   Then
-                   GUICtrlSetData($sYaw, String($yawTestModeMrad))
+            ElseIf GUICtrlRead($sYawPresets) == "Measure any game"   Then
+                   GUICtrlSetData($sYaw, String($yawMeasureDeg))
             EndIf
 
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
