@@ -60,7 +60,7 @@ Func MakeGUI()
    GUICtrlCreateLabel( "at a Frequency of"                 ,   5, 152,  98, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "Hz"                                , 200, 152,  60, 15, $SS_LEFT  )
    GUICtrlCreateLabel( "for a Cycle of"                    ,   5, 177,  98, 15, $SS_RIGHT )
-   GUICtrlCreateLabel( "rotations."                        , 200, 177,  60, 15, $SS_LEFT  )
+   GUICtrlCreateLabel( "revolutions."                      , 200, 177,  60, 15, $SS_LEFT  )
    GUICtrlCreatelabel( "Current Residual is"               ,   5, 202,  98, 15, $SS_RIGHT )
    GUICtrlCreatelabel( "°"                                 , 200, 202,  60, 15, $SS_LEFT  )
 
@@ -160,12 +160,6 @@ Func MakeGUI()
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
 
-;~         ; Uncomment these, and comment out the above two lines if you would rather have increment update instead of sens.
-;~ 			GUICtrlSetData($sCounts,String(Round(360/(_GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))),3)))
-;~ 			GUICtrlSetData($sIncr,String(_GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))))
-;~ 			_GUICtrlEdit_SetSel($sIncr, 0, 0)
-;~ 			_GUICtrlEdit_SetSel($sYaw, 0, 0)
-
             If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
@@ -206,12 +200,6 @@ Func MakeGUI()
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
 
-;~         ; Uncomment these, and comment out the above two lines if you would rather have increment update instead of sens.
-;~ 			GUICtrlSetData($sCounts,String(Round(360/(_GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))),3)))
-;~ 			GUICtrlSetData($sIncr,String(_GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))))
-;~ 			_GUICtrlEdit_SetSel($sIncr, 0, 0)
-;~ 			_GUICtrlEdit_SetSel($sYaw, 0, 0)
-
          Case $idMsg == $sPartition
             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
 
@@ -230,8 +218,16 @@ Func MakeGUI()
                                                                                                   & @crlf _
                                  & "Press Alt+[ to perform one full revolution."                  & @crlf _
                                  & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
-                                 & "Press Alt+\ to halt."                                         & @crlf _
+                                 & "Press Alt+\ to halt and clear residuals."                     & @crlf _
                                                                                                   & @crlf _
+                                 & "If your game is not listed and you do not know its yaw, "             _
+                                 & "select 'Measure any game' from the dropdown to measure your exact "   _
+                                 & "sensitivity. Perform rotations while in game and observe for drifts " _
+                                 & "over many cycles to determine over/undershoot. Press"         & @crlf _  
+                                 & "Alt+- to decrease counts if it's overshooting, "              & @crlf _
+                                 & "Alt+= to increase counts if it's undershooting, and "         & @crlf _
+                                 & "Alt+0 to reset the upper/lower bounds to start over. "        & @crlf _
+												  & @crlf _
                                  & "Interval: " & $gDelay & " ms (rounded to nearest milisecond)" & @crlf _
                                  & "Estimated Completion Time for " & $gCycle & " cycles: " & $time & " sec")
             Else
@@ -249,8 +245,8 @@ Func MakeGUI()
 EndFunc
 
 Func TestMouse($cycle)
-   If $gMode > 0 Then           ; three states of $gMode: -1, 0, 1. A 0 means in-progress and ends the command without doing anything.
-      $gMode = 0                ; -1 means manual override and is checked for before performing every action, 1 means all is good to go.
+   If $gMode > 0 Then           ; three states of $gMode: -1, 0, 1. A 0 means in-progress and exits the command without doing anything.
+      $gMode = 0                ; -1 means manual override and is checked for before performing every operation, 1 means all is good to go.
 
       $partition  = $gPartition ; how many movements to perform in a single go.  Don't let this exceed half of your resolution.
       $delay      = $gDelay     ; delay in milliseconds between movements.  Making this lower than frametime causes dropped inputs for non-rawinput games.
