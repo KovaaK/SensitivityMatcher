@@ -62,7 +62,7 @@ Func MakeGUI()
    GUICtrlCreateLabel( "for a Cycle of"                    ,   5, 177,  98, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "rotations."                        , 200, 177,  60, 15, $SS_LEFT  )
    GUICtrlCreatelabel( "Current Residual is"               ,   5, 202,  98, 15, $SS_RIGHT )
-   GUICtrlCreatelabel( "degrees"                           , 200, 202,  60, 15, $SS_LEFT  )
+   GUICtrlCreatelabel( "°"                                 , 200, 202,  60, 15, $SS_LEFT  )
 
 
    Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
