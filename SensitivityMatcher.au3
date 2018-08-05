@@ -119,9 +119,6 @@ Func MakeGUI()
 
    Local $lastgSens     = $gSens
    Local $lastgResidual = $gResidual
-   HotKeySet("!{-}", "DecreasePolygon")
-   HotKeySet("!{=}", "IncreasePolygon")
-   HotKeySet("!{0}", "ClearBounds")
    Local $idMsg
    While 1                                  ; Loop until the user exits.
       $idMsg = GUIGetMsg()
@@ -169,7 +166,8 @@ Func MakeGUI()
 ;~ 			_GUICtrlEdit_SetSel($sIncr, 0, 0)
 ;~ 			_GUICtrlEdit_SetSel($sYaw, 0, 0)
 
-            If     _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
+            If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
+            ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
@@ -184,6 +182,9 @@ Func MakeGUI()
             EndIf
 
          Case $idMsg == $sYawPresets
+            HotKeySet("!{-}")
+            HotKeySet("!{=}")
+            HotKeySet("!{0}")
             If     GUICtrlRead($sYawPresets) == "Quake/Source"        Then
                    GUICtrlSetData($sYaw, String($yawQuake))
             ElseIf GUICtrlRead($sYawPresets) == "Overwatch"           Then
@@ -196,6 +197,9 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawFortniteSlider))
             ElseIf GUICtrlRead($sYawPresets) == "Measure any game"    Then
                    GUICtrlSetData($sYaw, String($yawMeasureDeg))
+                   HotKeySet("!{-}", "DecreasePolygon")
+                   HotKeySet("!{=}", "IncreasePolygon")
+                   HotKeySet("!{0}", "ClearBounds")
             EndIf
 
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
