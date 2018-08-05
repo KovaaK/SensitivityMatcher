@@ -2,7 +2,7 @@
 
 # Sensitivity Matcher
 
-This is a script that can be used to transfer your mouse sensitivity between any 3D games with no calculation required.
+This is a script that lets you transfer your mouse sensitivity between any 3D games with no calculation required.
 
 Run the script, then:
 
@@ -16,6 +16,6 @@ Press `Alt+]` to perform multiple full revolutions.
 
 Press `Alt+\` to halt.
 
-The script can also be used to accurately measure any game's base yaw, by observing gradua view drifts over many cycles. Because angle residuals are handled by a floating point accumulator, the measurement is accurate to 16 significant digits.
+The script can also be used to accurately measure any base yaw, by observing gradual view drifts over many cycles. Because angle residuals are handled by a floating point accumulator, the measurement is accurate to 16 significant digits.
 
-This eliminates the need to trust paywalled calculators that may or may not have accurate numbers.
+This eliminates the need to trust paywalled calculators that may or may not have accurate numbers, as most only uses one rotation in their test to an estimated number.
