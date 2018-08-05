@@ -228,7 +228,7 @@ Func MakeGUI()
                                  & "Alt+= to increase counts if it's undershooting, and "         & @crlf _
                                  & "Alt+0 to reset the upper/lower bounds to start over. "        & @crlf _
 												  & @crlf _
-                                 & "Interval: " & $gDelay & " ms (rounded to nearest milisecond)" & @crlf _
+                                 & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
                                  & "Estimated Completion Time for " & $gCycle & " cycles: " & $time & " sec")
             Else
                MsgBox(0, "Error", "Inputs must be a number")
