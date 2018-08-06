@@ -228,28 +228,46 @@ Func MakeGUI()
          Case $idMsg == $idHelp
             If InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle) Then
                $time = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
-               MsgBox(0, "Info",   "1) Select the Preset/game that you are coming from."          & @crlf _
+               MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
+                                 & "To match your old sensitivity to a new game:"                 & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "1) Select the preset/game that you are coming from."          & @crlf _
                                  & "2) Input your sensitivity value from your old game."          & @crlf _
                                  & "3) In your new game, adjust its sens until the test matches." & @crlf _
                                                                                                   & @crlf _
                                  & "Press Alt+[ to perform one full revolution."                  & @crlf _
                                  & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
-                                 & "Press Alt+\ to halt and clear residuals."                     & @crlf _
+                                 & "Press Alt+\ to halt."                                         & @crlf _
                                                                                                   & @crlf _
-                                 & "If your game is not listed and you do not know its yaw:"      & @crlf _
-                                 & "Measure your exact sensitivity by selecting "                         _
-                                 & "''Measure any game'' "                                        & @crlf _
-                                 & "to enable the following hotkeys:"                             & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "If your old game is not listed and you don't know the yaw:"   & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
+                                 & "2) Perform rotations ingame to test for under/overshoot."     & @crlf _
+                                 & "3) Use the following hotkeys to match rotation to your sens." & @crlf _
                                                                                                   & @crlf _
-                                 & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
                                  & "Increase counts with Alt+= if it's undershooting."            & @crlf _
-                                 & "Reset bounds with Alt+0 to start over."                       & @crlf _
+                                 & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
+                                 & "Clear all bounds with Alt+0 to restart the test."             & @crlf _
                                                                                                   & @crlf _
-                                 & "Over/undershoot drifts may require multiple cycles "                  _
-                                 & "to become observable."                                        & @crlf _  
+                                 & "The script will gradually converge to your sensitivity "              _
+                                 & "as you adjust bounds with hotkeys. You can then use the "             _
+                                 & "converged sensitivity to match to your new game."             & @crlf _
                                                                                                   & @crlf _
+                                 & "Over/undershoot drifts might take multiple cycles before it becomes " _
+                                 & "observable. Slight shifts that snaps back periodically are simply "   _
+                                 & "visual artifacts of residual angles that cancels itself out over "    _
+                                 & "many rotations."                                              & @crlf _
+                                 & "It's an over/undershoot only if it drifts systematically."    & @crlf _
+                                                                                                  & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "Additional Testing Parameter Details"                         & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
                                  & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
-                                 & "Estimated Completion Time for " & $gCycle & " cycles: " & $time & " sec")
+                                 & "Estimated Completion Time for " & $gCycle                             _
+                                 & " cycles: " & $time & " sec"                                   & @crlf _
+                                 & "Current Residual Angle: " & $gResidual & "°"                  & @crlf _
+                                 & "Current Upper/Lower Bounds: " & $gBounds[0] &"° to " & $gBounds[1] &"°")
             Else
                MsgBox(0, "Error", "Inputs must be a number")
             EndIf
