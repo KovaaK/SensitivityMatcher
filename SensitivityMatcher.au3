@@ -191,6 +191,7 @@ Func MakeGUI()
          Case $idMsg == $sYawPresets
             $gResidual  = 0
 	    $gPartition = $lPartition
+	    GUICtrlSetData($sPartition, $gPartition)
             HotKeySet("!{-}")
             HotKeySet("!{=}")
             HotKeySet("!{0}")
