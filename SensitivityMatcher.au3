@@ -43,7 +43,7 @@ MakeGUI()
 
 
 Func MakeGUI()
-   $idGUI = GUICreate("Sensitivity Matcher", 295, 260)                                      ; used to be 250, 180
+   $idGUI = GUICreate("Sensitivity Matcher", 295, 230)                                      ; used to be 250, 180. Set height to 260 to add residual row
 
    GUICtrlCreateLabel( "Select preset yaw:"                ,   5,   7,  90, 15, $SS_LEFT  )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
@@ -61,12 +61,19 @@ Func MakeGUI()
    GUICtrlCreateLabel( "Hz"                                , 200, 152,  60, 15, $SS_LEFT  )
    GUICtrlCreateLabel( "for a Cycle of"                    ,   5, 177,  98, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "revolutions."                      , 200, 177,  60, 15, $SS_LEFT  )
-   GUICtrlCreatelabel( "Current Residual is"               ,   5, 202,  98, 15, $SS_RIGHT )
-   GUICtrlCreatelabel( "°"                                 , 200, 202,  60, 15, $SS_LEFT  )
+   ; GUICtrlCreatelabel( "Current Residual is"               ,   5, 202,  98, 15, $SS_RIGHT )
+   ; GUICtrlCreatelabel( "°"                                 , 200, 202,  60, 15, $SS_LEFT  )
 
-
+   ; Local $sFilePath = (@ScriptDir & "\GameList.ini")
+   ; Local $sLoadedList = "test1|test2"
    Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
-                        GUICtrlSetData(      $sYawPresets  , "Overwatch|Rainbow6/Reflex|Fortnite Config|Fortnite Slider|Measure any game|Custom", "Quake/Source")
+                        GUICtrlSetData(      $sYawPresets  ,        "Overwatch|" & _
+                                                              "Rainbow6/Reflex|" & _
+                                                              "Fortnite Config|" & _
+                                                              "Fortnite Slider|" & _
+                                                             "Measure any game|" & _
+                                                                       "Custom|"   _
+                                                           ,    "Quake/Source")
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
    Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)             ; hardcoded to initialize to product of above two
@@ -76,10 +83,12 @@ Func MakeGUI()
    Local $sPartition  = GUICtrlCreateInput( "127"          , 105, 125,  90, 20)
    Local $sTickRate   = GUICtrlCreateInput( "299"          , 105, 150,  90, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 105, 175,  90, 20)
-   Local $sResidual   = GUICtrlCreateInput( $gResidual     , 105, 200,  90, 20)
-                        GUICtrlSendMsg(     $sResidual     , $EM_SETREADONLY, 1, 0)
+   ; Local $sResidual   = GUICtrlCreateInput( $gResidual     , 105, 200,  90, 20)
+   ;                      GUICtrlSendMsg(     $sResidual     , $EM_SETREADONLY, 1, 0)
 
-   Local $idHelp      = GUICtrlCreateButton("Info"         , 105, 230,  90, 25)
+   Local $idHelp      = GUICtrlCreateButton("Info"         , 105, 200,  90, 25)             ; set y-position to 230 if added residual row
+   ; Local $idSave      = GUICtrlCreateButton("Save as yaw"  , 210,   4,  80, 23)
+   ;                      GUICtrlSetState(    $idSave        , $GUI_DISABLE     )
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -106,7 +115,7 @@ Func MakeGUI()
 
 
 
-   ; Initialize Global Variables to UI Inputs. Once initialized, the global variables are individually self-updating wihtin the main loop, no need for a whole refresh function.
+   ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating wihtin the main loop, no need for a whole refresh function.
    $gResidual  = 0.0
    $gMode      = 1
    $gSens      = _GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))
@@ -118,7 +127,7 @@ Func MakeGUI()
    GUISetState(@SW_SHOW)
 
    Local $lastgSens     = $gSens
-   Local $lastgResidual = $gResidual
+   ; Local $lastgResidual = $gResidual
    Local $idMsg
    While 1                                  ; Loop until the user exits.
       $idMsg = GUIGetMsg()
@@ -135,12 +144,12 @@ Func MakeGUI()
          $lastgSens = $gSens
       EndIf
 
-      If $gResidual == $lastgResidual Then
-      Else
-         GUICtrlSetData(     $sResidual, String( $gResidual ) )
-        _GUICtrlEdit_SetSel( $sResidual, 0, 0 )  
-         $lastgResidual = $gResidual 
-      EndIf
+      ; If $gResidual == $lastgResidual Then
+      ; Else
+      ;    GUICtrlSetData(     $sResidual, String( $gResidual ) )
+      ;   _GUICtrlEdit_SetSel( $sResidual, 0, 0 )  
+      ;    $lastgResidual = $gResidual 
+      ; EndIf
 
       Select
          Case $idMsg == $GUI_EVENT_CLOSE
@@ -159,8 +168,10 @@ Func MakeGUI()
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
+            ; GUICtrlSetState($idSave, $GUI_DISABLE)
 
             If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
+                    ; GUICtrlSetState($idSave, $GUI_ENABLE)
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
@@ -173,12 +184,14 @@ Func MakeGUI()
                    _GUICtrlComboBox_SelectString($sYawPresets, "Fortnite Config")
             Else
                    _GUICtrlComboBox_SelectString($sYawPresets, "Custom")
+                    ; GUICtrlSetState($idSave, $GUI_ENABLE)
             EndIf
 
          Case $idMsg == $sYawPresets
             HotKeySet("!{-}")
             HotKeySet("!{=}")
             HotKeySet("!{0}")
+            ; GUICtrlSetState($idSave, $GUI_DISABLE)
             If     GUICtrlRead($sYawPresets) == "Quake/Source"        Then
                    GUICtrlSetData($sYaw, String($yawQuake))
             ElseIf GUICtrlRead($sYawPresets) == "Overwatch"           Then
@@ -194,6 +207,9 @@ Func MakeGUI()
                    HotKeySet("!{-}", "DecreasePolygon")
                    HotKeySet("!{=}", "IncreasePolygon")
                    HotKeySet("!{0}", "ClearBounds")
+                   ; GUICtrlSetState($idSave, $GUI_ENABLE)
+            ; ElseIf GUICtrlRead($sYawPresets) == "Custom"              Then
+                   ; GUICtrlSetState($idSave, $GUI_ENABLE)
             EndIf
 
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
@@ -220,14 +236,13 @@ Func MakeGUI()
                                  & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
                                  & "Press Alt+\ to halt and clear residuals."                     & @crlf _
                                                                                                   & @crlf _
-                                 & "If your game is not listed and you do not know its yaw, "             _
-                                 & "select 'Measure any game' from the dropdown to measure your exact "   _
-                                 & "sensitivity. Perform rotations while in game and observe for drifts " _
-                                 & "over many cycles to determine over/undershoot. Press"         & @crlf _  
-                                 & "Alt+- to decrease counts if it's overshooting, "              & @crlf _
-                                 & "Alt+= to increase counts if it's undershooting, and "         & @crlf _
-                                 & "Alt+0 to reset the upper/lower bounds to start over. "        & @crlf _
-												  & @crlf _
+                                 & "If your game is not listed & you do not know its yaw, select" & @crlf _
+                                 & "''Measure any game'' to measure your exact sensitivity."      & @crlf _
+                                 & "Press Alt+- to decrease counts if it's overshooting."         & @crlf _
+                                 & "Press Alt+= to increase counts if it's undershooting."        & @crlf _
+                                 & "Press Alt+0 to reset upper/lower bounds to start over."       & @crlf _
+                                 & "Observe drifts over many cycles to determine over/undershoot."& @crlf _  
+												                                                  & @crlf _
                                  & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
                                  & "Estimated Completion Time for " & $gCycle & " cycles: " & $time & " sec")
             Else
