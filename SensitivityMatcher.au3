@@ -120,7 +120,7 @@ Func MakeGUI()
    $gMode      = 1
    $gSens      = _GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))
    $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
-   $gDelay     = Ceiling(  1000/_GetNumberFromString( GuiCtrlRead($sTickRate) )  )
+   $gDelay     =  Ceiling(  1000/_GetNumberFromString( GuiCtrlRead($sTickRate) )  )
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
 
 
