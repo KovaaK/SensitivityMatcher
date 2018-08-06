@@ -125,7 +125,7 @@ Func MakeGUI()
 
 
    GUISetState(@SW_SHOW)
-
+   Local $lPartition    = $gPartition
    Local $lastgSens     = $gSens
    ; Local $lastgResidual = $gResidual
    Local $idMsg
@@ -189,7 +189,8 @@ Func MakeGUI()
             EndIf
 
          Case $idMsg == $sYawPresets
-            $gResidual = 0
+            $gResidual  = 0
+	    $gPartition = $lPartition
             HotKeySet("!{-}")
             HotKeySet("!{=}")
             HotKeySet("!{0}")
@@ -223,6 +224,7 @@ Func MakeGUI()
          Case $idMsg == $sPartition
 	    $gResidual  = 0
             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
+	    $lPartition = $gPartition
 
          Case $idMsg == $sTickRate
 	    $gResidual  = 0
