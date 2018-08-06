@@ -236,13 +236,18 @@ Func MakeGUI()
                                  & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
                                  & "Press Alt+\ to halt and clear residuals."                     & @crlf _
                                                                                                   & @crlf _
-                                 & "If your game is not listed & you do not know its yaw, select" & @crlf _
-                                 & "''Measure any game'' to measure your exact sensitivity."      & @crlf _
-                                 & "Press Alt+- to decrease counts if it's overshooting."         & @crlf _
-                                 & "Press Alt+= to increase counts if it's undershooting."        & @crlf _
-                                 & "Press Alt+0 to reset upper/lower bounds to start over."       & @crlf _
-                                 & "Observe drifts over many cycles to determine over/undershoot."& @crlf _  
-												                                                  & @crlf _
+                                 & "If your game is not listed and you do not know its yaw:"      & @crlf _
+                                 & "Measure your exact sensitivity by selecting "                         _
+                                 & "''Measure any game'' "                                        & @crlf _
+                                 & "to enable the following hotkeys:"                             & @crlf _
+                                                                                                  & @crlf _
+                                 & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
+                                 & "Increase counts with Alt+= if it's undershooting."            & @crlf _
+                                 & "Reset bounds with Alt+0 to start over."                       & @crlf _
+                                                                                                  & @crlf _
+                                 & "Over/undershoot drifts may require multiple cycles "                  _
+                                 & "to become observable."                                        & @crlf _  
+                                                                                                  & @crlf _
                                  & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
                                  & "Estimated Completion Time for " & $gCycle & " cycles: " & $time & " sec")
             Else
