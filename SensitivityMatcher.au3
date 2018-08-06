@@ -253,7 +253,7 @@ Func MakeGUI()
                                                                                                   & @crlf _
                                  & "Increase counts with Alt+= if it's undershooting."            & @crlf _
                                  & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
-                                 & "Clear all bounds with Alt+0 to restart the test."             & @crlf _
+                                 & "Clear all bounds with Alt+0 to restart convergence."          & @crlf _
                                                                                                   & @crlf _
                                  & "The script will gradually converge to your sensitivity "              _
                                  & "as you adjust bounds with hotkeys. You can then use the "             _
