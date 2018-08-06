@@ -189,6 +189,7 @@ Func MakeGUI()
             EndIf
 
          Case $idMsg == $sYawPresets
+            $gResidual = 0
             HotKeySet("!{-}")
             HotKeySet("!{=}")
             HotKeySet("!{0}")
