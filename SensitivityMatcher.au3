@@ -363,7 +363,7 @@ Func DecreasePolygon()
       $gBounds[1] = 0
       $gSens      = $gBounds[0] * 2
    else
-      $gSens      = ( $gBounds[0] + $gBounds[1] ) / 2
+      $gSens      =($gBounds[0] + $gBounds[1]) / 2
    endif
 EndFunc
 
@@ -373,7 +373,7 @@ Func IncreasePolygon()
       $gBounds[0] = 0
       $gSens      = $gBounds[1] / 2
    else
-      $gSens      = ( $gBounds[0] + $gBounds[1] ) / 2
+      $gSens      =($gBounds[0] + $gBounds[1]) / 2
    endif
    if $gSens == 0 then
       $gSens =  $gBounds[1]
