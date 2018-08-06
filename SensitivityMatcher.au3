@@ -162,6 +162,7 @@ Func MakeGUI()
            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
            _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
+	    ClearBounds()
 
          Case $idMsg == $sYaw
             $gResidual = 0
