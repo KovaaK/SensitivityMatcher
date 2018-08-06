@@ -219,12 +219,15 @@ Func MakeGUI()
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
 
          Case $idMsg == $sPartition
+	    $gResidual  = 0
             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
 
          Case $idMsg == $sTickRate
+	    $gResidual  = 0
             $gDelay     = Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
 
          Case $idMsg == $sCycle
+	    $gResidual  = 0
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
 
          Case $idMsg == $idHelp
