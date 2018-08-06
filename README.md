@@ -18,4 +18,4 @@ Press `Alt+\` to halt (and clear residuals).
 
 The script can also be used to accurately measure any base yaw, by observing gradual drifts over many cycles. Because angle residuals are handled by a floating point accumulator, the measurement is accurate to 16 significant digits.
 
-This eliminates the need to trust accuracy of paywalled calculators, which typically use only one rotation for a rough esitmate with integer counts.
+This eliminates the need to trust the accuracy of paywalled calculators, which typically use only one rotation for a rough esitmate with integer counts.
