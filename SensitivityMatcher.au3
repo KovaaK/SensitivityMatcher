@@ -86,7 +86,7 @@ Func MakeGUI()
    ; Local $sResidual   = GUICtrlCreateInput( $gResidual     , 105, 200,  90, 20)
    ;                      GUICtrlSendMsg(     $sResidual     , $EM_SETREADONLY, 1, 0)
 
-   Local $idHelp      = GUICtrlCreateButton("Info"         , 105, 200,  90, 25)             ; set y-position to 230 if added residual row
+   Local $idHelp      = GUICtrlCreateButton("Info"         , 105, 205,  90, 25)             ; set y-position to 230 if added residual row
    ; Local $idSave      = GUICtrlCreateButton("Save as yaw"  , 210,   4,  80, 23)
    ;                      GUICtrlSetState(    $idSave        , $GUI_DISABLE     )
 
