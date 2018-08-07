@@ -270,6 +270,7 @@ Func MakeGUI()
                                  & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
                                  & "Estimated Completion Time for " & $gCycle                             _
                                  & " cycles: " & $time & " sec"                                   & @crlf _
+				                                                                  & @crlf _
                                  & "Current Residual Angle: " & $gResidual & "°"                  & @crlf _
                                  & "Current Upper/Lower Bounds: " & $gBounds[0]                           _
                                  & "° to " & $gBounds[1] & "°"                                    & @crlf _
