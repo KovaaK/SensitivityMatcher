@@ -22,7 +22,7 @@ This eliminates the need to trust the accuracy of paywalled calculators, whose n
 
 If the game that you are coming from is not listed, select "Measure any game" and enter your best guess for the unknowns, then:
 
-1) Perform rotation(s) to determine if the guess undershoots or overshoots.
+1) Perform rotation/rotations to determine if the guess undershoots or overshoots.
 2) According to under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
 3) Repeat the process until the script converges to the increment being measured.
 
