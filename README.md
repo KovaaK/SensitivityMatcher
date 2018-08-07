@@ -16,7 +16,7 @@ Press `Alt` `]` to perform multiple full revolutions.
 
 Press `Alt` `\` to halt (and clear residuals).
 
-Sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles (at least 15 significant digits). In other words, the more rotation you perform, the more accurate your test gets.
+Sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles (accurate to 16 significant digits). In other words, the more rotation you perform, the more accurate your test gets.
 
 This eliminates the need to trust the accuracy of paywalled calculators, whose number typically come from rough estimates using just one rotation, since they're only able to approximate with integer counts, which gets more inaccurate the more rotation they perform.
 
