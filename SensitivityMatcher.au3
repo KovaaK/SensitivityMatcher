@@ -279,7 +279,7 @@ Func MakeGUI()
                                  & "under/overshoot drifts might take multiple cycles before it becomes " _
                                  & "observable. Slight shifts that snaps back periodically are simply "   _
                                  & "visual artifacts of residual angles that cancels itself out over "    _
-                                 & "many rotations. It only counts as an under/overshoot if you observe"  _
+                                 & "many rotations. It only counts as an under/overshoot if you observe " _
                                  & "systematic drift in spite of the snapback.")
             Else
                MsgBox(0, "Error", "Inputs must be a number")
