@@ -24,7 +24,7 @@ If the game that you are coming from is not listed, to measure an unknown increm
 
 1) Perform rotation(s) to determine if the guess undershoots or overshoots.
 2) According to under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
-3) Repeat the process until the script matches the unknown increment being measured.
+3) Repeat the process until the script converges to the increment being measured.
 
 Press `Alt` `-` to nudge bound if it overshoots.
 
@@ -32,4 +32,4 @@ Press `Alt` `+` to nudge bound if it undershoots.
 
 Press `Alt` `0` to clear bounds if you made a wrong input and needs to start over.
 
-The script will gradually converge to the exact solution. You can then convert the measured increment into any game you like using the initial procedures. Or, if the game is listed, you can immediately convert the increment in memory to the listed game's sensitivity by selecting it from the dropdown.
+You can then convert the measured increment into any game you like using the initial procedures. Or, if the game is listed, you can immediately convert the increment in memory to the listed game's sensitivity by selecting it from the dropdown.
