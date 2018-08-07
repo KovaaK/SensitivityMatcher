@@ -162,7 +162,6 @@ Func MakeGUI()
            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
            _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
-            ClearBounds()
 
          Case $idMsg == $sYaw
             $gResidual = 0
@@ -195,6 +194,7 @@ Func MakeGUI()
             HotKeySet("!{-}")
             HotKeySet("!{=}")
             HotKeySet("!{0}")
+            ClearBounds()
             ; GUICtrlSetState($idSave, $GUI_DISABLE)
             If     GUICtrlRead($sYawPresets) == "Quake/Source"        Then
                    GUICtrlSetData($sYaw, String($yawQuake))
@@ -250,35 +250,34 @@ Func MakeGUI()
                                  & "Press Alt+\ to halt."                                         & @crlf _
                                                                                                   & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
-                                 & "If your old game is not listed and you don't know the yaw:"   & @crlf _
+                                 & "If your old game is not listed/yaw is unknown:"               & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
                                  & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
-                                 & "2) Perform rotations ingame to test for under/overshoot."     & @crlf _
-                                 & "3) Use the following hotkeys to adjust til it matches."       & @crlf _
+                                 & "2) Perform rotations ingame to test your guess."              & @crlf _
+                                 & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
                                                                                                   & @crlf _
                                  & "Increase counts with Alt+= if it's undershooting."            & @crlf _
                                  & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
-                                 & "Clear memory with Alt+0 to start over."                       & @crlf _
+                                 & "Clear memory with Alt+0 if you made a wrong input."           & @crlf _
                                                                                                   & @crlf _
                                  & "The measurement will converge to your sensitivity as you adjust "     _
                                  & "measurement bounds with hotkeys. You can then use the measured "      _
-                                 & "sensitivity to match to your new game."                       & @crlf _
+                                 & "sensitivity to match to your new game."                       & @crlf _	
                                                                                                   & @crlf _
-                                 & "NOTE: "                                                                _
-                                 & "Under/overshoot drifts might take multiple cycles before it becomes " _
-                                 & "observable. Slight shifts that snaps back periodically are simply "   _
-                                 & "visual artifacts of residual angles that cancels itself out over "    _
-                                 & "many rotations. It only counts as an over/undershoot if it drifts "   _
-				 & "systematically in spite of the snapback."                     & @crlf _	
-                                                                                                  & @crlf _
-                                 & "------------------------------------------------------------" & @crlf _
-                                 & "Additional Testing Parameter Details"                         & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
                                  & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
                                  & "Estimated Completion Time for " & $gCycle                             _
                                  & " cycles: " & $time & " sec"                                   & @crlf _
                                  & "Current Residual Angle: " & $gResidual & "°"                  & @crlf _
-                                 & "Current Upper/Lower Bounds: " & $gBounds[0] &"° to " & $gBounds[1] &"°")
+                                 & "Current Upper/Lower Bounds: " & $gBounds[0]                           _
+                                 & "° to " & $gBounds[1] & "°"                                    & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "NOTE: "                                                               _
+                                 & "Under/overshoot drifts might take multiple cycles before it becomes " _
+                                 & "observable. Slight shifts that snaps back periodically are simply "   _
+                                 & "visual artifacts of residual angles that cancels itself out over "    _
+                                 & "many rotations. It only counts as an over/undershoot if it drifts "   _
+                                 & "systematically in spite of the snapback.")
             Else
                MsgBox(0, "Error", "Inputs must be a number")
             EndIf
