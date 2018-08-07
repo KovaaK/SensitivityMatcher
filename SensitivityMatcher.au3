@@ -253,17 +253,19 @@ Func MakeGUI()
                                  & "If your old game is not listed/yaw is unknown:"               & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
                                  & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
-                                 & "2) Perform rotations ingame to test your guess."              & @crlf _
+                                 & "2) Perform rotations ingame to test your estimate."           & @crlf _
                                  & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
                                                                                                   & @crlf _
                                  & "Increase counts with Alt+= if it's undershooting."            & @crlf _
                                  & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
-                                 & "Clear memory with Alt+0 if you made a wrong input."           & @crlf _
+                                 & "Clear all memory with Alt+0 if you made a wrong input."       & @crlf _
                                                                                                   & @crlf _
-                                 & "The measurement will converge to your sensitivity as you adjust "     _
+                                 & "The estimate will converge to your exact sensitivity as you adjust "  _
                                  & "measurement bounds with hotkeys. You can then use the measured "      _
                                  & "sensitivity to match to your new game."                       & @crlf _	
                                                                                                   & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "Additional Info:"                                             & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
                                  & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
                                  & "Estimated Completion Time for " & $gCycle                             _
@@ -271,7 +273,7 @@ Func MakeGUI()
                                  & "Current Residual Angle: " & $gResidual & "°"                  & @crlf _
                                  & "Current Upper/Lower Bounds: " & $gBounds[0]                           _
                                  & "° to " & $gBounds[1] & "°"                                    & @crlf _
-                                 & "------------------------------------------------------------" & @crlf _
+                                                                                                  & @crlf _
                                  & "NOTE: "                                                               _
                                  & "Under/overshoot drifts might take multiple cycles before it becomes " _
                                  & "observable. Slight shifts that snaps back periodically are simply "   _
