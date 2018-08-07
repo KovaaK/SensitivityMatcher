@@ -22,9 +22,9 @@ This eliminates the need to trust the accuracy of paywalled calculators, which t
 
 To measure an unknown sensitivity (such as if you are coming from a game that is not listed), select "Measure any game" and enter your best guess for the unknown value, then:
 
-1) Perform rotation to determine if the guess undershoots or overshoots
-2) Depending on under/overshoot, use the hotkeys listed below to nudge upper/lower bounds
-3) Repeat the process until the script matches the unknown sensitivity you are measuring
+1) Perform rotation to determine if the guess undershoots or overshoots.
+2) Depending on under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
+3) Repeat the process until the script matches the unknown sensitivity you are measuring.
 
 Press `Alt` `-` to nudge bound if it overshoots.
 
