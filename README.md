@@ -16,7 +16,7 @@ Press `Alt` `]` to perform multiple full revolutions.
 
 Press `Alt` `\` to halt (and clear residuals).
 
-If the game that you are coming from is not listed, select "Measure any game" and enter your best guess for the unknowns, then:
+If the game that you are coming from is not listed, select "Measure any game" and enter a guess for the unknowns, then:
 
 1) Perform rotation(s) to determine if the guess undershoots or overshoots.
 2) Responding to under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
