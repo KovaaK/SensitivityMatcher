@@ -24,7 +24,7 @@ To measure an unknown sensitivity (such as if you are coming from a game that is
 
 1) Perform rotation(s) to determine if the guess undershoots or overshoots.
 2) Depending on under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
-3) Repeat the process until the script matches the unknown sensitivity you are measuring.
+3) Repeat the process until the script matches the unknown increment being measured.
 
 Press `Alt` `-` to nudge bound if it overshoots.
 
