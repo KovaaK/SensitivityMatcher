@@ -20,7 +20,7 @@ Sub-increment accuracy is preserved between rotations. This means that you can u
 
 This eliminates the need to trust the accuracy of paywalled calculators, whose number typically come from rough estimates using just one rotation, since they're only able to approximate with integer counts, which gets more inaccurate the more rotation they perform.
 
-To measure an unknown sensitivity (such as if you are coming from a game that is not listed), select "Measure any game" and enter your best guess for the unknown value, then:
+To measure an unknown sensitivity (such as if you are coming from a game that is not listed), select "Measure any game" and enter your best guess for the unknown values, then:
 
 1) Perform rotation to determine if the guess undershoots or overshoots.
 2) Depending on under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
