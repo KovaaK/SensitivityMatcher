@@ -253,7 +253,7 @@ Func MakeGUI()
                                  & "If your old game is not listed/yaw is unknown:"               & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
                                  & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
-                                 & "2) Perform rotations ingame to test your estimate."           & @crlf _
+                                 & "2) Perform rotations in old game to test your estimate."      & @crlf _
                                  & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
                                                                                                   & @crlf _
                                  & "Increase counts with Alt+= if it's undershooting."            & @crlf _
