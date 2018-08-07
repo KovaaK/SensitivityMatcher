@@ -31,3 +31,5 @@ Press `Alt` `-` to nudge bound if it overshoots.
 Press `Alt` `+` to nudge bound if it undershoots.
 
 Press `Alt` `0` to clear bound if you made a wrong input and needs to start over.
+
+You can then convert the measured increment into any game you like using the first procedures. Or, if the game is listed, you can immediately convert the increment in memeory to the corresponding value in that game by selecting it from the dropdown.
