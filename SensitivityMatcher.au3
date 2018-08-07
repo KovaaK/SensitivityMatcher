@@ -262,7 +262,7 @@ Func MakeGUI()
                                                                                                   & @crlf _
                                  & "The estimate will converge to your exact sensitivity as you nudge "   _
                                  & "measurement bounds with hotkeys. You can then use the measured "      _
-                                 & "sensitivity to match to your new game."                       & @crlf _	
+                                 & "sensitivity and match your new game to it."                   & @crlf _	
                                                                                                   & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
                                  & "Additional Info:"                                             & @crlf _
