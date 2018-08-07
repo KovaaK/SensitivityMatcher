@@ -254,16 +254,17 @@ Func MakeGUI()
                                  & "------------------------------------------------------------" & @crlf _
                                  & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
                                  & "2) Perform rotations ingame to test for under/overshoot."     & @crlf _
-                                 & "3) Use the following hotkeys to match rotation to your sens." & @crlf _
+                                 & "3) Use the following hotkeys to adjust til it matches."       & @crlf _
                                                                                                   & @crlf _
                                  & "Increase counts with Alt+= if it's undershooting."            & @crlf _
                                  & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
-                                 & "Clear all bounds with Alt+0 to restart convergence."          & @crlf _
+                                 & "Clear memory with Alt+0 to start over."                       & @crlf _
                                                                                                   & @crlf _
-                                 & "The script will gradually converge to your sensitivity "              _
-                                 & "as you adjust bounds with hotkeys. You can then use the "             _
-                                 & "converged sensitivity to match to your new game."             & @crlf _
+                                 & "The measurement will converge to your sensitivity as you adjust "     _
+                                 & "measurement bounds with hotkeys. You can then use the measured "      _
+                                 & "sensitivity to match to your new game."                       & @crlf _
                                                                                                   & @crlf _
+                                 & "NOTE:"                                                        & @crlf _
                                  & "Over/undershoot drifts might take multiple cycles before it becomes " _
                                  & "observable. Slight shifts that snaps back periodically are simply "   _
                                  & "visual artifacts of residual angles that cancels itself out over "    _
