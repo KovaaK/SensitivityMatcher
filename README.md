@@ -16,9 +16,9 @@ Press `Alt` `]` to perform multiple full revolutions.
 
 Press `Alt` `\` to halt (and clear residuals).
 
-Sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles (up to 16 significant digits). In other words, the more rotation you perform, the more precise your test gets.
+Sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles (up to 16 significant digits). In other words, the more rotation you perform, the more accurate your test gets.
 
-This eliminates the need to trust the accuracy of paywalled calculators, which typically use rough estimates from just one rotation, since they can only perform integer count approximations.
+This eliminates the need to trust the accuracy of paywalled calculators, which typically use rough estimates from just one rotation, since they're only able to approximate with integer counts, and the more rotation they perform the more inaccurate they gets.
 
 To measure an unknown sensitivity (such as if you are coming from a game that is not listed), select "Measure any game" and enter your best guess for the unknown value, then:
 
