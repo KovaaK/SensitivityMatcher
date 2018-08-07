@@ -30,6 +30,6 @@ Press `Alt` `0` to clear bounds if you made a wrong input and needs to start ove
 
 You can then convert the measured increment into any game you like using the initial procedures. Or, if the game is listed, you can immediately convert the increment in memory to the listed game's sensitivity by selecting it from the dropdown.
 
-With this script, sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles (accurate to 16 significant digits). In other words, you gets more accurate the more rotations you perform.
+With this script, sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles. In other words, you gets more accurate the more rotations you perform (accurate to 16 significant digits).
 
 This eliminates the need to trust the accuracy of paywalled calculators, whose number typically come from rough estimates using just one rotation, since they're only able to approximate with integer counts. They get more inaccurate the more rotations they perform.
