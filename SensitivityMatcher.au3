@@ -260,7 +260,7 @@ Func MakeGUI()
                                  & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
                                  & "Clear all memory with Alt+0 if you made a wrong input."       & @crlf _
                                                                                                   & @crlf _
-                                 & "The estimate will converge to your exact sensitivity as you adjust "  _
+                                 & "The estimate will converge to your exact sensitivity as you nudge "   _
                                  & "measurement bounds with hotkeys. You can then use the measured "      _
                                  & "sensitivity to match to your new game."                       & @crlf _	
                                                                                                   & @crlf _
