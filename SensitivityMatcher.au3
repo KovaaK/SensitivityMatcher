@@ -270,7 +270,7 @@ Func MakeGUI()
                                  & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
                                  & "Estimated Completion Time for " & $gCycle                             _
                                  & " cycles: " & $time & " sec"                                   & @crlf _
-				                                                                  & @crlf _
+                                                                                                  & @crlf _
                                  & "Current Residual Angle: " & $gResidual & "°"                  & @crlf _
                                  & "Current Upper/Lower Bounds: " & $gBounds[0]                           _
                                  & "° to " & $gBounds[1] & "°"                                    & @crlf _
@@ -279,8 +279,8 @@ Func MakeGUI()
                                  & "under/overshoot drifts might take multiple cycles before it becomes " _
                                  & "observable. Slight shifts that snaps back periodically are simply "   _
                                  & "visual artifacts of residual angles that cancels itself out over "    _
-                                 & "many rotations. It only counts as an under/overshoot if it drifts "   _
-                                 & "systematically in spite of the snapback.")
+                                 & "many rotations. It only counts as an under/overshoot if you observe"  _
+                                 & "systematic drift in spite of the snapback.")
             Else
                MsgBox(0, "Error", "Inputs must be a number")
             EndIf
