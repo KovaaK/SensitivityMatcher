@@ -264,13 +264,12 @@ Func MakeGUI()
                                  & "measurement bounds with hotkeys. You can then use the measured "      _
                                  & "sensitivity to match to your new game."                       & @crlf _
                                                                                                   & @crlf _
-                                 & "NOTE:"                                                                _
+                                 & "NOTE: "                                                                _
                                  & "Under/overshoot drifts might take multiple cycles before it becomes " _
                                  & "observable. Slight shifts that snaps back periodically are simply "   _
                                  & "visual artifacts of residual angles that cancels itself out over "    _
-                                 & "many rotations."                                              & @crlf _
-                                 & "It only counts as an over/undershoot if it drifts systematically "    _
-				 & "in spite of the snapback."                                    & @crlf _	
+                                 & "many rotations. It only counts as an over/undershoot if it drifts "   _
+				 & "systematically in spite of the snapback."                     & @crlf _	
                                                                                                   & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
                                  & "Additional Testing Parameter Details"                         & @crlf _
