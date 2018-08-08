@@ -156,8 +156,8 @@ Func MakeGUI()
             Exit
 
          Case $idMsg == $sSens
-            $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
             $gResidual = 0
+            $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
             GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
@@ -272,8 +272,9 @@ Func MakeGUI()
                                  & " cycles: " & $time & " sec"                                   & @crlf _
                                                                                                   & @crlf _
                                  & "Current Residual Angle: " & $gResidual & "°"                  & @crlf _
-                                 & "Current Upper/Lower Bounds: " & $gBounds[0]                           _
-                                 & "° to " & $gBounds[1] & "°"                                    & @crlf _
+                                 & "Current Lower Bound: " & $gBounds[0] & "°"                    & @crlf _
+                                 & "Current Increment: "   & $gSens      & "°"                    & @crlf _
+                                 & "Current Upper Bound: " & $gBounds[1] & "°"                    & @crlf _
                                                                                                   & @crlf _
                                  & "NOTE: "                                                               _
                                  & "under/overshoot drifts might take multiple cycles before it becomes " _
@@ -361,6 +362,7 @@ Func AutoCycle()
 EndFunc
 
 Func DecreasePolygon()
+   $gResidual  = 0
    $gBounds[0] = $gSens
    if $gBounds[1] < $gBounds[0] then
       $gBounds[1] = 0
@@ -371,6 +373,7 @@ Func DecreasePolygon()
 EndFunc
 
 Func IncreasePolygon()
+   $gResidual  = 0
    $gBounds[1] = $gSens
    if $gBounds[1] < $gBounds[0] then
       $gBounds[0] = 0
