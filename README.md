@@ -16,11 +16,11 @@ Press `Alt` `]` to perform multiple full revolutions.
 
 Press `Alt` `\` to halt (and clear residuals).
 
-If the game that you are coming from is not listed, select "Measure any game" and enter your guess for the unknowns, then:
+If the game that you are coming from is not listed, select "Measure any game" and enter your best guess, then:
 
 1) Perform rotation(s) to determine if the guess undershoots or overshoots.
 2) Responding to under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
-3) Repeat the process until the script converges to the increment being measured.
+3) Repeat the process until the script converges on the increment being measured.
 
 Press `Alt` `-` to nudge bound if it overshoots.
 
@@ -28,7 +28,7 @@ Press `Alt` `+` to nudge bound if it undershoots.
 
 Press `Alt` `0` to clear bounds if you made a wrong input and needs to start over.
 
-You can then convert the measured increment into any game you like using the initial procedures. Or, if the game is listed, you can immediately convert the increment in memory to the listed game's sensitivity by selecting it from the dropdown.
+You can then convert the measurement to any game you like using the initial procedures. Or, if the game is listed, you can simply select it to immediately convert the value.
 
 With this script, sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles. In other words, you gets more accurate the more rotations you perform (accurate to 16 significant digits).
 
