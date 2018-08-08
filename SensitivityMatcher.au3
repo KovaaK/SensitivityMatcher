@@ -390,6 +390,7 @@ Func IncreasePolygon()
 EndFunc
 
 Func ClearBounds()
+   $gResidual  = 0
    $gBounds[0] = 0
    $gBounds[1] = 0
 EndFunc
