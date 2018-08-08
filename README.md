@@ -22,11 +22,11 @@ If the game that you are coming from is not listed, select "Measure any game" an
 2) Responding to under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
 3) Repeat the process until the script converges on the increment being measured.
 
-Press `Alt` `-` to nudge bound if it overshoots.
+Press `Alt` `-` to nudge bound for overshoots.
 
-Press `Alt` `+` to nudge bound if it undershoots.
+Press `Alt` `+` to nudge bound for undershoots.
 
-Press `Alt` `0` to clear bounds if you made a wrong input and needs to start over.
+Press `Alt` `0` to clear bounds for starting over if you made a wrong input.
 
 You can then convert the measurement to any game you like using the initial procedures. Or, if the game is listed, you can simply select it to immediately convert the value.
 
