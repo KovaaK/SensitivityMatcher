@@ -28,7 +28,7 @@ Press `Alt` `+` to nudge bound for undershoots.
 
 Press `Alt` `0` to clear bounds for starting over if you made a wrong input.
 
-You can then convert the measurement to any game you like using the initial procedures. Or, if the game is listed, you can simply select it to immediately convert the value.
+You can then convert the measurement to any game you like using the initial procedures. Or, if the game is already listed, you can simply select it to convert the value immediately.
 
 With this script, sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles. In other words, you gets more accurate the more rotations you perform (accurate to 16 significant digits).
 
