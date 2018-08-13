@@ -395,8 +395,8 @@ Func NormalizedPartition($turntime)
     Local $incre = $gSens
     Local $total = round( 360 / $incre )
     Local $slice = ceiling( $total * $gDelay / $turntime )
-       If $slice > total Then
-          $slice = total
+       If $slice > $total Then
+          $slice = $total
        EndIf
    Return $slice
 EndFunc
