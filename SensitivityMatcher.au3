@@ -361,7 +361,7 @@ Func DecreasePolygon()
    $gBounds[0] = $gSens
    if $gBounds[1] < $gBounds[0] then
       $gBounds[1] = 0
-      $gSens      = $gBounds[0] * 1.25
+      $gSens      = $gBounds[0] * 2
    else
       $gSens      =($gBounds[0] + $gBounds[1]) / 2
    endif
@@ -372,7 +372,7 @@ Func IncreasePolygon()
    $gBounds[1] = $gSens
    if $gBounds[1] < $gBounds[0] then
       $gBounds[0] = 0
-      $gSens      = $gBounds[1] * 0.8
+      $gSens      = $gBounds[1] / 2
    else
       $gSens      =($gBounds[0] + $gBounds[1]) / 2
    endif
