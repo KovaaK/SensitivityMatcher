@@ -51,7 +51,7 @@ Func MakeGUI()
    GUICtrlCreateLabel( "Increment"                         , 210,  50,  80, 15, $SS_CENTER)
    GUICtrlCreateGraphic(                                       5,  70, 285,  2, $SS_SUNKEN) ; horizontal line
    GUICtrlCreateLabel( "Optional Testing Parameters"       ,   5,  80, 285, 15, $SS_CENTER)
-   GUICtrlCreateLabel( "One Revolution is"                 ,   0, 102,  95, 15, $SS_RIGHT )
+   GUICtrlCreateLabel( "One Revolution of"                 ,   0, 102,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "counts."                           , 200, 102,  60, 15, $SS_LEFT  )
    GUICtrlCreateLabel( "Move Partitions of"                ,   0, 127,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "counts"                            , 200, 127,  60, 15, $SS_LEFT  )
