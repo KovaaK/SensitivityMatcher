@@ -21,7 +21,7 @@ Press `Alt` `\` to halt (and clear residuals).
 If the game that you are coming from is not listed, you can export your old sensitivity with the script.\
 Select "Measure any game" and enter your best guess, then:
 
-1) Perform rotation(s) to see if the guess undershoots or overshoots.
+1) Perform rotation(s) to see if the estimate under- or overshoots.
 2) Make corrections using the hotkeys below.
 3) Test again. Repeat the process until the script converges to a value.
 4) Once you've finished measuring, you can match it to any game you like using the procedure in the previous section.\
