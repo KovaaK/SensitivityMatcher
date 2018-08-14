@@ -18,7 +18,7 @@ Press `Alt` `\` to halt (and clear residuals).
 
 &nbsp;
 
-If the game that you are coming from is not listed, you can export your old sensitivity with the script.\
+If the game that you are coming from is not listed, you can measure your old sensitivity with the script.\
 Select "Measure any game" and enter your best guess, then:
 
 1) Perform rotation(s) to see if the estimate under- or overshoots.
