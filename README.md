@@ -27,11 +27,11 @@ Select "Measure any game" and enter your best guess, then:
 4) Once you've finished measuring, you can match it to any game you like using the procedure in the previous section.\
 Or, if the game is already listed, you can simply select from dropdown to convert immediately.
 
-Press `Alt` `-` to nudge bound to correct overshoots.
+Press `Alt` `-` to set bound to correct overshoots.
 
-Press `Alt` `+` to nudge bound to correct undershoots.
+Press `Alt` `+` to set bound to correct undershoots.
 
-Press `Alt` `0` to reset bounds to start over if you made a wrong correction.
+Press `Alt` `0` to clear bounds to start over if you made a wrong correction.
 
 &nbsp;
 
