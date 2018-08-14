@@ -31,7 +31,7 @@ Press `Alt` `-` to nudge bound to correct overshoots.
 
 Press `Alt` `+` to nudge bound to correct undershoots.
 
-Press `Alt` `0` to clear bounds to reset and start over if you made a wrong input.
+Press `Alt` `0` to reset bounds to start over if you made a wrong input.
 
 &nbsp;
 
