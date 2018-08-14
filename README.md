@@ -20,7 +20,7 @@ Press `Alt` `\` to halt (and clear residuals).
 
 If the game that you are coming from is not listed, select "Measure any game" and enter your best guess, then:
 
-1) Perform rotation(s) to determine if the guess undershoots or overshoots.
+1) Perform rotation(s) to see if the guess undershoots or overshoots.
 2) Responding to under/overshoot, use the hotkeys listed below to nudge upper/lower bounds.
 3) Test rotation again. Repeat the calibration process until the script converges to a measurement.
 4) Once you've finished measuring, you can match it to any game you like using last section's procedures. Or, if the game is already listed, you can simply select it to convert the value immediately.
