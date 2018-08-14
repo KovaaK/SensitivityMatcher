@@ -150,8 +150,8 @@ Func MakeGUI()
 
          Case $idMsg == $sSens
             $gResidual = 0
-            $lastgSens = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
-            $gSens     = $lastgSens
+            $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
+            $lastgSens = gSens
             GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
@@ -211,8 +211,8 @@ Func MakeGUI()
 
          Case $idMsg == $sPartition
             $gResidual  = 0
-            $lPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
-            $gPartition = $lPartition
+            $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
+            $lPartition = $gPartition
 
          Case $idMsg == $sTickRate
             $gResidual  = 0
