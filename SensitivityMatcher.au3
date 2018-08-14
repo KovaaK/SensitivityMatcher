@@ -41,7 +41,7 @@ MakeGUI()
 
 
 Func MakeGUI()
-   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)                                      ; used to be 250, 180. Set height to 260 to add residual row
+   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
 
    GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT  )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
