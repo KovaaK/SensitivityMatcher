@@ -151,7 +151,7 @@ Func MakeGUI()
          Case $idMsg == $sSens
             $gResidual = 0
             $lastgSens = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
-	    $gSens     = $lastgSens
+            $gSens     = $lastgSens
             GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
