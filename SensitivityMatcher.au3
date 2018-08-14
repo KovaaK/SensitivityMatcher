@@ -164,7 +164,6 @@ Func MakeGUI()
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
 
             If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
-                    ; GUICtrlSetState($idSave, $GUI_ENABLE)
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
