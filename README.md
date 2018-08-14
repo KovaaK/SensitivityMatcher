@@ -16,6 +16,8 @@ Press `Alt` `]` to perform multiple full revolutions.
 
 Press `Alt` `\` to halt (and clear residuals).
 
+&nbsp;
+
 If the game that you are coming from is not listed, select "Measure any game" and enter your best guess, then:
 
 1) Perform rotation(s) to determine if the guess undershoots or overshoots.
@@ -29,6 +31,7 @@ Press `Alt` `+` to nudge bound for undershoots.
 
 Press `Alt` `0` to clear bounds for starting over if you made a wrong input.
 
+&nbsp;
 
 With this script, sub-increment accuracy is preserved between rotations. This means that you can use the script to measure any base yaw to high precision by observing drifts over many cycles. In other words, you gets more accurate the more rotations you perform (accurate to 16 significant digits).
 
