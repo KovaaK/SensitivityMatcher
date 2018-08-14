@@ -18,7 +18,7 @@ Press `Alt` `\` to halt (and clear residuals).
 
 &nbsp;
 
-If the game that you are coming from is not listed, the script can measure your old sensitivity.\
+If the game that you are coming from is not listed, the script can also measure your old sensitivity.\
 Select "Measure any game" and enter your best guess, then:
 
 1) Perform rotation(s) to see if the estimate under- or overshoots.
