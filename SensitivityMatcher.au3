@@ -25,7 +25,7 @@ Global Const $yawMeasureMrad    = 0.180/$gPi
 
 Global $gValid = 1
 Global $gBounds[2] = [0,0]
-Global Const $defaultTurnPeriod = 2000
+Global Const $defaultTurnPeriod = 1000
 
 
 
