@@ -24,7 +24,8 @@ Select "Measure any game" and enter your best guess, then:
 1) Perform rotation(s) to see if the guess undershoots or overshoots.
 2) Nudge the estimation upper/lower bounds using the hotkeys below.
 3) Test rotations again. Adjust the bounds again. Repeat the process until the script converges to a value.
-4) Once you've finished measuring, you can match it to any game you like using last section's procedures. Or, if the game is already listed, you can simply select it to convert the value immediately.
+4) Once you've finished measuring, you can match it to any game you like using the procedure in the previous section.\
+Or, if the game is already listed, you can simply select it to convert the value immediately.
 
 Press `Alt` `-` to nudge bound for overshoots.
 
