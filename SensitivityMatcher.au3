@@ -127,13 +127,13 @@ Func MakeGUI()
       If $gSens == $lastgSens Then
       Else
          $gResidual = 0
+         $lastgSens = $gSens
          GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
         _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
          GUICtrlSetData(     $sIncr  , String(     $gSens ) )
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-         $lastgSens = $gSens
          $lBoundedError = 1
          If $gBounds[1] Then ; no need to check min<max because hotkey check and clears contradiction
             $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1] 
