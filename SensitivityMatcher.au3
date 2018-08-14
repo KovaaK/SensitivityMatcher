@@ -78,10 +78,11 @@ Func MakeGUI()
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
 
-   Local $idHelp      = GUICtrlCreateButton("Info"         , 100, 205,  95, 25)             ; set y-position to 230 if added residual row
-   ; Local $idSave      = GUICtrlCreateButton("Save as yaw"  , 210,   4,  80, 23)
-   ;                      GUICtrlSetState(    $idSave        , $GUI_DISABLE     )
-   ; Local $idCalc      = GUICtrlCreateButton("Handy Calc."  ,   5, 205,  80, 25)
+   ; Local $idSave      = GUICtrlCreateButton("Save as yaw"     , 210,   4,  80, 23)
+   ;                      GUICtrlSetState(    $idSave           , $GUI_DISABLE     )
+   Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
+   ; Local $idCalc      = GUICtrlCreateButton("Handy Calculator",   5, 205,  95, 25)
+   ; Local $idBind      = GUICtrlCreateButton("Hotkeys..."      , 195, 205,  95, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -230,6 +231,7 @@ Func MakeGUI()
          ;    GUICreate("Handy Calculator",100,100)
          ;    GUISetState(@SW_SHOW)
          ;    HandyCalculator()
+         ;    GUIDelete()
          ;    GUISetState(@SW_ENABLE,$idGUI)
          ;    GUISetState(@SW_RESTORE,$idGUI)
 
@@ -356,8 +358,8 @@ Func AutoCycle()
 EndFunc
 
 Func DecreasePolygon()
-   $gResidual  = 0
-   $gBounds[0] = $gSens
+      $gResidual  = 0
+      $gBounds[0] = $gSens
    if $gBounds[1] < $gBounds[0] then
       $gBounds[1] = 0
       $gSens      = $gBounds[0] * 2
@@ -367,8 +369,8 @@ Func DecreasePolygon()
 EndFunc
 
 Func IncreasePolygon()
-   $gResidual  = 0
-   $gBounds[1] = $gSens
+      $gResidual  = 0
+      $gBounds[1] = $gSens
    if $gBounds[1] < $gBounds[0] then
       $gBounds[0] = 0
       $gSens      = $gBounds[1] / 2
