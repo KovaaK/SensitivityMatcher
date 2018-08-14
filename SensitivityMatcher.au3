@@ -196,7 +196,6 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawFortniteSlider))
             ElseIf GUICtrlRead($sYawPresets) == "Measure any game"    Then
                    GUICtrlSetData($sYaw, String($yawMeasureDeg))
-                   $gPartition = NormalizedPartition($defaultTurnPeriod)
                    ClearBounds()
                    HotKeySet("!{-}", "DecreasePolygon")
                    HotKeySet("!{=}", "IncreasePolygon")
