@@ -1,5 +1,4 @@
-![Screenshot 1](https://i.redd.it/zt2a1a1yzyf11.png)
-
+![Screenshot 1](https://i.redd.it/zt2a1a1yzyf11.png) \
 [GitHub Release](https://github.com/KovaaK/SensitivityMatcher/releases)
 # Sensitivity Matcher
 
