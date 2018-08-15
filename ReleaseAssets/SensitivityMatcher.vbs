@@ -1,2 +1,2 @@
 Set WshShell = WScript.CreateObject("WScript.Shell")
-WshShell.Run "Bin\AutoIt3.exe Bin\SensitivityMatcher.a3x"
+WshShell.Run "bin\AutoIt3.exe bin\SensitivityMatcher.a3x"
