@@ -2,7 +2,7 @@
 
 [1.1] \
 Added measurement functionality: unknown sensitivity/increment can now be measured via convergence hotkeys. \
-During measurement mode the turn rate is automatically reduced when measurement uncertainty is high.
+During measurement mode the turn rate is automatically adjusted when measurement uncertainty is high.
 
 ## Download
 
