@@ -1,7 +1,7 @@
 ![Screenshot 1](https://i.redd.it/zt2a1a1yzyf11.png) 
 # Sensitivity Matcher
 
-This is a script that lets you transfer your mouse sensitivity between any 3D games without requiring any calculation.
+Converts your mouse sensitivity between any 3D games with no calculation required.
 
 [Release download](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
