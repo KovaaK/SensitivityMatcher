@@ -36,4 +36,4 @@ Press `Alt` `0` to start over if you made a wrong correction.
 
 With this script, sub-increment accuracy is preserved between rotations, uncertainty of measurement is rapidly quenched with each successive turn. This means that you can use the script to measure any base yaw to high precision, by monitoring for drifts over many cycles.
 
-You no longer have to put your faith in paywalled calculators, whose measurements typically come from single-rotation estimates approximated by integer counts, since their error gets amplified with each successive turn.
+You no longer have to put your faith in paywalled calculators, whose measurements typically come from single-rotation estimates approximated by integer counts, since each successive turn amplifies their measurement error.
