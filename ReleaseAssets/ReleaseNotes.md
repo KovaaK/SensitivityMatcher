@@ -1,7 +1,7 @@
 ## Release Notes
 
 [version 1.1] \
-New Feature: Measurement Mode (select from dropdown)\
+New Feature: Measurement Mode\
 You can now measure any unknown sensitivity/game by telling the script whether your increment is under- or overshooting. \
 Turn rate during measurement mode is dynamically adjusted according to measurement uncertainty.
 
