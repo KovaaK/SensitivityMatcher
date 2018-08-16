@@ -1,7 +1,8 @@
 ## Release Notes
 
 [version 1.1] \
-_New Feature: Measurement Mode_ \
+_New Feature: Measurement Mode_
+
 You can now measure any unknown sensitivity/game,, by telling the script whether you're under- or overshooting. \
 Turn rate during measurement mode is dynamically adjusted according to measurement uncertainty.
 
