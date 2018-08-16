@@ -1,7 +1,8 @@
 ## Release Notes
 
 [version 1.1] \
-Added measurement functionality: you can now measure unknown sensitivies in measurement mode by telling the script whether your increment is undershooting or overshooting. \
+Added Feature: measurement\
+You can now measure unknown sensitivies in measurement mode by telling the script whether your increment is undershooting or overshooting. \
 Turn rate during measurement mode is dynamically adjusted according to measurement uncertainty.
 
 ## Download
