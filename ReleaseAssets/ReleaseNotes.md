@@ -1,6 +1,6 @@
 ## Release Notes
 
-[Version 1.1] \
+[version 1.1] \
 Added measurement functionality: unknown sensitivity/increment can now be measured via convergence hotkeys. \
 Turn rate during measurement mode is dynamically adjusted according to measurement uncertainty.
 
