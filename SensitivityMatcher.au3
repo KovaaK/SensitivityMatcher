@@ -1,4 +1,4 @@
-﻿#NoTrayIcon
+#NoTrayIcon
 #include <Misc.au3>
 #include <GUIConstantsEx.au3>
 #include <EditConstants.au3>
@@ -18,61 +18,71 @@ Global Const $gPi  = 3.141592653589793238462643383279502884197169399375105820974
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = 0.018/$gPi
-Global Const $yawFortniteConfig = 2.222
-Global Const $yawFortniteSlider = 0.5555
-;Global Const $yawPaladins       = 0.009157 ; This is wrong - Paladins sens scales by FOV
-;Global Const $yawBattalion      = 0.017501 ; Not sure if this is right
+Global Const $yawFortniteConfig = 2.2220
+Global Const $yawFortniteSlider = 0.55550
+Global Const $yawMeasureDeg     = 1
+Global Const $yawMeasureMrad    = 0.180/$gPi
 
 Global $gValid = 1
+Global $gBounds[2] = [0,0]
+Global Const $defaultTurnPeriod = 1000
+
 
 
 If _Singleton("Sensitivity Matcher", 1) = 0 Then
-    MsgBox(0, "Warning", "An occurrence of Sensitivity Matcher is already running.")
+    MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
     Exit
 EndIf
-HotKeySet("!{[}" , "SingleCycle")
+HotKeySet("!{[}", "SingleCycle")
 HotKeySet("!{]}", "AutoCycle")
-HotKeySet("!{\}" , "Halt")
+HotKeySet("!{\}", "Halt")
 MakeGUI()
 
 
 
-
-
 Func MakeGUI()
-   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)                                      ; used to be 250, 180
+   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
 
-   GUICtrlCreateLabel( "Select preset yaw:"                ,   5,   7,  90, 15, $SS_LEFT  )
-   GUICtrlCreateLabel( "Sens"                              ,   5,  50,  75, 15, $SS_CENTER)
-   GUICtrlCreateLabel( "×"                                 ,  80,  33,  15, 15, $SS_CENTER)
-   GUICtrlCreateLabel( "Yaw (deg)"                         ,  95,  50, 105, 15, $SS_CENTER)
-   GUICtrlCreateLabel( "="                                 , 200,  33,  15, 15, $SS_CENTER)
-   GUICtrlCreateLabel( "Increment"                         , 215,  50,  75, 15, $SS_CENTER)
+   GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT  )
+   GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
+   GUICtrlCreateLabel( "×"                                 ,  85,  33,  15, 15, $SS_CENTER)
+   GUICtrlCreateLabel( "Yaw (deg)"                         , 100,  50,  95, 15, $SS_CENTER)
+   GUICtrlCreateLabel( "="                                 , 195,  33,  15, 15, $SS_CENTER)
+   GUICtrlCreateLabel( "Increment"                         , 210,  50,  80, 15, $SS_CENTER)
    GUICtrlCreateGraphic(                                       5,  70, 285,  2, $SS_SUNKEN) ; horizontal line
    GUICtrlCreateLabel( "Optional Testing Parameters"       ,   5,  80, 285, 15, $SS_CENTER)
-   GUICtrlCreateLabel( "One Revolution is"                 ,   5, 102,  98, 15, $SS_RIGHT )
+   GUICtrlCreateLabel( "One Revolution of"                 ,   0, 102,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "counts."                           , 200, 102,  60, 15, $SS_LEFT  )
-   GUICtrlCreateLabel( "Move in Partitions of"             ,   5, 127,  98, 15, $SS_RIGHT )
+   GUICtrlCreateLabel( "Move Partitions of"                ,   0, 127,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "counts"                            , 200, 127,  60, 15, $SS_LEFT  )
-   GUICtrlCreateLabel( "at a Frequency of"                 ,   5, 152,  98, 15, $SS_RIGHT )
+   GUICtrlCreateLabel( "at a Frequency of"                 ,   0, 152,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "Hz"                                , 200, 152,  60, 15, $SS_LEFT  )
-   GUICtrlCreateLabel( "for a Cycle of"                    ,   5, 177,  98, 15, $SS_RIGHT )
-   GUICtrlCreateLabel( "rotations."                        , 200, 177,  60, 15, $SS_LEFT  )
+   GUICtrlCreateLabel( "for a Cycle of"                    ,   0, 177,  95, 15, $SS_RIGHT )
+   GUICtrlCreateLabel( "revolutions."                      , 200, 177,  60, 15, $SS_LEFT  )
 
-
-   Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" ,  95,   5, 120, 20)
-                        GUICtrlSetData(      $sYawPresets  , "Overwatch|Rainbow6/Reflex|Fortnite Config|Fortnite Slider|Custom", "Quake/Source")
-   Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  75, 20)
-   Local $sYaw        = GUICtrlCreateInput( "0.022"        ,  95,  30, 105, 20)
-   Local $sIncr       = GUICtrlCreateInput( "0.022"        , 215,  30,  75, 20)             ; hardcoded to initialize to product of above two
+   Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
+                        GUICtrlSetData(      $sYawPresets  ,        "Overwatch|" & _
+                                                              "Rainbow6/Reflex|" & _
+                                                              "Fortnite Config|" & _
+                                                              "Fortnite Slider|" & _
+                                                             "Measure any game|" & _
+                                                                       "Custom|"   _
+                                                           ,    "Quake/Source")
+   Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
+   Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
+   Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)             ; hardcoded to initialize to product of above two
                         GUICtrlSendMsg(      $sIncr        , $EM_SETREADONLY, 1, 0)
-   Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 105, 100,  90, 20)             ; once again, hardcoding initialization
+   Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)             ; once again, hardcoding initialization
                         GUICtrlSendMsg(      $sCounts      , $EM_SETREADONLY, 1, 0)
-   Local $sPartition  = GUICtrlCreateInput( "800"          , 105, 125,  90, 20)
-   Local $sTickRate   = GUICtrlCreateInput( "60"           , 105, 150,  90, 20)
-   Local $sCycle      = GUICtrlCreateInput( "20"           , 105, 175,  90, 20)
+   Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
+   Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
+   Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
 
-   Local $idHelp      = GUICtrlCreateButton("Info"         , 105, 205,  90, 25)
+   ; Local $idSave      = GUICtrlCreateButton("Save as yaw"     , 210,   4,  80, 23)
+   ;                      GUICtrlSetState(    $idSave           , $GUI_DISABLE     )
+   Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
+   ; Local $idCalc      = GUICtrlCreateButton("Handy Calculator",   5, 205,  95, 25)
+   ; Local $idBind      = GUICtrlCreateButton("Hotkeys..."      , 195, 205,  95, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -94,32 +104,55 @@ Func MakeGUI()
    Local $hTickRate   = GUICtrlGetHandle($sTickRate)
                        _GUIToolTip_AddTool($hToolTip, 0, "How many times per second to send mouse movements. Make sure this isn't higher than your framerate, especially for non-rawinput games.", $hTickRate)
    Local $hCycle      = GUICtrlGetHandle($sCycle)
-                       _GUIToolTip_AddTool($hToolTip, 0, "How many full revolutions to perform when pressing Alt+Home.", $hCycle)
+                       _GUIToolTip_AddTool($hToolTip, 0, "How many full revolutions to perform when pressing Alt+].", $hCycle)
 
 
 
 
-   ; Initialize Global Variables to UI Inputs. Once initialized, the global variables are individually self-updating wihtin the main loop, no need for a whole refresh function.
+   ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating wihtin the main loop, no need for a whole refresh function.
    $gResidual  = 0.0
    $gMode      = 1
    $gSens      = _GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))
    $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
-   $gDelay     = int(1000/_GetNumberFromString(GuiCtrlRead($sTickRate)))
+   $gDelay     =  Ceiling(  1000/_GetNumberFromString( GuiCtrlRead($sTickRate) )  )
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
 
 
    GUISetState(@SW_SHOW)
-
-   Local $idMsg
+   Local $lPartition = $gPartition
+   Local $lastgSens  = $gSens
+   Local $idMsg, $lBoundedError
    While 1                                  ; Loop until the user exits.
       $idMsg = GUIGetMsg()
+
+      If $gSens == $lastgSens Then
+      Else
+         $gResidual = 0
+         $lastgSens = $gSens
+         GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
+        _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
+         GUICtrlSetData(     $sIncr  , String(     $gSens ) )
+        _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
+         GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
+        _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
+         $lBoundedError = 1
+         If $gBounds[1] Then ; no need to check min<max because hotkey check and clears contradiction
+            $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1] 
+         EndIf
+            $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
+         If $gPartition > $lPartition Then
+            $gPartition = $lPartition
+         EndIf
+      EndIf
+
       Select
          Case $idMsg == $GUI_EVENT_CLOSE
             Exit
 
          Case $idMsg == $sSens
-            $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
             $gResidual = 0
+            $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
+            $lastgSens = $gSens
             GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
@@ -131,13 +164,8 @@ Func MakeGUI()
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
 
-;~         ; Uncomment these, and comment out the above two lines if you would rather have increment update instead of sens.
-;~ 			GUICtrlSetData($sCounts,String(Round(360/(_GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))),3)))
-;~ 			GUICtrlSetData($sIncr,String(_GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))))
-;~ 			_GUICtrlEdit_SetSel($sIncr, 0, 0)
-;~ 			_GUICtrlEdit_SetSel($sYaw, 0, 0)
-
-            If     _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
+            If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
+            ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
@@ -152,6 +180,11 @@ Func MakeGUI()
             EndIf
 
          Case $idMsg == $sYawPresets
+            $gResidual  = 0
+            $gPartition = $lPartition
+            HotKeySet("!{-}")
+            HotKeySet("!{=}")
+            HotKeySet("!{0}")
             If     GUICtrlRead($sYawPresets) == "Quake/Source"        Then
                    GUICtrlSetData($sYaw, String($yawQuake))
             ElseIf GUICtrlRead($sYawPresets) == "Overwatch"           Then
@@ -162,40 +195,93 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawFortniteConfig))
             ElseIf GUICtrlRead($sYawPresets) == "Fortnite Slider"     Then
                    GUICtrlSetData($sYaw, String($yawFortniteSlider))
+            ElseIf GUICtrlRead($sYawPresets) == "Measure any game"    Then
+                   GUICtrlSetData($sYaw, String($yawMeasureDeg))
+                   ClearBounds()
+                   HotKeySet("!{-}", "DecreasePolygon")
+                   HotKeySet("!{=}", "IncreasePolygon")
+                   HotKeySet("!{0}", "ClearBounds")
+            ; ElseIf GUICtrlRead($sYawPresets) == "Custom"              Then
+            ; Else
+                   ; GUICtrlSetState($idSave, $GUI_ENABLE)
             EndIf
 
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
 
-;~         ; Uncomment these, and comment out the above two lines if you would rather have increment update instead of sens.
-;~ 			GUICtrlSetData($sCounts,String(Round(360/(_GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))),3)))
-;~ 			GUICtrlSetData($sIncr,String(_GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))))
-;~ 			_GUICtrlEdit_SetSel($sIncr, 0, 0)
-;~ 			_GUICtrlEdit_SetSel($sYaw, 0, 0)
-
          Case $idMsg == $sPartition
+            $gResidual  = 0
             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
+            $lPartition = $gPartition
 
          Case $idMsg == $sTickRate
-            $gDelay     = int( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
+            $gResidual  = 0
+            $gDelay     = Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
 
          Case $idMsg == $sCycle
+            $gResidual  = 0
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
+         
+         ; Case $idMsg == $idSave
+         ;    GUICtrlSetState($idSave, $GUI_DISABLE)
+         
+         ; Case $idMsg == $idCalc
+         ;    GUISetState(@SW_DISABLE,$idGUI)
+         ;    GUICreate("Handy Calculator",100,100)
+         ;    GUISetState(@SW_SHOW)
+         ;    HandyCalculator()
+         ;    GUIDelete()
+         ;    GUISetState(@SW_ENABLE,$idGUI)
+         ;    GUISetState(@SW_RESTORE,$idGUI)
 
          Case $idMsg == $idHelp
             If InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle) Then
                $time = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
-               MsgBox(0, "Info",   "1) Select the Preset/game that you are coming from."          & @crlf _
+               MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
+                                 & "To match your old sensitivity to a new game:"                 & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "1) Select the preset/game that you are coming from."          & @crlf _
                                  & "2) Input your sensitivity value from your old game."          & @crlf _
                                  & "3) In your new game, adjust its sens until the test matches." & @crlf _
                                                                                                   & @crlf _
-                                 & "Press Alt+[ to perform one full revolution."             & @crlf _
-                                 & "Press Alt+] to perform " & $gCycle & " full revolutions."  & @crlf _
-                                 & "Press Alt+\ to halt."                                       & @crlf _
+                                 & "Press Alt+[ to perform one full revolution."                  & @crlf _
+                                 & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
+                                 & "Press Alt+\ to halt and/or clear residuals (for realignment)" & @crlf _
                                                                                                   & @crlf _
-                                 & "Interval: " & $gDelay & " ms (rounded to nearest milisecond)" & @crlf _
-                                 & "Estimated Completion Time for " & $gCycle & " cycles: " & $time & " sec")
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "If your old game is not listed/yaw is unknown:"               & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
+                                 & "2) Perform rotations in old game to test your estimate."      & @crlf _
+                                 & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
+                                                                                                  & @crlf _
+                                 & "Increase counts with Alt+= if it's undershooting."            & @crlf _
+                                 & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
+                                 & "Clear all memory with Alt+0 if you made a wrong input."       & @crlf _
+                                                                                                  & @crlf _
+                                 & "The estimate will converge to your exact sensitivity as you nudge "   _
+                                 & "measurement bounds with hotkeys. You can then use the measured "      _
+                                 & "sensitivity and match your new game to it."                   & @crlf _	
+                                                                                                  & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "Additional Info:"                                             & @crlf _
+                                 & "------------------------------------------------------------" & @crlf _
+                                 & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
+                                 & "Estimated Completion Time for " & $gCycle                             _
+                                 & " cycles: " & $time & " sec"                                   & @crlf _
+                                                                                                  & @crlf _
+                                 & "Current Residual Angle: " & $gResidual & "°"                  & @crlf _
+                                 & "Current Lower Bound: " & $gBounds[0] & "°"                    & @crlf _
+                                 & "Current Increment: "   & $gSens      & "°"                    & @crlf _
+                                 & "Current Upper Bound: " & $gBounds[1] & "°"                    & @crlf _
+                                                                                                  & @crlf _
+                                 & "NOTE: "                                                               _
+                                 & "under/overshoot drifts might take multiple cycles before it becomes " _
+                                 & "observable. Slight shifts that snaps back periodically are simply "   _
+                                 & "visual artifacts of residual angles that cancels itself out over "    _
+                                 & "many rotations. It only counts as an under/overshoot if you observe " _
+                                 & "systematic drift in spite of the snapback.")
             Else
                MsgBox(0, "Error", "Inputs must be a number")
             EndIf
@@ -211,21 +297,21 @@ Func MakeGUI()
 EndFunc
 
 Func TestMouse($cycle)
-   If $gMode > 0 Then
-      $gMode = 0
+   If $gMode > 0 Then           ; three states of $gMode: -1, 0, 1. A 0 means in-progress and exits the command without doing anything.
+      $gMode = 0                ; -1 means manual override and is checked for before performing every operation, 1 means all is good to go.
 
       $partition  = $gPartition ; how many movements to perform in a single go.  Don't let this exceed half of your resolution.
       $delay      = $gDelay     ; delay in milliseconds between movements.  Making this lower than frametime causes dropped inputs for non-rawinput games.
       $turn       = 0.0
       $totalcount = 1
 
-      While $cycle
+      While $cycle > 0
          $cycle = $cycle - 1
-
-		 $turn          = 360                                               ; one revolution in deg
-		 $totalcount    = ( $turn + $gResidual ) / ( $gSens )               ; partitioned by user-defined increments
-		 $totalcount    = Round( $totalcount )                              ; round to nearest integer
-		 $gResidual     = ( $turn + $gResidual ) - ( $gSens * $totalcount ) ; save the residual angles
+         
+            $turn          = 360                                               ; one revolution in deg
+            $totalcount    = ( $turn + $gResidual ) / ( $gSens )               ; partitioned by user-defined increments
+            $totalcount    = Round( $totalcount )                              ; round to nearest integer
+            $gResidual     = ( $turn + $gResidual ) - ( $gSens * $totalcount ) ; save the residual angles
 
          While $totalcount > $partition
             If $gMode < 0 Then
@@ -255,10 +341,6 @@ Func Halt()
    EndIf
 EndFunc
 
-Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-   return _StringIsNumber(GuiCtrlRead($sSens)) AND _StringIsNumber(GuiCtrlRead($sPartition)) AND _StringIsNumber(GuiCtrlRead($sYaw)) AND _StringIsNumber(GuiCtrlRead($sTickrate)) AND _StringIsNumber(GuiCtrlRead($sCycle))
-EndFunc
-
 Func SingleCycle()
    if $gValid Then
 	  TestMouse(1)
@@ -273,6 +355,55 @@ Func AutoCycle()
    Else
 	  MsgBox(0, "Error", "Inputs must be a number")
    EndIf
+EndFunc
+
+Func DecreasePolygon()
+      $gResidual  = 0
+      $gBounds[0] = $gSens
+   if $gBounds[1] < $gBounds[0] then
+      $gBounds[1] = 0
+      $gSens      = $gBounds[0] * 2
+   else
+      $gSens      =($gBounds[0] + $gBounds[1]) / 2
+   endif
+EndFunc
+
+Func IncreasePolygon()
+      $gResidual  = 0
+      $gBounds[1] = $gSens
+   if $gBounds[1] < $gBounds[0] then
+      $gBounds[0] = 0
+      $gSens      = $gBounds[1] / 2
+   else
+      $gSens      =($gBounds[0] + $gBounds[1]) / 2
+   endif
+   if $gSens == 0 then
+      $gSens =  $gBounds[1]
+      if $gSens == 0 then
+         $gSens =  0.022
+      endif
+   endif
+EndFunc
+
+Func ClearBounds()
+   $gResidual  = 0
+   $gBounds[0] = 0
+   $gBounds[1] = 0
+   $gPartition = NormalizedPartition($defaultTurnPeriod)
+EndFunc
+
+Func NormalizedPartition($turntime)
+    Local $incre = $gSens
+    Local $total = round( 360 / $incre )
+    Local $slice = ceiling( $total * $gDelay / $turntime )
+       If $slice > $total Then
+          $slice = $total
+       EndIf
+   Return $slice
+EndFunc
+
+Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
+   return _StringIsNumber(GuiCtrlRead($sSens)) AND _StringIsNumber(GuiCtrlRead($sPartition)) AND _StringIsNumber(GuiCtrlRead($sYaw)) AND _StringIsNumber(GuiCtrlRead($sTickrate)) AND _StringIsNumber(GuiCtrlRead($sCycle))
 EndFunc
 
 Func _MouseMovePlus($X = "", $Y = "")
