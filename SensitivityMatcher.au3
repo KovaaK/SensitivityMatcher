@@ -26,6 +26,7 @@ Global Const $yawMeasureMrad    = 0.180/$gPi
 Global $gValid = 1
 Global $gBounds[2] = [0,0]
 Global Const $defaultTurnPeriod = 1000
+Global Const $gYawListIni = "CustomYawList.ini"
 
 
 
@@ -60,13 +61,15 @@ Func MakeGUI()
    GUICtrlCreateLabel( "for a Cycle of"                    ,   0, 177,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "revolutions."                      , 200, 177,  60, 15, $SS_LEFT  )
 
+   Local $sYawList    = LoadYawList($gYawListIni)
    Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
                         GUICtrlSetData(      $sYawPresets  ,        "Overwatch|" & _
                                                               "Rainbow6/Reflex|" & _
                                                               "Fortnite Config|" & _
                                                               "Fortnite Slider|" & _
                                                              "Measure any game|" & _
-                                                                       "Custom|"   _
+                                                                       "Custom|" & _
+                                                                      $sYawList    _
                                                            ,    "Quake/Source")
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
@@ -117,7 +120,6 @@ Func MakeGUI()
    $gDelay     =  Ceiling(  1000/_GetNumberFromString( GuiCtrlRead($sTickRate) )  )
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
 
-
    GUISetState(@SW_SHOW)
    Local $lPartition = $gPartition
    Local $lastgSens  = $gSens
@@ -137,7 +139,7 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          $lBoundedError = 1
          If $gBounds[1] Then ; no need to check min<max because hotkey check and clears contradiction
-            $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1] 
+            $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
          EndIf
             $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
          If $gPartition > $lPartition Then
@@ -201,9 +203,9 @@ Func MakeGUI()
                    HotKeySet("!{-}", "DecreasePolygon")
                    HotKeySet("!{=}", "IncreasePolygon")
                    HotKeySet("!{0}", "ClearBounds")
-            ; ElseIf GUICtrlRead($sYawPresets) == "Custom"              Then
-            ; Else
-                   ; GUICtrlSetState($idSave, $GUI_ENABLE)
+            ElseIf GUICtrlRead($sYawPresets) == "Custom"              Then
+            Else
+                   GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",$sYaw) ) )
             EndIf
 
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
@@ -222,10 +224,10 @@ Func MakeGUI()
          Case $idMsg == $sCycle
             $gResidual  = 0
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
-         
+
          ; Case $idMsg == $idSave
          ;    GUICtrlSetState($idSave, $GUI_DISABLE)
-         
+
          ; Case $idMsg == $idCalc
          ;    GUISetState(@SW_DISABLE,$idGUI)
          ;    GUICreate("Handy Calculator",100,100)
@@ -262,7 +264,7 @@ Func MakeGUI()
                                                                                                   & @crlf _
                                  & "The estimate will converge to your exact sensitivity as you nudge "   _
                                  & "measurement bounds with hotkeys. You can then use the measured "      _
-                                 & "sensitivity and match your new game to it."                   & @crlf _	
+                                 & "sensitivity and match your new game to it."                   & @crlf _
                                                                                                   & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
                                  & "Additional Info:"                                             & @crlf _
@@ -307,7 +309,7 @@ Func TestMouse($cycle)
 
       While $cycle > 0
          $cycle = $cycle - 1
-         
+
             $turn          = 360                                               ; one revolution in deg
             $totalcount    = ( $turn + $gResidual ) / ( $gSens )               ; partitioned by user-defined increments
             $totalcount    = Round( $totalcount )                              ; round to nearest integer
@@ -404,6 +406,15 @@ EndFunc
 
 Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
    return _StringIsNumber(GuiCtrlRead($sSens)) AND _StringIsNumber(GuiCtrlRead($sPartition)) AND _StringIsNumber(GuiCtrlRead($sYaw)) AND _StringIsNumber(GuiCtrlRead($sTickrate)) AND _StringIsNumber(GuiCtrlRead($sCycle))
+EndFunc
+
+Func LoadYawList($sFilePath)
+    Local $aYawList = IniReadSectionNames($sFilePath)
+    Local $sYawList = ""
+    For $i = 1 to UBound($aYawList)-1
+          $sYawList = $sYawList & "* " & $aYawList[$i] & "|"
+    Next
+   Return $sYawList
 EndFunc
 
 Func _MouseMovePlus($X = "", $Y = "")
