@@ -412,7 +412,7 @@ Func LoadYawList($sFilePath)
     Local $aYawList = IniReadSectionNames($sFilePath)
     Local $sYawList = ""
     For $i = 1 to UBound($aYawList)-1
-          $sYawList = $sYawList & "* " & $aYawList[$i] & "|"
+          $sYawList = $sYawList & "/ " & $aYawList[$i] & "|"
     Next
    Return $sYawList
 EndFunc
