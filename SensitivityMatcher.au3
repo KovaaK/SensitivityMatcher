@@ -74,9 +74,9 @@ Func MakeGUI()
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
    Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)      ; hardcoded to initialize to product of above two
-                        GUICtrlSendMsg(      $sIncr        , $EM_SETREADONLY, 1, 0)
+                        GUICtrlSendMsg(     $sIncr  , $EM_SETREADONLY,   1,  0)
    Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)      ; once again, hardcoding initialization
-                        GUICtrlSendMsg(      $sCounts      , $EM_SETREADONLY, 1, 0)
+                        GUICtrlSendMsg(     $sCounts, $EM_SETREADONLY,   1,  0)
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
