@@ -44,7 +44,7 @@ MakeGUI()
 Func MakeGUI()
    $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
 
-   GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT  )
+   GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
    GUICtrlCreateLabel( "×"                                 ,  85,  33,  15, 15, $SS_CENTER)
    GUICtrlCreateLabel( "Yaw (deg)"                         , 100,  50,  95, 15, $SS_CENTER)
@@ -63,19 +63,19 @@ Func MakeGUI()
 
 
    Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
-                        GUICtrlSetData(      $sYawPresets  ,        "Overwatch|" & _
-                                                              "Rainbow6/Reflex|" & _
-                                                              "Fortnite Config|" & _
-                                                              "Fortnite Slider|" & _
-                                                             "Measure any game|" & _
-                                                                       "Custom|" & _
-                                                         LoadYawList($gYawListIni) _
-                                                           ,    "Quake/Source")
+                        GUICtrlSetData(      $sYawPresets  ,   "Overwatch|" & _
+                                                         "Rainbow6/Reflex|" & _
+                                                         "Fortnite Config|" & _
+                                                         "Fortnite Slider|" & _
+                                                        "Measure any game|" & _
+                                                                  "Custom|" & _
+                                                  LoadYawList($gYawListIni)   _
+                                                           , "Quake/Source"   )
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
-   Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)             ; hardcoded to initialize to product of above two
+   Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)      ; hardcoded to initialize to product of above two
                         GUICtrlSendMsg(      $sIncr        , $EM_SETREADONLY, 1, 0)
-   Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)             ; once again, hardcoding initialization
+   Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)      ; once again, hardcoding initialization
                         GUICtrlSendMsg(      $sCounts      , $EM_SETREADONLY, 1, 0)
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
