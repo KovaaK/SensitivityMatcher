@@ -61,7 +61,7 @@ Func MakeGUI()
    GUICtrlCreateLabel( "for a Cycle of"                    ,   0, 177,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "revolutions."                      , 200, 177,  60, 15, $SS_LEFT  )
 
-   Local $sYawList    = LoadYawList($gYawListIni)
+
    Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
                         GUICtrlSetData(      $sYawPresets  ,        "Overwatch|" & _
                                                               "Rainbow6/Reflex|" & _
@@ -69,7 +69,7 @@ Func MakeGUI()
                                                               "Fortnite Slider|" & _
                                                              "Measure any game|" & _
                                                                        "Custom|" & _
-                                                                      $sYawList    _
+                                                         LoadYawList($gYawListIni) _
                                                            ,    "Quake/Source")
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
