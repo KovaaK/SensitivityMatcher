@@ -27,6 +27,7 @@ Global $gValid = 1
 Global $gBounds[2] = [0,0]
 Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
+Global Const $gKeybindIni = "CustomKeybind.ini"
 
 
 
@@ -34,9 +35,9 @@ If _Singleton("Sensitivity Matcher", 1) = 0 Then
     MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
     Exit
 EndIf
-HotKeySet("!{[}", "SingleCycle")
-HotKeySet("!{]}", "AutoCycle")
-HotKeySet("!{\}", "Halt")
+HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnOnce", "!{[}") , "SingleCycle")
+HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnALot", "!{]}") , "AutoCycle"  )
+HotKeySet( IniRead($gKeybindIni, "Hotkeys", "StopTurn", "!{\}") , "Halt"       )
 MakeGUI()
 
 
@@ -84,8 +85,7 @@ Func MakeGUI()
    ; Local $idSave      = GUICtrlCreateButton("Save/Edit..."    , 210,   4,  80, 23)
    ;                      GUICtrlSetState(    $idSave           , $GUI_DISABLE     )
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
-   ; Local $idCalc      = GUICtrlCreateButton("Handy Calculator",   5, 205,  95, 25)
-   ; Local $idBind      = GUICtrlCreateButton("Hotkeys..."      , 195, 205,  95, 25)
+   ; Local $idCalc      = GUICtrlCreateButton("Handy Calculator", 195, 205,  95, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -200,9 +200,9 @@ Func MakeGUI()
             ElseIf GUICtrlRead($sYawPresets) == "Measure any game"    Then
                    GUICtrlSetData($sYaw, String($yawMeasureDeg))
                    ClearBounds()
-                   HotKeySet("!{-}", "DecreasePolygon")
-                   HotKeySet("!{=}", "IncreasePolygon")
-                   HotKeySet("!{0}", "ClearBounds")
+                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnLess", "!{-}"), "DecreasePolygon")
+                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnMore", "!{=}"), "IncreasePolygon")
+                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
             ElseIf GUICtrlRead($sYawPresets) == "Custom"              Then
             Else
                    GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",$sYaw) ) )
