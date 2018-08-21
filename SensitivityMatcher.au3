@@ -184,9 +184,9 @@ Func MakeGUI()
          Case $idMsg == $sYawPresets
             $gResidual  = 0
             $gPartition = $lPartition
-            HotKeySet("!{-}")
-            HotKeySet("!{=}")
-            HotKeySet("!{0}")
+            HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}") )
+            HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}") )
+            HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}") )
             If     GUICtrlRead($sYawPresets) == "Quake/Source"        Then
                    GUICtrlSetData($sYaw, String($yawQuake))
             ElseIf GUICtrlRead($sYawPresets) == "Overwatch"           Then
@@ -200,8 +200,8 @@ Func MakeGUI()
             ElseIf GUICtrlRead($sYawPresets) == "Measure any game"    Then
                    GUICtrlSetData($sYaw, String($yawMeasureDeg))
                    ClearBounds()
-                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnLess", "!{-}"), "DecreasePolygon")
-                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnMore", "!{=}"), "IncreasePolygon")
+                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}"), "DecreasePolygon")
+                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}"), "IncreasePolygon")
                    HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
             ElseIf GUICtrlRead($sYawPresets) == "Custom"              Then
             Else
