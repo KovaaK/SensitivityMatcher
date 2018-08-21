@@ -18,8 +18,6 @@ Global Const $gPi  = 3.141592653589793238462643383279502884197169399375105820974
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = 0.018/$gPi
-Global Const $yawFortniteConfig = 2.2220
-Global Const $yawFortniteSlider = 0.55550
 Global Const $yawMeasureDeg     = 1
 Global Const $yawMeasureMrad    = 0.180/$gPi
 
@@ -66,8 +64,6 @@ Func MakeGUI()
    Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
                         GUICtrlSetData(      $sYawPresets  ,   "Overwatch|" & _
                                                          "Rainbow6/Reflex|" & _
-                                                         "Fortnite Config|" & _
-                                                         "Fortnite Slider|" & _
                                                         "Measure any game|" & _
                                                                   "Custom|" & _
                                                   LoadYawList($gYawListIni)   _
@@ -173,10 +169,6 @@ Func MakeGUI()
                    _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawReflex         Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Rainbow6/Reflex")
-            ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawFortniteSlider Then
-                   _GUICtrlComboBox_SelectString($sYawPresets, "Fortnite Slider")
-            ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawFortniteConfig Then
-                   _GUICtrlComboBox_SelectString($sYawPresets, "Fortnite Config")
             Else
                    _GUICtrlComboBox_SelectString($sYawPresets, "Custom")
             EndIf
@@ -193,10 +185,6 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawOverwatch))
             ElseIf GUICtrlRead($sYawPresets) == "Rainbow6/Reflex"     Then
                    GUICtrlSetData($sYaw, String($yawReflex))
-            ElseIf GUICtrlRead($sYawPresets) == "Fortnite Config"     Then
-                   GUICtrlSetData($sYaw, String($yawFortniteConfig))
-            ElseIf GUICtrlRead($sYawPresets) == "Fortnite Slider"     Then
-                   GUICtrlSetData($sYaw, String($yawFortniteSlider))
             ElseIf GUICtrlRead($sYawPresets) == "Measure any game"    Then
                    GUICtrlSetData($sYaw, String($yawMeasureDeg))
                    ClearBounds()
