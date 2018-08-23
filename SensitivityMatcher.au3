@@ -36,6 +36,7 @@ EndIf
 HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnOnce", "!{[}") , "SingleCycle")
 HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnALot", "!{]}") , "AutoCycle"  )
 HotKeySet( IniRead($gKeybindIni, "Hotkeys", "StopTurn", "!{\}") , "Halt"       )
+Opt("GUICloseOnESC", 0) 
 MakeGUI()
 
 
