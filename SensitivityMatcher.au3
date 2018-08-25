@@ -67,7 +67,8 @@ Func MakeGUI()
                                                          "Rainbow6/Reflex|" & _
                                                         "Measure any game|" & _
                                                                   "Custom|" & _
-                                                  LoadYawList($gYawListIni)   _
+                                                  LoadYawList($gYawListIni) & _
+                                                    "< Save current yaw >|"   _
                                                            , "Quake/Source"   )
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
@@ -79,8 +80,6 @@ Func MakeGUI()
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
 
-   ; Local $idSave      = GUICtrlCreateButton("Save/Edit..."    , 210,   4,  80, 23)
-   ;                      GUICtrlSetState(    $idSave           , $GUI_DISABLE     )
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
    ; Local $idCalc      = GUICtrlCreateButton("Handy Calculator", 195, 205,  95, 25)
 
@@ -193,6 +192,20 @@ Func MakeGUI()
                    HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}"), "IncreasePolygon")
                    HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
             ElseIf GUICtrlRead($sYawPresets) == "Custom"              Then
+            ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
+                  _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , String(GUICtrlRead($sYaw)) , "" , -1 , 1 ) )
+                   If GUICtrlRead($sYawPresets) Then
+                      If IniRead( $gYawListIni, GUICtrlRead($sYawPresets), "yaw", 0 ) == 0 Then
+                         _GUICtrlComboBox_DeleteString($sYawPresets, UBound(IniReadSectionNames($gYawListIni))+4)
+                         _GUICtrlComboBox_AddString($sYawPresets, "/ "&GUICtrlRead($sYawPresets))
+                         _GUICtrlComboBox_AddString($sYawPresets, "< Save current yaw >")
+                      EndIf
+                      IniWrite ( $gYawListIni, GUICtrlRead($sYawPresets), "yaw", GUICtrlRead($sYaw) )
+                     _GUICtrlComboBox_SelectString($sYawPresets, "/ "&GUICtrlRead($sYawPresets))
+                      GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
+                   Else
+                     _GUICtrlComboBox_SelectString($sYawPresets, "Custom")
+                   EndIf
             Else
                    GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
             EndIf
@@ -213,9 +226,6 @@ Func MakeGUI()
          Case $idMsg == $sCycle
             $gResidual  = 0
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
-
-         ; Case $idMsg == $idSave
-         ;    GUICtrlSetState($idSave, $GUI_DISABLE)
 
          ; Case $idMsg == $idCalc
          ;    GUISetState(@SW_DISABLE,$idGUI)
