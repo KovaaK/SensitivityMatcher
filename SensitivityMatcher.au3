@@ -64,9 +64,8 @@ Func MakeGUI()
 
    Local $sYawPresets=GUICtrlCreateCombo("Measure any game", 100,   5, 110, 20)
                       GUICtrlSetData(       $sYawPresets   ,"Quake/Source|" & _
-			                                       "Overwatch|" & _
+                                                               "Overwatch|" & _
                                                          "Rainbow6/Reflex|" & _
-                                                                  "Custom|" & _
                                                   LoadYawList($gYawListIni) & _
                                                     "< Save current yaw >|"   _
                                                            , "Quake/Source"   )
@@ -170,7 +169,7 @@ Func MakeGUI()
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawReflex         Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Rainbow6/Reflex")
             Else
-                   _GUICtrlComboBox_SelectString($sYawPresets, "Custom")
+                   _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
             EndIf
 
          Case $idMsg == $sYawPresets
@@ -191,12 +190,12 @@ Func MakeGUI()
                    HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}"), "DecreasePolygon")
                    HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}"), "IncreasePolygon")
                    HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
-            ElseIf GUICtrlRead($sYawPresets) == "Custom"              Then
+            ElseIf GUICtrlRead($sYawPresets) == "Custom"               Then
             ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
                   _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , String(GUICtrlRead($sYaw)) , "" , -1 , 1 ) )
                    If GUICtrlRead($sYawPresets) Then
                       If IniRead( $gYawListIni, GUICtrlRead($sYawPresets), "yaw", 0 ) == 0 Then
-                         _GUICtrlComboBox_DeleteString($sYawPresets, UBound(IniReadSectionNames($gYawListIni))+4)
+                         _GUICtrlComboBox_DeleteString($sYawPresets, UBound(IniReadSectionNames($gYawListIni))+3)
                          _GUICtrlComboBox_AddString($sYawPresets, "/ "&GUICtrlRead($sYawPresets))
                          _GUICtrlComboBox_AddString($sYawPresets, "< Save current yaw >")
                       EndIf
@@ -204,7 +203,7 @@ Func MakeGUI()
                      _GUICtrlComboBox_SelectString($sYawPresets, "/ "&GUICtrlRead($sYawPresets))
                       GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
                    Else
-                     _GUICtrlComboBox_SelectString($sYawPresets, "Custom")
+                     _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
                    EndIf
             Else
                    GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
