@@ -118,6 +118,7 @@ Func MakeGUI()
    GUISetState(@SW_SHOW)
    Local $lPartition = $gPartition
    Local $lastgSens  = $gSens
+   Local $lastYawPresets = GUICtrlRead($sYawPresets)
    Local $idMsg, $lBoundedError
    While 1                                  ; Loop until the user exits.
       $idMsg = GUIGetMsg()
@@ -171,7 +172,8 @@ Func MakeGUI()
             Else
                    _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
             EndIf
-
+            $lastYawPresets = GUICtrlRead($sYawPresets)
+            
          Case $idMsg == $sYawPresets
             $gResidual  = 0
             $gPartition = $lPartition
@@ -203,7 +205,7 @@ Func MakeGUI()
                      _GUICtrlComboBox_SelectString($sYawPresets, "/ "&GUICtrlRead($sYawPresets))
                       GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
                    Else
-                     _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
+                     _GUICtrlComboBox_SetEditText($sYawPresets, $lastYawPresets)
                    EndIf
             Else
                    GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
@@ -212,6 +214,7 @@ Func MakeGUI()
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
+            $lastYawPresets = GUICtrlRead($sYawPresets)
 
          Case $idMsg == $sPartition
             $gResidual  = 0
