@@ -2,7 +2,7 @@
 
 [version 1.2] 
 
-_New Feature: Custom keybind and yaw list .ini files_
+_New Feature: Custom keybind and yaw .ini files_
 
 Custom yaws can now be saved by selecting < Save current yaw > from the dropdown, making it easy to save the results of the Measurement Mode introduced in version 1.1 by copying the sens field into the yaw field.
 
