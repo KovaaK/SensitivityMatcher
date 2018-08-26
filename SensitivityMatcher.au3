@@ -192,7 +192,7 @@ Func MakeGUI()
                    HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
             ElseIf GUICtrlRead($sYawPresets) == "Custom"               Then
             ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
-                  _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , String(GUICtrlRead($sYaw)) , "" , -1 , 1 ) )
+                  _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , "Yaw: "&String(GUICtrlRead($sYaw)) , "" , -1 , 1 ) )
                    If GUICtrlRead($sYawPresets) Then
                       If IniRead( $gYawListIni, GUICtrlRead($sYawPresets), "yaw", 0 ) == 0 Then
                          _GUICtrlComboBox_DeleteString($sYawPresets, UBound(IniReadSectionNames($gYawListIni))+3)
