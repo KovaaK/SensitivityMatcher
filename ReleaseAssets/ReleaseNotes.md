@@ -4,7 +4,7 @@
 
 _New Feature: Custom keybind and yaw .ini files_
 
-Version 1.1 introduced the Measurement Mode. This update allow results to be saved easily by adding to custom yaw list.
+The last update introduced Measurement Mode. This update adds an easy way to save measurement results as custom yaw from the UI.
 
 You can customize your own keybind and yaw list by editing the corresponding .ini files located in the executable's directory. \
 The two Fornite presets are moved out of hardcoded list into the default .ini file to improve modularity.
