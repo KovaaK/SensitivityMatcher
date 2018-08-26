@@ -62,10 +62,10 @@ Func MakeGUI()
    GUICtrlCreateLabel( "revolutions."                      , 200, 177,  60, 15, $SS_LEFT  )
 
 
-   Local $sYawPresets = GUICtrlCreateCombo( "Quake/Source" , 100,   5, 110, 20)
-                        GUICtrlSetData(      $sYawPresets  ,   "Overwatch|" & _
+   Local $sYawPresets=GUICtrlCreateCombo("Measure any game", 100,   5, 110, 20)
+                      GUICtrlSetData(       $sYawPresets   ,"Quake/Source|" & _
+			                                       "Overwatch|" & _
                                                          "Rainbow6/Reflex|" & _
-                                                        "Measure any game|" & _
                                                                   "Custom|" & _
                                                   LoadYawList($gYawListIni) & _
                                                     "< Save current yaw >|"   _
