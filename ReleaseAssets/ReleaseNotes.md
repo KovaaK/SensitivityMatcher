@@ -4,8 +4,7 @@
 
 _New Feature: Custom keybind and yaw .ini files_
 
-You can customize your own keybind and yaw list by editing the corresponding .ini files located in the executable's directory. Or, enter a custom yaw value and save it to the list by selecting "Save current yaw". \
-The two Fornite presets are moved out of hardcoded list into the default .ini file to improve modularity.
+You can customize your own keybind and yaw list by editing the corresponding .ini files located in the executable's directory. Or, enter a custom yaw value and save it to the list by selecting "Save current yaw". This gives an easy way to save the results from last patch's new Measurement functionality. The two Fornite presets are moved out of hardcoded list into the default .ini file to improve modularity.
 
 ## Download
 
