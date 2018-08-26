@@ -4,7 +4,7 @@
 
 _New Feature: Custom keybind and yaw list .ini files_
 
-Custom yaws can now be saved by selecting "< Save current yaw >" from the dropdown, making it easy to save the results of the Measurement Mode introduced in version 1.1 by copying the sens field into the yaw field.
+Custom yaws can now be saved by selecting < Save current yaw > from the dropdown, making it easy to save the results of the Measurement Mode introduced in version 1.1 by copying the sens field into the yaw field.
 
 You can customize your own keybind and yaw list by editing the corresponding .ini files located in the executable's directory. The two Fornite presets is moved from hardcoded lists to the default .ini files to improve modularity.
 
