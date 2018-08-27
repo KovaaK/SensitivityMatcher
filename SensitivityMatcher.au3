@@ -199,7 +199,6 @@ Func MakeGUI()
                       EndIf
                          IniWrite($gYawListIni, GUICtrlRead($sYawPresets), "yaw", GUICtrlRead($sYaw) )
                          _GUICtrlComboBox_SelectString(     $sYawPresets , "/ " & GUICtrlRead($sYawPresets)            )
-                      GUICtrlSetData( $sYaw, String(IniRead($gYawListIni , StringTrimLeft(GUICtrlRead($sYawPresets),2) , "yaw" , GuiCtrlRead($sYaw))) )
                    Else
                          _GUICtrlComboBox_SetEditText(      $sYawPresets , $lastYawPresets                             )
                       If $lastYawPresets == "Measure any game" Then
