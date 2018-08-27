@@ -106,7 +106,7 @@ Func MakeGUI()
 
 
 
-   ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating wihtin the main loop, no need for a whole refresh function.
+   ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating within the main loop
    $gResidual  = 0.0
    $gMode      = 1
    $gSens      = _GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))
@@ -136,7 +136,7 @@ Func MakeGUI()
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          $lBoundedError = 1
-         If $gBounds[1] Then ; no need to check min<max because hotkey check and clears contradiction
+         If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
             $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
          EndIf
             $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
@@ -179,9 +179,7 @@ Func MakeGUI()
          Case $idMsg == $sYawPresets
             $gResidual  = 0
             $gPartition = $lPartition
-            HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}") )
-            HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}") )
-            HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}") )
+            EnableMeasureHotkeys(0)
             If     GUICtrlRead($sYawPresets) == "Quake/Source"        Then
                    GUICtrlSetData($sYaw, String($yawQuake))
             ElseIf GUICtrlRead($sYawPresets) == "Overwatch"           Then
@@ -191,9 +189,7 @@ Func MakeGUI()
             ElseIf GUICtrlRead($sYawPresets) == "Measure any game"    Then
                    GUICtrlSetData($sYaw, String($yawMeasureDeg))
                    ClearBounds()
-                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}"), "DecreasePolygon")
-                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}"), "IncreasePolygon")
-                   HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
+                   EnableMeasureHotkeys(1)
             ElseIf GUICtrlRead($sYawPresets) == "Custom"               Then
             ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
                   _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , "Yaw: "&String(GUICtrlRead($sYaw)) , "" , -1 , 1 ) )
@@ -208,6 +204,9 @@ Func MakeGUI()
                       GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
                    Else
                      _GUICtrlComboBox_SetEditText($sYawPresets, $lastYawPresets)
+                      If $lastYawPresets = "Measure any game" then
+                          EnableMeasureHotkeys(1)
+                      EndIf
                    EndIf
             Else
                    GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
@@ -418,6 +417,18 @@ Func LoadYawList($sFilePath)
           $sYawList = $sYawList & "/ " & $aYawList[$i] & "|"
     Next
    Return $sYawList
+EndFunc
+
+Func EnableMeasureHotkeys($bind)
+    If $bind Then
+       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}"), "DecreasePolygon")
+       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}"), "IncreasePolygon")
+       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
+    Else
+       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}") )
+       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}") )
+       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}") )
+    EndIf
 EndFunc
 
 Func _MouseMovePlus($X = "", $Y = "")
