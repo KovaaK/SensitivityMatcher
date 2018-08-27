@@ -18,13 +18,13 @@ Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gKeybindIni = "CustomKeybind.ini"
 
 Global $idGUI, $idGUICalc
-Global $gValid     = 1
+Global $gValid     =  1
 Global $gMode      = -1
-Global $gSens      = 1.0
-Global $gPartition = 127
-Global $gDelay     = 10
-Global $gCycle     = 20
-Global $gResidual  = 0.0
+Global $gSens      =  1.0
+Global $gPartition =  127
+Global $gDelay     =  10
+Global $gCycle     =  20
+Global $gResidual  =  0.0
 Global $gBounds[2] = [0,0]
 
 If _Singleton("Sensitivity Matcher", 1) == 0 Then
