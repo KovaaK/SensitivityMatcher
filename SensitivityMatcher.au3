@@ -27,7 +27,7 @@ Global $gCycle     = 20
 Global $gResidual  = 0.0
 Global $gBounds[2] = [0,0]
 
-If _Singleton("Sensitivity Matcher", 1) = 0 Then
+If _Singleton("Sensitivity Matcher", 1) == 0 Then
     MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
     Exit
 EndIf
@@ -61,8 +61,9 @@ Func MakeGUI()
    GUICtrlCreateLabel( "revolutions."                      , 200, 177,  60, 15, $SS_LEFT  )
 
 
-   Local $sYawPresets=GUICtrlCreateCombo("Measure any game", 100,   5, 110, 20)
-                      GUICtrlSetData(       $sYawPresets   ,"Quake/Source|" & _
+   Local $sYawPresets = GUICtrlCreateCombo( ""             , 100,   5, 110, 20)
+                        GUICtrlSetData(  $sYawPresets , "Measure any game|" & _
+                                                            "Quake/Source|" & _
                                                                "Overwatch|" & _
                                                          "Rainbow6/Reflex|" & _
                                                   LoadYawList($gYawListIni) & _
@@ -103,9 +104,6 @@ Func MakeGUI()
    Local $hCycle      = GUICtrlGetHandle($sCycle)
                        _GUIToolTip_AddTool($hToolTip, 0, "How many full revolutions to perform when pressing Alt+].", $hCycle)
 
-
-
-
    ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating within the main loop
    $gResidual  = 0.0
    $gMode      = 1
@@ -115,11 +113,11 @@ Func MakeGUI()
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
 
 
+
    Local $idMsg, $lBoundedError
    Local $lPartition = $gPartition
    Local $lastgSens  = $gSens
    Local $lastYawPresets = GUICtrlRead($sYawPresets)
-
 
    GUISetState(@SW_SHOW)
    While 1                                  ; Loop until the user exits.
