@@ -5,44 +5,43 @@
 #include <GUIComboBox.au3>
 #include <GuiEdit.au3>
 #include <StaticConstants.au3>
-#include <GUIToolTip.au3> ; Tooltips for the options
+#include <GUIToolTip.au3>
 
+Global Const $gPi               = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116
+Global Const $yawQuake          = 0.022
+Global Const $yawOverwatch      = 0.0066
+Global Const $yawReflex         = 0.018/$gPi
+Global Const $yawMeasureDeg     = 1
+Global Const $yawMeasureMrad    = 0.180/$gPi
+Global Const $defaultTurnPeriod = 1000
+Global Const $gYawListIni = "CustomYawList.ini"
+Global Const $gKeybindIni = "CustomKeybind.ini"
+
+Global $idGUI, $idGUICalc
+Global $gValid     = 1
 Global $gMode      = -1
 Global $gSens      = 1.0
 Global $gPartition = 127
 Global $gDelay     = 10
 Global $gCycle     = 20
 Global $gResidual  = 0.0
-Global Const $gPi  = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116
-
-Global Const $yawQuake          = 0.022
-Global Const $yawOverwatch      = 0.0066
-Global Const $yawReflex         = 0.018/$gPi
-Global Const $yawMeasureDeg     = 1
-Global Const $yawMeasureMrad    = 0.180/$gPi
-
-Global $gValid = 1
 Global $gBounds[2] = [0,0]
-Global Const $defaultTurnPeriod = 1000
-Global Const $gYawListIni = "CustomYawList.ini"
-Global Const $gKeybindIni = "CustomKeybind.ini"
-
-
 
 If _Singleton("Sensitivity Matcher", 1) = 0 Then
     MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
     Exit
 EndIf
+
+Opt("GUICloseOnESC" , 0)
 HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnOnce", "!{[}") , "SingleCycle")
 HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnALot", "!{]}") , "AutoCycle"  )
 HotKeySet( IniRead($gKeybindIni, "Hotkeys", "StopTurn", "!{\}") , "Halt"       )
-Opt("GUICloseOnESC", 0) 
 MakeGUI()
 
 
 
 Func MakeGUI()
-   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
+   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)   
 
    GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
@@ -80,7 +79,7 @@ Func MakeGUI()
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
 
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
-   ; Local $idCalc      = GUICtrlCreateButton("Handy Calculator", 195, 205,  95, 25)
+   ; Local $idCalc      = GUICtrlCreateButton("Calculate..."    , 195, 205,  95, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -115,11 +114,14 @@ Func MakeGUI()
    $gDelay     =  Ceiling(  1000/_GetNumberFromString( GuiCtrlRead($sTickRate) )  )
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
 
-   GUISetState(@SW_SHOW)
+
+   Local $idMsg, $lBoundedError
    Local $lPartition = $gPartition
    Local $lastgSens  = $gSens
    Local $lastYawPresets = GUICtrlRead($sYawPresets)
-   Local $idMsg, $lBoundedError
+
+
+   GUISetState(@SW_SHOW)
    While 1                                  ; Loop until the user exits.
       $idMsg = GUIGetMsg()
 
@@ -231,7 +233,7 @@ Func MakeGUI()
 
          ; Case $idMsg == $idCalc
          ;    GUISetState(@SW_DISABLE,$idGUI)
-         ;    GUICreate("Handy Calculator",100,100)
+         ;    GUICreate("Calculate Physical Sensitivity",100,100)
          ;    GUISetState(@SW_SHOW)
          ;    HandyCalculator()
          ;    GUIDelete()
