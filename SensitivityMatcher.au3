@@ -17,7 +17,7 @@ Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gKeybindIni = "CustomKeybind.ini"
 
-Global $idGUI, $idGUICalc
+Global $idGUI ; , $idGUICalc
 Global $gValid     =  1
 Global $gMode      = -1
 Global $gSens      =  1.0
@@ -115,8 +115,8 @@ Func MakeGUI()
 
 
    Local $idMsg, $lBoundedError
-   Local $lPartition = $gPartition
-   Local $lastgSens  = $gSens
+   Local $lPartition     = $gPartition
+   Local $lastgSens      = $gSens
    Local $lastYawPresets = GUICtrlRead($sYawPresets)
 
    GUISetState(@SW_SHOW)
