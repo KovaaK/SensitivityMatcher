@@ -62,13 +62,13 @@ Func MakeGUI()
 
 
    Local $sYawPresets = GUICtrlCreateCombo( ""             , 100,   5, 110, 20)
-                        GUICtrlSetData(  $sYawPresets , "Measure any game|" & _
-                                                            "Quake/Source|" & _
-                                                               "Overwatch|" & _
-                                                         "Rainbow6/Reflex|" & _
-                                                  LoadYawList($gYawListIni) & _
-                                                    "< Save current yaw >|"   _
-                                                           , "Quake/Source"   )
+                        GUICtrlSetData(     $sYawPresets, "Measure any game|" & _
+                                                              "Quake/Source|" & _
+                                                                 "Overwatch|" & _
+                                                           "Rainbow6/Reflex|" & _
+                                                   LoadYawList($gYawListIni)  & _
+                                                      "< Save current yaw >|"   _
+                                                           ,  "Quake/Source"  )
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
    Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)  ; hardcoded to initialize to product of above two
