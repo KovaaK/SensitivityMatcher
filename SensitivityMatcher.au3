@@ -294,7 +294,7 @@ EndFunc
 Func HandyCalculator()
    Local $cpi = InputBox( "Enter Mouse CPI", " " , "800" , "" , -1 , 1 )
    Local $mpi = Round(         60 * $cpi * $gSens              )
-   Local $dpt = Round( $gPi / 180 * $cpi * $gSens / 0.0254 , 3 )
+   Local $dgm = Round(  10 /  254 * $cpi * $gSens / 0.0254 , 3 )
    Local $cmR = Round( 180 / $gPi / $cpi / $gSens * 2.54   , 1 )
    Local $inR = Round( 180 / $gPi / $cpi / $gSens          , 1 )
    Local $cmC = Round(       360  / $cpi / $gSens * 2.54   , 1 )
@@ -309,7 +309,7 @@ Func HandyCalculator()
                                         " = " & $inC & " in/rev"           & @crlf & _
                                                                              @crlf & _
                                         "Curvature"                        & @crlf & _
-                                        " = " & $dpt & " m⁻¹"              & @crlf & _
+                                        " = " & $dgm & " deg/mm"           & @crlf & _
                                         " = " & $mpi & " MPI")
    EndIf
 EndFunc
