@@ -80,7 +80,7 @@ Func MakeGUI()
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
 
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
-   ; Local $idCalc      = GUICtrlCreateButton("Calculate..."    , 195, 205,  95, 25)
+   Local $idCalc      = GUICtrlCreateButton("Calculate..."    , 195, 205,  95, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -227,14 +227,8 @@ Func MakeGUI()
             $gResidual  = 0
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
 
-         ; Case $idMsg == $idCalc
-         ;    GUISetState(@SW_DISABLE,$idGUI)
-         ;    GUICreate("Calculate Physical Sensitivity",100,100)
-         ;    GUISetState(@SW_SHOW)
-         ;    HandyCalculator()
-         ;    GUIDelete()
-         ;    GUISetState(@SW_ENABLE,$idGUI)
-         ;    GUISetState(@SW_RESTORE,$idGUI)
+         Case $idMsg == $idCalc
+            HandyCalculator()
 
          Case $idMsg == $idHelp
             If InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle) Then
@@ -295,6 +289,27 @@ Func MakeGUI()
       EndIf
 
    WEnd
+EndFunc
+
+Func HandyCalculator()
+   Local $cpi = InputBox( "Enter Mouse CPI", " " , "800" , "" , -1 , 1 )
+   Local $mpi = Round(         60 * $cpi * $gSens              )
+   Local $dpt = Round( $gPi / 180 * $cpi * $gSens / 0.0254 , 3 )
+   Local $cmR = Round( 180 / $gPi / $cpi / $gSens * 2.54   , 1 )
+   Local $inR = Round( 180 / $gPi / $cpi / $gSens          , 1 )
+   Local $cmC = Round(       360  / $cpi / $gSens * 2.54   , 1 )
+   Local $inC = Round(       360  / $cpi / $gSens          , 1 )
+   MsgBox(0, "Physical Sensitivity", "Virtual Unit: " & $gSens & "°"    & @crlf & _
+                                     "Physical Unit: " & $cpi & " CPI"  & @crlf & _
+                                     "-------------------------------"  & @crlf & _
+                                                                          @crlf & _
+                                     "Circumference"                    & @crlf & _
+                                     " = " & $cmC & " cm/rev"           & @crlf & _
+                                     " = " & $inC & " in/rev"           & @crlf & _
+                                                                          @crlf & _
+                                     "Curvature"                        & @crlf & _
+                                     " = " & $dpt & " m⁻¹"              & @crlf & _
+                                     " = " & $mpi & " MPI")
 EndFunc
 
 Func TestMouse($cycle)
