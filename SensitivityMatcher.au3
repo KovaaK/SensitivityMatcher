@@ -299,17 +299,19 @@ Func HandyCalculator()
    Local $inR = Round( 180 / $gPi / $cpi / $gSens          , 1 )
    Local $cmC = Round(       360  / $cpi / $gSens * 2.54   , 1 )
    Local $inC = Round(       360  / $cpi / $gSens          , 1 )
-   MsgBox(0, "Physical Sensitivity", "Virtual Unit: " & $gSens & "°"    & @crlf & _
-                                     "Physical Unit: " & $cpi & " CPI"  & @crlf & _
-                                     "----------------------------"     & @crlf & _
-                                                                          @crlf & _
-                                     "Circumference"                    & @crlf & _
-                                     " = " & $cmC & " cm/rev"           & @crlf & _
-                                     " = " & $inC & " in/rev"           & @crlf & _
-                                                                          @crlf & _
-                                     "Curvature"                        & @crlf & _
-                                     " = " & $dpt & " m⁻¹"              & @crlf & _
-                                     " = " & $mpi & " MPI")
+   If $cpi Then
+      MsgBox(0, "Physical Sensitivity", "Virtual Unit: " & $gSens & "°"    & @crlf & _
+                                        "Physical Unit: " & $cpi & " CPI"  & @crlf & _
+                                        "----------------------------"     & @crlf & _
+                                                                             @crlf & _
+                                        "Circumference"                    & @crlf & _
+                                        " = " & $cmC & " cm/rev"           & @crlf & _
+                                        " = " & $inC & " in/rev"           & @crlf & _
+                                                                             @crlf & _
+                                        "Curvature"                        & @crlf & _
+                                        " = " & $dpt & " m⁻¹"              & @crlf & _
+                                        " = " & $mpi & " MPI")
+   EndIf
 EndFunc
 
 Func TestMouse($cycle)
