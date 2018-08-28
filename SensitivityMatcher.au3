@@ -301,7 +301,7 @@ Func HandyCalculator()
    Local $inC = Round(       360  / $cpi / $gSens          , 1 )
    MsgBox(0, "Physical Sensitivity", "Virtual Unit: " & $gSens & "°"    & @crlf & _
                                      "Physical Unit: " & $cpi & " CPI"  & @crlf & _
-                                     "-------------------------------"  & @crlf & _
+                                     "----------------------------"     & @crlf & _
                                                                           @crlf & _
                                      "Circumference"                    & @crlf & _
                                      " = " & $cmC & " cm/rev"           & @crlf & _
