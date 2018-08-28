@@ -80,7 +80,7 @@ Func MakeGUI()
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
 
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
-   Local $idCalc      = GUICtrlCreateButton("Calculate..."    , 195, 205,  95, 25)
+   Local $idCalc      = GUICtrlCreateButton("Mouse CPI..."    , 195, 205,  95, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -292,7 +292,7 @@ Func MakeGUI()
 EndFunc
 
 Func HandyCalculator()
-   Local $cpi = InputBox( "Enter Mouse CPI", " " , "800" , "" , -1 , 1 )
+   Local $cpi = InputBox( "Enter Mouse CPI", " " , "" , "" , -1 , 1 )
    Local $mpi = Round(              $cpi * $gSens * 60       )
    Local $dgm = Round(              $cpi * $gSens / 25.4 , 3 )
    Local $cmR = Round( 180 / $gPi / $cpi / $gSens * 2.54 , 1 )
