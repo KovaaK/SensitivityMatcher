@@ -293,12 +293,12 @@ EndFunc
 
 Func HandyCalculator()
    Local $cpi = InputBox( "Enter Mouse CPI", " " , "800" , "" , -1 , 1 )
-   Local $mpi = Round(         60 * $cpi * $gSens              )
-   Local $dgm = Round(  10 /  254 * $cpi * $gSens / 0.0254 , 3 )
-   Local $cmR = Round( 180 / $gPi / $cpi / $gSens * 2.54   , 1 )
-   Local $inR = Round( 180 / $gPi / $cpi / $gSens          , 1 )
-   Local $cmC = Round(       360  / $cpi / $gSens * 2.54   , 1 )
-   Local $inC = Round(       360  / $cpi / $gSens          , 1 )
+   Local $mpi = Round(              $cpi * $gSens * 60       )
+   Local $dgm = Round(              $cpi * $gSens / 25.4 , 3 )
+   Local $cmR = Round( 180 / $gPi / $cpi / $gSens * 2.54 , 1 )
+   Local $inR = Round( 180 / $gPi / $cpi / $gSens        , 1 )
+   Local $cmC = Round(       360  / $cpi / $gSens * 2.54 , 1 )
+   Local $inC = Round(       360  / $cpi / $gSens        , 1 )
    If $cpi Then
       MsgBox(0, "Physical Sensitivity", "Virtual Unit: " & $gSens & "°"    & @crlf & _
                                         "Physical Unit: " & $cpi & " CPI"  & @crlf & _
