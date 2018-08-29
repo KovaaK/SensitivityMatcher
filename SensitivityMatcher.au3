@@ -292,7 +292,7 @@ Func MakeGUI()
 EndFunc
 
 Func HandyCalculator()
-   Local $cpi = InputBox( "Enter Mouse CPI", " " , "" , "" , -1 , 1 )
+   Local $cpi = InputBox( "Enter Mouse CPI", " " , "800" , "" , -1 , 1 )
    Local $mpi = Round(              $cpi * $gSens * 60       )
    Local $dgm = Round(              $cpi * $gSens / 25.4 , 3 )
    Local $cmR = Round( 180 / $gPi / $cpi / $gSens * 2.54 , 1 )
