@@ -80,7 +80,7 @@ Func MakeGUI()
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
 
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
-   Local $idCalc      = GUICtrlCreateButton("Mouse CPI..."    , 195, 205,  95, 25)
+   Local $idCalc      = GUICtrlCreateButton("Physical Stats..."    , 195, 205,  95, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
