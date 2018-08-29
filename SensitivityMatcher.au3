@@ -41,7 +41,7 @@ MakeGUI()
 
 
 Func MakeGUI()
-   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)   
+   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
 
    GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
@@ -173,13 +173,13 @@ Func MakeGUI()
                    _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
             EndIf
             $lastYawPresets = GUICtrlRead($sYawPresets)
-            
+
          Case $idMsg == $sYawPresets
             $gResidual  = 0
             $gPartition = $lPartition
             EnableMeasureHotkeys(0)
             If     GUICtrlRead($sYawPresets) == "Custom"               Then
-	    ElseIf GUICtrlRead($sYawPresets) == "Quake/Source"         Then
+            ElseIf GUICtrlRead($sYawPresets) == "Quake/Source"         Then
                    GUICtrlSetData($sYaw, String($yawQuake))
             ElseIf GUICtrlRead($sYawPresets) == "Overwatch"            Then
                    GUICtrlSetData($sYaw, String($yawOverwatch))
@@ -318,8 +318,8 @@ Func TestMouse($cycle)
    If $gMode > 0 Then           ; three states of $gMode: -1, 0, 1. A 0 means in-progress and exits the command without doing anything.
       $gMode = 0                ; -1 means manual override and is checked for before performing every operation, 1 means all is good to go.
 
-      $partition  = $gPartition ; how many movements to perform in a single go.  Don't let this exceed half of your resolution.
-      $delay      = $gDelay     ; delay in milliseconds between movements.  Making this lower than frametime causes dropped inputs for non-rawinput games.
+      $partition  = $gPartition
+      $delay      = $gDelay
       $turn       = 0.0
       $totalcount = 1
 
