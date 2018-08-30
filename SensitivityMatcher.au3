@@ -308,7 +308,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $sInput[1]=GUICtrlCreateInput(800                , 95,  5, 80, 20)
          $sInput[2]=GUICtrlCreateInput(800*$gSens/25.4    ,  5, 30, 80, 20)
          $sInput[3]=GUICtrlCreateInput(800*$gSens*60      , 95, 30, 80, 20)
-         $sInput[4]=GUICtrlCreateInput(360/$gSens/800/2.54,  5, 55, 80, 20)
+         $sInput[4]=GUICtrlCreateInput(360/$gSens/800*2.54,  5, 55, 80, 20)
          $sInput[5]=GUICtrlCreateInput(360/$gSens/800     , 95, 55, 80, 20)
          GUISetState(@SW_SHOW)
       EndIf
