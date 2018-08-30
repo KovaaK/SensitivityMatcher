@@ -17,7 +17,6 @@ Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gKeybindIni = "CustomKeybind.ini"
 
-Global $idGUI , $idGUICalc
 Global $gValid     =  1
 Global $gMode      = -1
 Global $gSens      =  1.0
@@ -41,7 +40,7 @@ MakeGUI()
 
 
 Func MakeGUI()
-   $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
+   Local $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
 
    GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
@@ -114,35 +113,19 @@ Func MakeGUI()
 
 
 
-   Local $idMsg, $lBoundedError
+   Local $idMsg, $lBoundedError, $lCalculator[6]
+   Local $idGUICalc      = "INACTIVE"
    Local $lPartition     = $gPartition
    Local $lastgSens      = $gSens
    Local $lastYawPresets = GUICtrlRead($sYawPresets)
 
    GUISetState(@SW_SHOW)
    While 1                                  ; Loop until the user exits.
-      $idMsg = GUIGetMsg(1)
-
-      If $gSens == $lastgSens Then
-      Else
-         $gResidual = 0
-         $lastgSens = $gSens
-         GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
-        _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
-         GUICtrlSetData(     $sIncr  , String(     $gSens ) )
-        _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
-         GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
-        _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-         $lBoundedError = 1
-         If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
-            $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
-         EndIf
-            $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
-         If $gPartition > $lPartition Then
-            $gPartition = $lPartition
-         EndIf
+      If $gMode == -1 Then
+         $gMode = 1
       EndIf
-
+      $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
+      $idMsg  = GUIGetMsg(1)
       Switch $idMsg[0]
          Case $GUI_EVENT_CLOSE
 	    Switch $idMsg[1]
@@ -150,12 +133,14 @@ Func MakeGUI()
                   Exit
 	       Case $idGUICalc
 	          GUIDelete($idGUICalc)
+                  $idGUICalc="INACTIVE"
 	    EndSwitch
 
          Case $sSens
             $gResidual = 0
             $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
             $lastgSens = $gSens
+            $idMsg[0]  = "INCR_CHANGE"
             GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
@@ -191,7 +176,7 @@ Func MakeGUI()
             ElseIf GUICtrlRead($sYawPresets) == "Rainbow6/Reflex"      Then
                    GUICtrlSetData($sYaw, String($yawReflex))
             ElseIf GUICtrlRead($sYawPresets) == "Measure any game"     Then
-                   GUICtrlSetData($sYaw, String($yawMeasureDeg))
+                   GUICtrlSetData($sYaw, GuiCtrlRead($sSens))
                    ClearBounds()
                    EnableMeasureHotkeys(1)
             ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
@@ -233,12 +218,12 @@ Func MakeGUI()
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
 
          Case $idCalc
-	    $idGUICalc = GUICreate("test",100,100)
-	    GUISetState()
-            ;HandyCalculator()
+            If $idGUICalc == "INACTIVE" Then
+               $idGUICalc = HandyCalculator("INITIALIZE",$lCalculator,$idMsg)
+            EndIf
 
          Case $idHelp
-            If InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle) Then
+            If $gValid Then
                $time = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
                MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
                                  & "To match your old sensitivity to a new game:"                 & @crlf _
@@ -288,36 +273,60 @@ Func MakeGUI()
                MsgBox(0, "Error", "Inputs must be a number")
             EndIf
       EndSwitch
-
-      $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-
-      If $gMode == -1 Then
-         $gMode = 1
+      If $gSens == $lastgSens Then
+      Else
+         $gResidual = 0
+         $lastgSens = $gSens
+         $idMsg[0]  = "INCR_CHANGE"
+         GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
+        _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
+         GUICtrlSetData(     $sIncr  , String(     $gSens ) )
+        _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
+         GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
+        _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
+         $lBoundedError = 1
+         If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
+            $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
+         EndIf
+            $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
+         If $gPartition > $lPartition Then
+            $gPartition = $lPartition
+         EndIf
       EndIf
-
+      HandyCalculator($idGUICalc,$lCalculator,$idMsg)
    WEnd
 EndFunc
 
-Func HandyCalculator()
-   Local $cpi = InputBox( "Enter Mouse CPI", " " , "800" , "" , -1 , 1 )
-   Local $mpi = Round(              $cpi * $gSens * 60       )
-   Local $dgm = Round(              $cpi * $gSens / 25.4 , 3 )
-   Local $cmR = Round( 180 / $gPi / $cpi / $gSens * 2.54 , 1 )
-   Local $inR = Round( 180 / $gPi / $cpi / $gSens        , 1 )
-   Local $cmC = Round(       360  / $cpi / $gSens * 2.54 , 1 )
-   Local $inC = Round(       360  / $cpi / $gSens        , 1 )
-   If $cpi Then
-      MsgBox(0, "Physical Sensitivity", "Virtual Unit: " & $gSens & "°"    & @crlf & _
-                                        "Physical Unit: " & $cpi & " CPI"  & @crlf & _
-                                        "----------------------------"     & @crlf & _
-                                                                             @crlf & _
-                                        "Circumference"                    & @crlf & _
-                                        " = " & $cmC & " cm/rev"           & @crlf & _
-                                        " = " & $inC & " in/rev"           & @crlf & _
-                                                                             @crlf & _
-                                        "Curvature"                        & @crlf & _
-                                        " = " & $dgm & " deg/mm"           & @crlf & _
-                                        " = " & $mpi & " MPI")
+Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
+   If $idGUICalc == "INACTIVE" Then
+      ; do nothing
+   Else
+      If $idGUICalc == "INITIALIZE" Then
+         $idGUICalc=GUICreate(         "calc"                     ,200,200)
+         $sInput[0]=GUICtrlCreateInput($gSens             ,  5,  5, 80, 20)
+                    GUICtrlSendMsg(    $sInput[0], $EM_SETREADONLY,  1,  0)
+         $sInput[1]=GUICtrlCreateInput(800                , 95,  5, 80, 20)
+         $sInput[2]=GUICtrlCreateInput(800*$gSens/25.4    ,  5, 30, 80, 20)
+         $sInput[3]=GUICtrlCreateInput(800*$gSens*60      , 95, 30, 80, 20)
+         $sInput[4]=GUICtrlCreateInput(360/$gSens/800/2.54,  5, 55, 80, 20)
+         $sInput[5]=GUICtrlCreateInput(360/$gSens/800     , 95, 55, 80, 20)
+         GUISetState(@SW_SHOW)
+      EndIf
+      Switch $idMsg[0]
+         Case "INCR_CHANGE"
+              ; change inr
+         Case $sInput[1]
+              ; change cpi
+         Case $sInput[2]
+              ; change deg/mm
+         Case $sInput[3]
+              ; change mpi 
+         Case $sInput[4]
+              ; change cm/rev
+         Case $sInput[5]
+              ; change in/rev
+      EndSwitch
+      Return $idGUICalc
    EndIf
 EndFunc
 
