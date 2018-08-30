@@ -17,7 +17,7 @@ Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gKeybindIni = "CustomKeybind.ini"
 
-Global $idGUI ; , $idGUICalc
+Global $idGUI , $idGUICalc
 Global $gValid     =  1
 Global $gMode      = -1
 Global $gSens      =  1.0
@@ -121,7 +121,7 @@ Func MakeGUI()
 
    GUISetState(@SW_SHOW)
    While 1                                  ; Loop until the user exits.
-      $idMsg = GUIGetMsg()
+      $idMsg = GUIGetMsg(1)
 
       If $gSens == $lastgSens Then
       Else
@@ -143,11 +143,16 @@ Func MakeGUI()
          EndIf
       EndIf
 
-      Select
-         Case $idMsg == $GUI_EVENT_CLOSE
-            Exit
+      Switch $idMsg[0]
+         Case $GUI_EVENT_CLOSE
+	    Switch $idMsg[1]
+	       Case $idGUI
+                  Exit
+	       Case $idGUICalc
+	          GUIDelete($idGUICalc)
+	    EndSwitch
 
-         Case $idMsg == $sSens
+         Case $sSens
             $gResidual = 0
             $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
             $lastgSens = $gSens
@@ -156,7 +161,7 @@ Func MakeGUI()
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
            _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
 
-         Case $idMsg == $sYaw
+         Case $sYaw
             $gResidual = 0
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
@@ -174,7 +179,7 @@ Func MakeGUI()
             EndIf
             $lastYawPresets = GUICtrlRead($sYawPresets)
 
-         Case $idMsg == $sYawPresets
+         Case $sYawPresets
             $gResidual  = 0
             $gPartition = $lPartition
             EnableMeasureHotkeys(0)
@@ -214,23 +219,25 @@ Func MakeGUI()
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
             $lastYawPresets = GUICtrlRead($sYawPresets)
 
-         Case $idMsg == $sPartition
+         Case $sPartition
             $gResidual  = 0
             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
             $lPartition = $gPartition
 
-         Case $idMsg == $sTickRate
+         Case $sTickRate
             $gResidual  = 0
             $gDelay     = Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
 
-         Case $idMsg == $sCycle
+         Case $sCycle
             $gResidual  = 0
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
 
-         Case $idMsg == $idCalc
-            HandyCalculator()
+         Case $idCalc
+	    $idGUICalc = GUICreate("test",100,100)
+	    GUISetState()
+            ;HandyCalculator()
 
-         Case $idMsg == $idHelp
+         Case $idHelp
             If InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle) Then
                $time = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
                MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
@@ -280,7 +287,7 @@ Func MakeGUI()
             Else
                MsgBox(0, "Error", "Inputs must be a number")
             EndIf
-      EndSelect
+      EndSwitch
 
       $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
 
