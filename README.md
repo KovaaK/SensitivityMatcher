@@ -1,4 +1,4 @@
-## [ Download Latest Version.](https://github.com/KovaaK/SensitivityMatcher/releases/latest) \\
+## [ Download Latest Version.](https://github.com/KovaaK/SensitivityMatcher/releases/latest) \
 ![Screenshot 1](https://i.redd.it/zt2a1a1yzyf11.png)
 # Sensitivity Matcher
 
