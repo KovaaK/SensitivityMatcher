@@ -178,10 +178,10 @@ Func MakeGUI()
                    ClearBounds()
                    EnableMeasureHotkeys(1)
             ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
-                  _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , "Yaw: "&String(GUICtrlRead($sYaw)) , "" , -1 , 1 ) )
+                  _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , "Yaw: "&String(GUICtrlRead($sYaw))&"°" , "" , -1 , 1 ) )
                    If GUICtrlRead($sYawPresets) Then
                       If IniRead( $gYawListIni, GUICtrlRead($sYawPresets), "yaw", 0 ) == 0 Then
-                         _GUICtrlComboBox_DeleteString(     $sYawPresets , UBound(IniReadSectionNames($gYawListIni))+3 )
+                         _GUICtrlComboBox_DeleteString(     $sYawPresets , 3+UBound(IniReadSectionNames($gYawListIni)) )
                          _GUICtrlComboBox_AddString(        $sYawPresets , "/ " & GUICtrlRead($sYawPresets)            )
                          _GUICtrlComboBox_AddString(        $sYawPresets , "< Save current yaw >"                      )
                       EndIf
