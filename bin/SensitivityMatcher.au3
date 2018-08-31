@@ -190,7 +190,7 @@ Func MakeGUI()
 		      GUICtrlSetData($sYaw,1)
 		   EndIf
               Case "< Save current yaw >"
-                  _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , "Yaw="&String(GUICtrlRead($sYaw))&"°" , "" , -1 , 1 ) )
+                  _GUICtrlComboBox_SetEditText( $sYawPresets, InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1) )
                    If GUICtrlRead($sYawPresets) Then
                       If IniRead( $gYawListIni, GUICtrlRead($sYawPresets), "yaw", 0 ) == 0 Then
                          _GUICtrlComboBox_DeleteString(     $sYawPresets , 3+UBound(IniReadSectionNames($gYawListIni)) )
