@@ -9,7 +9,7 @@ _New Feature: Custom keybind and yaw .ini files_
 
 _New Feature: Physical stats calculator_
 - Enter your mouse CPI to calculate your [physical sensitivity](https://liquipedia.net/counterstrike/Mouse_settings#Sensitivity), or enter physical values to find corresponding virtual sens.
-- Circumference (physical distance of a turn, reciprocal scale of absolute sensitivity) in Inch and Centimeter Per Revolution
+- Circumference (physical length of a turn, reciprocal scale of absolute sensitivity) in Inch and Centimeter Per Revolution
 - Curvature (universal, linear scale of absolute sensitivity) in deg/mm and MOA Per Inch.
 
 ## Download
