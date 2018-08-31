@@ -9,7 +9,8 @@ _New Feature: Custom keybind and yaw .ini files_
 
 _New Feature: Physical stats calculator_
 - Enter your mouse CPI to calculate your [physical sensitivity](https://liquipedia.net/counterstrike/Mouse_settings#Sensitivity).
-- Physical circumference in cm/rev and in/rev, physical curvature in deg/mm and MPI.
+- Physical circumference in cm/rev and in/rev
+- Physical curvature in deg/mm and MPI.
 
 ## Download
 
