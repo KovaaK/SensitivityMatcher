@@ -174,7 +174,7 @@ Func MakeGUI()
             ElseIf GUICtrlRead($sYawPresets) == "Rainbow6/Reflex"      Then
                    GUICtrlSetData($sYaw, String($yawReflex))
             ElseIf GUICtrlRead($sYawPresets) == "Measure any game"     Then
-                   GUICtrlSetData($sYaw, GuiCtrlRead($sSens))
+                   GUICtrlSetData($sYaw, 1);GuiCtrlRead($sSens))
                    ClearBounds()
                    EnableMeasureHotkeys(1)
             ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
