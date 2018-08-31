@@ -13,7 +13,7 @@ _New Feature: Physical stats calculator_
 - **Circumference** (physical length of a turn, reciprocal scale of physical sensitivity) in **cm/rev** and **in/rev**.
 
 _Bug Fix: Measurement Mode autopartition now recalculates correctly when changing partition limit_ \
-_Tweak: During Measurement Mode you can select "Swap sens & yaw", making it much easier to be used with the custom yaw save feature this patch._
+_Tweak: During Measurement Mode you can select "Swap sens & yaw", so you don't need to copy&paste to save yaw._
 
 ## Download
 
