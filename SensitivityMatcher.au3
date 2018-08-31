@@ -165,7 +165,11 @@ Func MakeGUI()
          Case $sYawPresets
             $gResidual  = 0
             $gPartition = $lPartition
+	    $idMsg[0]   = GUICtrlRead($sYawPresets)
             EnableMeasureHotkeys(0)
+           _GUICtrlComboBox_DeleteString($sYawPresets,0)
+           _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0)
+	   _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])
             If     GUICtrlRead($sYawPresets) == "Custom"               Then
             ElseIf GUICtrlRead($sYawPresets) == "Quake/Source"         Then
                    GUICtrlSetData($sYaw, String($yawQuake))
@@ -173,10 +177,17 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawOverwatch))
             ElseIf GUICtrlRead($sYawPresets) == "Rainbow6/Reflex"      Then
                    GUICtrlSetData($sYaw, String($yawReflex))
-            ElseIf GUICtrlRead($sYawPresets) == "Measure any game"     Then
-                   GUICtrlSetData($sYaw, 1);GuiCtrlRead($sSens))
+            ElseIf ($idMsg[0] == "Measure any game") OR ($idMsg[0] == "< Swap yaw & sens >") Then
                    ClearBounds()
-                   EnableMeasureHotkeys(1)
+                   EnableMeasureHotkeys(1)                   
+		  _GUICtrlComboBox_DeleteString($sYawPresets,0)
+		  _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0)
+		  _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")
+		   If $idMsg[0] == "< Swap yaw & sens >" Then
+		      GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))
+		   Else
+		      GUICtrlSetData($sYaw,1)
+		   EndIf
             ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
                   _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , "Yaw="&String(GUICtrlRead($sYaw))&"°" , "" , -1 , 1 ) )
                    If GUICtrlRead($sYawPresets) Then
@@ -327,11 +338,11 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
               $idMsg[0] = -1
       EndSwitch
       If $idMsg[0] = -1 Then
-         GUICtrlSetData($sInput[0],    $gSens          )
-         GUICtrlSetData($sInput[2],    $gSens*$cpi/25.4)
-         GUICtrlSetData($sInput[3],    $gSens*$cpi*60  )
-         GUICtrlSetData($sInput[4],360/$gSens/$cpi*2.54)
-         GUICtrlSetData($sInput[5],360/$gSens/$cpi     )
+         GUICtrlSetData($sInput[0],String(    $gSens          ))
+         GUICtrlSetData($sInput[2],String(    $gSens*$cpi/25.4))
+         GUICtrlSetData($sInput[3],String(    $gSens*$cpi*60  ))
+         GUICtrlSetData($sInput[4],String(360/$gSens/$cpi*2.54))
+         GUICtrlSetData($sInput[5],String(360/$gSens/$cpi     ))
          For $i = 0 to 5 
             _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
          Next
