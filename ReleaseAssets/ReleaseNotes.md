@@ -12,6 +12,9 @@ _New Feature: Physical stats calculator_
 - **Curvature** in **MPI** and **deg/mm**. (universal, linear scale of physical sensitivity)
 - **Circumference** (physical length of a turn, reciprocal scale of physical sensitivity) in **cm/rev** and **in/rev**.
 
+_Bug Fix: Measurement Mode autopartition now recalculates correctly when changing partition limit_ \
+_Tweak: During Measurement Mode you can select "Swap sens & yaw", making it much easier to be used with the custom yaw save feature this patch._
+
 ## Download
 
 [**SensitivityMatcher_exe.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.2/SensitivityMatcher_exe.zip) \
