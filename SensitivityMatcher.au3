@@ -315,16 +315,16 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          Case $sInput[1]
               $idMsg[0] = -1
          Case $sInput[2]
-              $gSens    = _GetNumberFromString( GUICtrlRead($sInput[2]) ) / $cpi * 25.4
+              $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[2]) ) / $cpi * 25.4
               $idMsg[0] = -1
          Case $sInput[3]
-              $gSens    = _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
+              $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
               $idMsg[0] = -1
          Case $sInput[4]
-              $gSens    = 360 / _GetNumberFromString( GUICtrlRead($sInput[4]) ) / $cpi * 2.54
+              $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[4]) ) / $cpi * 2.54 * 360
               $idMsg[0] = -1
          Case $sInput[5]
-              $gSens    = 360 / _GetNumberFromString( GUICtrlRead($sInput[5]) ) / $cpi
+              $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[5]) ) / $cpi        * 360
               $idMsg[0] = -1
       EndSwitch
       If $idMsg[0] = -1 Then
