@@ -128,13 +128,13 @@ Func MakeGUI()
       $idMsg  = GUIGetMsg(1)
       Switch $idMsg[0]
          Case $GUI_EVENT_CLOSE
-	    Switch $idMsg[1]
-	       Case $idGUI
-                  Exit
-	       Case $idGUICalc
-	          GUIDelete($idGUICalc)
-                  $idGUICalc="INACTIVE"
-	    EndSwitch
+            Switch $idMsg[1]
+               Case $idGUI
+                    Exit
+               Case $idGUICalc
+                    GUIDelete($idGUICalc)
+                    $idGUICalc="INACTIVE"
+            EndSwitch
 
          Case $sSens
             $gResidual = 0
