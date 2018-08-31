@@ -170,14 +170,15 @@ Func MakeGUI()
            _GUICtrlComboBox_DeleteString($sYawPresets,0)
            _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0)
            _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])
-            If     GUICtrlRead($sYawPresets) == "Custom"               Then
-            ElseIf GUICtrlRead($sYawPresets) == "Quake/Source"         Then
+            Switch $idMsg[0]
+              Case "Custom"
+              Case "Quake/Source"
                    GUICtrlSetData($sYaw, String($yawQuake))
-            ElseIf GUICtrlRead($sYawPresets) == "Overwatch"            Then
+              Case "Overwatch"
                    GUICtrlSetData($sYaw, String($yawOverwatch))
-            ElseIf GUICtrlRead($sYawPresets) == "Rainbow6/Reflex"      Then
+              Case "Rainbow6/Reflex"
                    GUICtrlSetData($sYaw, String($yawReflex))
-            ElseIf ($idMsg[0] == "Measure any game") OR ($idMsg[0] == "< Swap yaw & sens >") Then
+              Case "Measure any game","< Swap yaw & sens >"
                    ClearBounds()
                    EnableMeasureHotkeys(1)                   
                   _GUICtrlComboBox_DeleteString($sYawPresets,0)
@@ -188,7 +189,7 @@ Func MakeGUI()
 		   Else
 		      GUICtrlSetData($sYaw,1)
 		   EndIf
-            ElseIf GUICtrlRead($sYawPresets) == "< Save current yaw >" Then
+              Case "< Save current yaw >"
                   _GUICtrlComboBox_SetEditText($sYawPresets, InputBox( "Set name", " " , "Yaw="&String(GUICtrlRead($sYaw))&"°" , "" , -1 , 1 ) )
                    If GUICtrlRead($sYawPresets) Then
                       If IniRead( $gYawListIni, GUICtrlRead($sYawPresets), "yaw", 0 ) == 0 Then
@@ -204,10 +205,9 @@ Func MakeGUI()
                           EnableMeasureHotkeys(1)
                       EndIf
                    EndIf
-            Else
+              Case Else
                    GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
-            EndIf
-
+            EndSwitch
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
