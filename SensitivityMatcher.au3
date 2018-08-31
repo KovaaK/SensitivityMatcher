@@ -307,6 +307,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $sInput[4]=GUICtrlCreateInput(360/$gSens/800*2.54,  5, 55, 80, 20)
          $sInput[5]=GUICtrlCreateInput(360/$gSens/800     , 95, 55, 80, 20)
          GUISetState(@SW_SHOW)
+         GUICtrlSetState($sInput[1],$GUI_FOCUS)
       EndIf
       Local $cpi = _GetNumberFromString( GUICtrlRead($sInput[1]) )
       Switch $idMsg[0]
