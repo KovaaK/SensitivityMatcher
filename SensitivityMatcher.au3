@@ -165,11 +165,11 @@ Func MakeGUI()
          Case $sYawPresets
             $gResidual  = 0
             $gPartition = $lPartition
-	    $idMsg[0]   = GUICtrlRead($sYawPresets)
+            $idMsg[0]   = GUICtrlRead($sYawPresets)
             EnableMeasureHotkeys(0)
            _GUICtrlComboBox_DeleteString($sYawPresets,0)
            _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0)
-	   _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])
+           _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])
             If     GUICtrlRead($sYawPresets) == "Custom"               Then
             ElseIf GUICtrlRead($sYawPresets) == "Quake/Source"         Then
                    GUICtrlSetData($sYaw, String($yawQuake))
@@ -180,9 +180,9 @@ Func MakeGUI()
             ElseIf ($idMsg[0] == "Measure any game") OR ($idMsg[0] == "< Swap yaw & sens >") Then
                    ClearBounds()
                    EnableMeasureHotkeys(1)                   
-		  _GUICtrlComboBox_DeleteString($sYawPresets,0)
-		  _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0)
-		  _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")
+                  _GUICtrlComboBox_DeleteString($sYawPresets,0)
+                  _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0)
+                  _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")
 		   If $idMsg[0] == "< Swap yaw & sens >" Then
 		      GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))
 		   Else
@@ -296,9 +296,9 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-	 If GUICtrlRead(     $sYawPresets   ) == "Measure any game" Then
+         If GUICtrlRead(     $sYawPresets   ) == "Measure any game" Then
             UpdatePartition( $lPartition    )
-	 EndIf
+         EndIf
       EndIf
       HandyCalculator($idGUICalc,$lCalculator,$idMsg)
    WEnd
