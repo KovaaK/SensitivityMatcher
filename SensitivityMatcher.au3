@@ -113,7 +113,7 @@ Func MakeGUI()
 
 
 
-   Local $idMsg, $lBoundedError, $lCalculator[6]
+   Local $idMsg, $lCalculator[6]
    Local $idGUICalc      = "INACTIVE"
    Local $lPartition     = $gPartition
    Local $lastgSens      = $gSens
@@ -140,7 +140,7 @@ Func MakeGUI()
             $gResidual = 0
             $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
             $lastgSens = $gSens
-            $idMsg[0]  = "INCR_CHANGE"
+            $idMsg[0]  = -1
             GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
@@ -208,7 +208,10 @@ Func MakeGUI()
             $gResidual  = 0
             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
             $lPartition = $gPartition
-
+            If GUICtrlRead($sYawPresets) == "Measure any game" Then
+               UpdatePartition($lPartition)
+            EndIf
+	 
          Case $sTickRate
             $gResidual  = 0
             $gDelay     = Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
@@ -277,21 +280,16 @@ Func MakeGUI()
       Else
          $gResidual = 0
          $lastgSens = $gSens
-         $idMsg[0]  = "INCR_CHANGE"
+         $idMsg[0]  = -1
          GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
         _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
          GUICtrlSetData(     $sIncr  , String(     $gSens ) )
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-         $lBoundedError = 1
-         If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
-            $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
-         EndIf
-            $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
-         If $gPartition > $lPartition Then
-            $gPartition = $lPartition
-         EndIf
+	 If GUICtrlRead(     $sYawPresets   ) == "Measure any game" Then
+            UpdatePartition( $lPartition    )
+	 EndIf
       EndIf
       HandyCalculator($idGUICalc,$lCalculator,$idMsg)
    WEnd
@@ -312,20 +310,33 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $sInput[5]=GUICtrlCreateInput(360/$gSens/800     , 95, 55, 80, 20)
          GUISetState(@SW_SHOW)
       EndIf
+      Local $cpi = _GetNumberFromString( GUICtrlRead($sInput[1]) )
       Switch $idMsg[0]
-         Case "INCR_CHANGE"
-              ; change inr
          Case $sInput[1]
-              ; change cpi
+              $idMsg[0] = -1
          Case $sInput[2]
-              ; change deg/mm
+              $gSens    = _GetNumberFromString( GUICtrlRead($sInput[2]) ) / $cpi * 25.4
+              $idMsg[0] = -1
          Case $sInput[3]
-              ; change mpi 
+              $gSens    = _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
+              $idMsg[0] = -1
          Case $sInput[4]
-              ; change cm/rev
+              $gSens    = 360 / _GetNumberFromString( GUICtrlRead($sInput[4]) ) / $cpi * 2.54
+              $idMsg[0] = -1
          Case $sInput[5]
-              ; change in/rev
+              $gSens    = 360 / _GetNumberFromString( GUICtrlRead($sInput[5]) ) / $cpi
+              $idMsg[0] = -1
       EndSwitch
+      If $idMsg[0] = -1 Then
+         GUICtrlSetData($sInput[0],    $gSens          )
+         GUICtrlSetData($sInput[2],    $gSens*$cpi/25.4)
+         GUICtrlSetData($sInput[3],    $gSens*$cpi*60  )
+         GUICtrlSetData($sInput[4],360/$gSens/$cpi*2.54)
+         GUICtrlSetData($sInput[5],360/$gSens/$cpi     )
+         For $i = 0 to 5 
+            _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
+         Next
+      EndIf
       Return $idGUICalc
    EndIf
 EndFunc
@@ -434,6 +445,17 @@ Func NormalizedPartition($turntime)
           $slice = $total
        EndIf
    Return $slice
+EndFunc
+
+Func UpdatePartition($lPartition)
+    Local $lBoundedError = 1
+    If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
+       $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
+    EndIf
+       $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
+    If $gPartition > $lPartition Then
+       $gPartition = $lPartition
+    EndIf
 EndFunc
 
 Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
