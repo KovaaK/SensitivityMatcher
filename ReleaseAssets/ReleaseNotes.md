@@ -17,7 +17,7 @@ _Tweak: During Measurement Mode you can select "Swap sens & yaw" from dropdown s
 
 ## Download
 
-[**SensitivityMatcher_exe.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.2/SensitivityMatcher_exe.zip) \
-[**SensitivityMatcher_a3x.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.2/SensitivityMatcher_a3x.zip) (Use this instead if .exe is triggering false positives)
+[**SensitivityMatcher_exe.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.3/SensitivityMatcher_exe.zip) \
+[**SensitivityMatcher_a3x.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.3/SensitivityMatcher_a3x.zip) (Use this instead if .exe is triggering false positives)
 
 [_Go to newest release_](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
