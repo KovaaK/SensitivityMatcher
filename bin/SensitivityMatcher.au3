@@ -111,7 +111,7 @@ Func MakeGUI()
 
 
 
-   Local $idMsg, $lCalculator[6]
+   Local $idMsg, $lCalculator[7]
    Local $idGUICalc      = "INACTIVE"
    Local $lPartition     = $gPartition
    Local $lastgSens      = $gSens
@@ -309,7 +309,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
       ; do nothing
    Else
       If $idGUICalc == "INITIALIZE" Then
-         $idGUICalc=GUICreate(     "Physical Sensitivity" ,200,200)
+         $idGUICalc=GUICreate(     "Physical Sensitivity" ,200,220)
          $sInput[0]=GUICtrlCreateInput($gSens             , 85,  6, 80, 20)
                     GUICtrlSendMsg(    $sInput[0], $EM_SETREADONLY,  1,  0)
          $sInput[1]=GUICtrlCreateInput(800                , 85, 30, 80, 20)
@@ -317,6 +317,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $sInput[3]=GUICtrlCreateInput(800*$gSens*60      ,105, 85, 75, 20)
          $sInput[4]=GUICtrlCreateInput(360/$gSens/800*2.54, 20,150, 75, 20)
          $sInput[5]=GUICtrlCreateInput(360/$gSens/800     ,105,150, 75, 20)
+	 $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,190,130)
          GUICtrlCreateLabel("Virtual Scale:",10,9,75,15,$SS_RIGHT)
          GUICtrlCreateLabel("Physical Scale:",10,33,75,15,$SS_RIGHT)
          GUICtrlCreateLabel("deg",170,9,35,15,$SS_LEFT)
@@ -351,9 +352,14 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          GUICtrlSetState($sInput[1],$GUI_FOCUS)
       EndIf
       Local $cpi = _GetNumberFromString( GUICtrlRead($sInput[1]) )
+      Local $lock=  GUICtrlRead($sInput[6])
       Switch $idMsg[0]
          Case $sInput[1]
+           If $lock == $GUI_UNCHECKED Then
               $idMsg[0] = -1
+           Else
+              $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
+           EndIf
          Case $sInput[2]
               $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[2]) ) / $cpi * 25.4
               $idMsg[0] = -1
@@ -366,13 +372,26 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          Case $sInput[5]
               $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[5]) ) / $cpi        * 360
               $idMsg[0] = -1
+	 Case $sInput[6]
+	      If $lock == $GUI_CHECKED Then
+	         Local $readonly = 1
+              Else
+	         Local $readonly = 0
+              EndIf
+              For $i = 2 to 5
+                  GUICtrlSendMsg($sInput[$i],$EM_SETREADONLY,$readonly,0)
+              Next
       EndSwitch
-      If $idMsg[0] = -1 Then
+      If $idMsg[0] == -1 Then
          GUICtrlSetData($sInput[0],String(    $gSens          ))
-         GUICtrlSetData($sInput[2],String(    $gSens*$cpi/25.4))
-         GUICtrlSetData($sInput[3],String(    $gSens*$cpi*60  ))
-         GUICtrlSetData($sInput[4],String(360/$gSens/$cpi*2.54))
-         GUICtrlSetData($sInput[5],String(360/$gSens/$cpi     ))
+         If $lock == $GUI_CHECKED Then
+            GUICtrlSetData($sInput[1],String(_GetNumberFromString(GUICtrlRead($sInput[3]))/$gSens/60))
+         Else
+            GUICtrlSetData($sInput[2],String(    $gSens*$cpi/25.4))
+            GUICtrlSetData($sInput[3],String(    $gSens*$cpi*60  ))
+            GUICtrlSetData($sInput[4],String(360/$gSens/$cpi*2.54))
+            GUICtrlSetData($sInput[5],String(360/$gSens/$cpi     ))
+         EndIf
          For $i = 0 to 5 
             _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
          Next
