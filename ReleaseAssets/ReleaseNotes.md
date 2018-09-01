@@ -1,6 +1,6 @@
 ## Release Notes
 
-[version 1.2] 
+[version 1.3] 
 
 _New Feature: Custom keybind and yaw .ini files_
 - Loads custom yaw list and keybinds from respective .ini files placed in directory of executable.
