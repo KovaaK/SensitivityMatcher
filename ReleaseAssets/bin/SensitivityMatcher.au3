@@ -318,12 +318,12 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $sInput[3]=GUICtrlCreateInput(800*$gSens*60      ,105, 85, 75, 20)
          $sInput[4]=GUICtrlCreateInput(360/$gSens/800*2.54, 20,150, 75, 20)
          $sInput[5]=GUICtrlCreateInput(360/$gSens/800     ,105,150, 75, 20)
-	 $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,190,130)
+         $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,190,130)
          GUICtrlCreateLabel("Virtual factor:",10,9,75,15,$SS_RIGHT)
          GUICtrlCreateLabel("Physical factor:",10,33,75,15,$SS_RIGHT)
          GUICtrlCreateLabel("deg",170,9,35,15,$SS_LEFT)
          GUICtrlCreateLabel("CPI",170,33,35,15,$SS_LEFT)
-	 GUICtrlCreateGraphic(10,55,180,2,$SS_SUNKEN)
+         GUICtrlCreateGraphic(10,55,180,2,$SS_SUNKEN)
          GUICtrlCreateLabel("Curvature",10,65,180,15,$SS_CENTER)
          GUICtrlCreateLabel("deg/mm",20,105,75,15,$SS_CENTER)
          GUICtrlCreateLabel("MPI",105,105,75,15,$SS_CENTER)
@@ -373,7 +373,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          Case $sInput[5]
               $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[5]) ) / $cpi        * 360
               $idMsg[0] = -1
-	 Case $sInput[6]
+         Case $sInput[6]
 	      If $lock == $GUI_CHECKED Then
 	         Local $readonly = 1
               Else
