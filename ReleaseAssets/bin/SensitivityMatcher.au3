@@ -232,6 +232,8 @@ Func MakeGUI()
          Case $idCalc
             If $idGUICalc == "INACTIVE" Then
                $idGUICalc = HandyCalculator("INITIALIZE",$lCalculator,$idMsg)
+	    Else
+	       GUISetState(@SW_RESTORE,$idGUICalc)
             EndIf
 
          Case $idHelp
