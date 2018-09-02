@@ -342,7 +342,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          Local $hMPI    = GUICtrlGetHandle($sInput[3])
                          _GUIToolTip_AddTool($hToolTip, 0, "Minute (of arc) Per Inch = (incre*CPI)*60", $hMPI)
          Local $hCcm    = GUICtrlGetHandle($sInput[4])
-                         _GUIToolTip_AddTool($hToolTip, 0, "Centimeter Per Revolution = 2.54*rev/(incre*CPI)", $hCcm)
+                         _GUIToolTip_AddTool($hToolTip, 0, "Centimeter Per Revolution = rev/(incre*CPI)*2.54", $hCcm)
          Local $hCin    = GUICtrlGetHandle($sInput[5])
                          _GUIToolTip_AddTool($hToolTip, 0, "Inch Per Revolution = rev/(incre*CPI)", $hCin)
          For $i = 0 to 5 
