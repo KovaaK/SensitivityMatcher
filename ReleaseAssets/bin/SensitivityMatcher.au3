@@ -309,7 +309,8 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
       ; do nothing
    Else
       If $idGUICalc == "INITIALIZE" Then
-         $idGUICalc=GUICreate(     "Physical Sensitivity" ,200,220)
+         Local $pos=WinGetPos("Sensitivity Matcher")
+         $idGUICalc=GUICreate(     "Physical Sensitivity" ,200,220,$pos[0]+$pos[2],$pos[1])
          $sInput[0]=GUICtrlCreateInput($gSens             , 85,  6, 80, 20)
                     GUICtrlSendMsg(    $sInput[0], $EM_SETREADONLY,  1,  0)
          $sInput[1]=GUICtrlCreateInput(800                , 85, 30, 80, 20)
