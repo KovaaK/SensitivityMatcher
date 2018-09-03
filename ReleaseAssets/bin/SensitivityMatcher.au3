@@ -119,12 +119,12 @@ Func MakeGUI()
 
 
 
-   Local $lCalculator[7]
-   Local $idMsg[2]       = [$sYaw,$idGUI]
-   Local $idGUICalc      = "INACTIVE"
-   Local $lPartition     = $gPartition
-   Local $lastgSens      = $gSens
-   Local $lastYawPresets = GUICtrlRead($sYawPresets)
+   Local $lCalculator[7] ; Handle of physical stats, accessed by reference through HandyCalculator()
+   Local $idMsg[2]       = [$sYaw,$idGUI] ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
+   Local $idGUICalc      = "INACTIVE" ; Handle of the stats calculator. When the calculator is not open, manually set to "INACTIVE" so it won't execute anything
+   Local $lPartition     = $gPartition ; Local copy of user-entered partition value, for when it's modified dynamically while measuring other games
+   Local $lastgSens      = $gSens ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
+   Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
 
    GUISetState(@SW_SHOW)
    While 1                                  ; Loop until the user exits.
