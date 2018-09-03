@@ -272,6 +272,8 @@ Func MakeGUI()
                                  & "------------------------------------------------------------" & @crlf _
                                  & "Additional Info:"                                             & @crlf _
                                  & "------------------------------------------------------------" & @crlf _
+                                 & "Key bindings can be changed in UserSettings.ini "             & @crlf _
+                                                                                                  & @crlf _
                                  & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
                                  & "Estimated Completion Time for " & $gCycle                             _
                                  & " cycles: " & $time & " sec"                                   & @crlf _
