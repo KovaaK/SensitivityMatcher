@@ -191,22 +191,22 @@ Func MakeGUI()
 		   EndIf
               Case "< Save current yaw >"
                   _GUICtrlComboBox_SetEditText( $sYawPresets, InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1) )
-                   If GUICtrlRead($sYawPresets) Then
-                      If IniRead( $gYawListIni, GUICtrlRead($sYawPresets), "yaw", 0 ) == 0 Then
-                         _GUICtrlComboBox_DeleteString(     $sYawPresets , 3+UBound(IniReadSectionNames($gYawListIni)) )
-                         _GUICtrlComboBox_AddString(        $sYawPresets , "/ " & GUICtrlRead($sYawPresets)            )
-                         _GUICtrlComboBox_AddString(        $sYawPresets , "< Save current yaw >"                      )
-                      EndIf
-                         IniWrite($gYawListIni, GUICtrlRead($sYawPresets), "yaw", GUICtrlRead($sYaw) )
-                         _GUICtrlComboBox_SelectString(     $sYawPresets , "/ " & GUICtrlRead($sYawPresets)            )
+                   If  GUICtrlRead($sYawPresets) Then
+                       IniWrite($gYawListIni, GUICtrlRead($sYawPresets), "yaw", GUICtrlRead($sYaw) )
+ 		       $lastYawPresets= GUICtrlRead($sYawPresets)
+                      _GUICtrlComboBox_ResetContent($sYawPresets)
+                       GUICtrlSetData(              $sYawPresets, _
+		       "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _
+                                        LoadYawList($gYawListIni)& "< Save current yaw >|")
+                      _GUICtrlComboBox_SelectString($sYawPresets ,"/ "&$lastYawPresets)
                    Else
-                         _GUICtrlComboBox_SetEditText(      $sYawPresets , $lastYawPresets                             )
-                      If $lastYawPresets == "Measure any game" Then
-                          EnableMeasureHotkeys(1)
-                      EndIf
+                      _GUICtrlComboBox_SetEditText( $sYawPresets ,     $lastYawPresets)
+                       If  $lastYawPresets == "Measure any game" Then
+                           EnableMeasureHotkeys(1)
+                       EndIf
                    EndIf
               Case Else
-                   GUICtrlSetData( $sYaw, String( IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw)) ) )
+                 GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
             EndSwitch
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
