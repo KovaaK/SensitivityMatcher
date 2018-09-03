@@ -196,7 +196,7 @@ Func MakeGUI()
                   _GUICtrlComboBox_SetEditText( $sYawPresets, InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1) )
                    If  GUICtrlRead($sYawPresets) Then
                        IniWrite($gYawListIni, GUICtrlRead($sYawPresets), "yaw", GUICtrlRead($sYaw) )
- 		       $lastYawPresets= GUICtrlRead($sYawPresets)
+                      $lastYawPresets = GUICtrlRead($sYawPresets)
                       _GUICtrlComboBox_ResetContent($sYawPresets)
                        GUICtrlSetData(              $sYawPresets, _
 		       "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _
