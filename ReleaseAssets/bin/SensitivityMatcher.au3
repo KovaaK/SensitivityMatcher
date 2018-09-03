@@ -13,8 +13,7 @@ Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = 0.018/$gPi
 Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
-Global Const $gKeybindIni = "CustomKeybind.ini"
-Global Const $gStartupIni = "StartupValues.Ini"
+Global Const $gSettingIni = "Settings.Ini"
 
 Global $gValid     =  1
 Global $gMode      = -1
@@ -31,9 +30,9 @@ If _Singleton("Sensitivity Matcher", 1) == 0 Then
 EndIf
 
 Opt("GUICloseOnESC" , 0)
-HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnOnce", "!{[}") , "SingleCycle")
-HotKeySet( IniRead($gKeybindIni, "Hotkeys", "TurnALot", "!{]}") , "AutoCycle"  )
-HotKeySet( IniRead($gKeybindIni, "Hotkeys", "StopTurn", "!{\}") , "Halt"       )
+HotKeySet( IniRead($gSettingIni, "Hotkeys", "TurnOnce", "!{[}") , "SingleCycle")
+HotKeySet( IniRead($gSettingIni, "Hotkeys", "TurnALot", "!{]}") , "AutoCycle"  )
+HotKeySet( IniRead($gSettingIni, "Hotkeys", "StopTurn", "!{\}") , "Halt"       )
 MakeGUI()
 
 
@@ -66,11 +65,11 @@ Func MakeGUI()
                                                            "Rainbow6/Reflex|" & _
                                                    LoadYawList($gYawListIni)  & _
                                                       "< Save current yaw >|"   _
-                                                           , IniRead($gStartupIni,"Default","game","Quake/Source"))
+                                                           , IniRead($gSettingIni,"Default","game","Quake/Source"))
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
-   GUICtrlSetData($sSens     ,IniRead($gStartupIni,"Default","sens","1"))
+   GUICtrlSetData($sSens     ,IniRead($gSettingIni,"Default","sens","1"))
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
-   GUICtrlSetData($sYaw      ,IniRead($gStartupIni,"Default","yaw" ,"0.022"))
+   GUICtrlSetData($sYaw      ,IniRead($gSettingIni,"Default","yaw" ,"0.022"))
    Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)
    GUICtrlSetData($sIncr     ,    _GetNumberFromString(GUICtrlRead($sSens))*_GetNumberFromstring(GUICtrlread($sYaw)))
                         GUICtrlSendMsg(     $sIncr  , $EM_SETREADONLY,   1,  0)
@@ -79,11 +78,11 @@ Func MakeGUI()
                        _GUICtrlEdit_SetSel( $sCounts  , 0, 0 )
                         GUICtrlSendMsg(     $sCounts, $EM_SETREADONLY,   1,  0)
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
-   GUICtrlSetdata($sPartition,IniRead($gStartupIni,"Default","part","959"))
+   GUICtrlSetdata($sPartition,IniRead($gSettingIni,"Default","part","959"))
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
-   GUICtrlSetdata($sTickRate ,IniRead($gStartupIni,"Default","freq","60"))
+   GUICtrlSetdata($sTickRate ,IniRead($gSettingIni,"Default","freq","60"))
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
-   GUICtrlSetdata($sCycle    ,IniRead($gStartupIni,"Default","cycl","20"))
+   GUICtrlSetdata($sCycle    ,IniRead($gSettingIni,"Default","cycl","20"))
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
    Local $idCalc      = GUICtrlCreateButton("Physical Stats..."    , 195, 205,  95, 25)
 
@@ -323,7 +322,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $idGUICalc=GUICreate(     "Physical Sensitivity" ,200,220,$pos[0]+$pos[2],$pos[1])
          $sInput[0]=GUICtrlCreateInput($gSens             , 85,  6, 80, 20)
                     GUICtrlSendMsg(    $sInput[0], $EM_SETREADONLY,  1,  0)
-         $sInput[1]=GUICtrlCreateInput(                 IniRead($gStartupIni,"Default","cpi",800)   , 85, 30, 80, 20)
+         $sInput[1]=GUICtrlCreateInput(                 IniRead($gSettingIni,"Default","cpi",800)   , 85, 30, 80, 20)
          $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20, 85, 75, 20)
          $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105, 85, 75, 20)
          $sInput[4]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens*2.54, 20,150, 75, 20)
@@ -543,13 +542,13 @@ EndFunc
 
 Func EnableMeasureHotkeys($bind)
     If $bind Then
-       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}"), "DecreasePolygon")
-       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}"), "IncreasePolygon")
-       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
+       HotKeySet( IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}"), "DecreasePolygon")
+       HotKeySet( IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}"), "IncreasePolygon")
+       HotKeySet( IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
     Else
-       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "LessTurn", "!{-}") )
-       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "MoreTurn", "!{=}") )
-       HotKeySet( IniRead($gKeybindIni, "Hotkeys", "ClearMem", "!{0}") )
+       HotKeySet( IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}") )
+       HotKeySet( IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}") )
+       HotKeySet( IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}") )
     EndIf
 EndFunc
 
