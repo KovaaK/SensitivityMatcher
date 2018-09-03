@@ -15,14 +15,15 @@ Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gSettingIni = "UserSettings.Ini"
 
-Global $gValid     =  1
-Global $gMode      = -1
+Global $gValid     =  1 ; Keeps track of whether all user inputs are valid numbers or not
+Global $gMode      = -1 ; Three states of $gMode: -1, 0, 1. A 0 means in-progress and exits the command without doing anything.
+						; -1 means manual override and is checked for before performing every operation, 1 means all is good to go.
 Global $gSens      =  1.0
 Global $gPartition =  127
 Global $gDelay     =  10
 Global $gCycle     =  20
-Global $gResidual  =  0.0
-Global $gBounds[2] = [0,0]
+Global $gResidual  =  0.0 ; Between-run leftovers of turning
+Global $gBounds[2] = [0,0] ; Keeps track of the range of possible yaw while measuring/testing a game.
 
 If _Singleton("Sensitivity Matcher", 1) == 0 Then
     MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
