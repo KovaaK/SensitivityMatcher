@@ -13,7 +13,7 @@ Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = 0.018/$gPi
 Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
-Global Const $gSettingIni = "Settings.Ini"
+Global Const $gSettingIni = "settings.Ini"
 
 Global $gValid     =  1
 Global $gMode      = -1
