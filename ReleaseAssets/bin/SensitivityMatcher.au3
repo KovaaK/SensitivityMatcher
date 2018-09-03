@@ -65,7 +65,7 @@ Func MakeGUI()
                                                            "Rainbow6/Reflex|" & _
                                                    LoadYawList($gYawListIni)  & _
                                                       "< Save current yaw >|"   _
-                                                           , IniRead($gSettingIni,"Default","game","Quake/Source"))
+                                                           ,  "Quake/Source"  )
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
    GUICtrlSetData($sSens     ,IniRead($gSettingIni,"Default","sens","1"))
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
@@ -118,7 +118,8 @@ Func MakeGUI()
 
 
 
-   Local $idMsg, $lCalculator[7]
+   Local $lCalculator[7]
+   Local $idMsg[2]       = [$sYaw,$idGUI]
    Local $idGUICalc      = "INACTIVE"
    Local $lPartition     = $gPartition
    Local $lastgSens      = $gSens
@@ -126,11 +127,6 @@ Func MakeGUI()
 
    GUISetState(@SW_SHOW)
    While 1                                  ; Loop until the user exits.
-      If $gMode == -1 Then
-         $gMode = 1
-      EndIf
-      $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-      $idMsg  = GUIGetMsg(1)
       Switch $idMsg[0]
          Case $GUI_EVENT_CLOSE
             Switch $idMsg[1]
@@ -310,6 +306,11 @@ Func MakeGUI()
          EndIf
       EndIf
       HandyCalculator($idGUICalc,$lCalculator,$idMsg)
+      If $gMode == -1 Then
+         $gMode = 1
+      EndIf
+      $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
+      $idMsg  = GUIGetMsg(1)
    WEnd
 EndFunc
 
