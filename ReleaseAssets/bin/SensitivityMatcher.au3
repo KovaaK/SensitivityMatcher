@@ -14,6 +14,7 @@ Global Const $yawReflex         = 0.018/$gPi
 Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gKeybindIni = "CustomKeybind.ini"
+Global Const $gStartupIni = "StartupValues.Ini"
 
 Global $gValid     =  1
 Global $gMode      = -1
@@ -65,17 +66,24 @@ Func MakeGUI()
                                                            "Rainbow6/Reflex|" & _
                                                    LoadYawList($gYawListIni)  & _
                                                       "< Save current yaw >|"   _
-                                                           ,  "Quake/Source"  )
+                                                           , IniRead($gStartupIni,"Default","game","Quake/Source"))
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
+   GUICtrlSetData($sSens     ,IniRead($gStartupIni,"Default","sens","1"))
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
-   Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)  ; hardcoded to initialize to product of above two
+   GUICtrlSetData($sYaw      ,IniRead($gStartupIni,"Default","yaw" ,"0.022"))
+   Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)
+   GUICtrlSetData($sIncr     ,    _GetNumberFromString(GUICtrlRead($sSens))*_GetNumberFromstring(GUICtrlread($sYaw)))
                         GUICtrlSendMsg(     $sIncr  , $EM_SETREADONLY,   1,  0)
-   Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)  ; once again, hardcoding initialization
+   Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)
+   GUICtrlSetData($sCounts   ,360/_GetNumberFromString(GUICtrlRead($sSens))/_GetNumberFromstring(GUICtrlread($sYaw)))
+                       _GUICtrlEdit_SetSel( $sCounts  , 0, 0 )
                         GUICtrlSendMsg(     $sCounts, $EM_SETREADONLY,   1,  0)
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
+   GUICtrlSetdata($sPartition,IniRead($gStartupIni,"Default","part","959"))
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
+   GUICtrlSetdata($sTickRate ,IniRead($gStartupIni,"Default","freq","60"))
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
-
+   GUICtrlSetdata($sCycle    ,IniRead($gStartupIni,"Default","cycl","20"))
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
    Local $idCalc      = GUICtrlCreateButton("Physical Stats..."    , 195, 205,  95, 25)
 
@@ -315,11 +323,11 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $idGUICalc=GUICreate(     "Physical Sensitivity" ,200,220,$pos[0]+$pos[2],$pos[1])
          $sInput[0]=GUICtrlCreateInput($gSens             , 85,  6, 80, 20)
                     GUICtrlSendMsg(    $sInput[0], $EM_SETREADONLY,  1,  0)
-         $sInput[1]=GUICtrlCreateInput(800                , 85, 30, 80, 20)
-         $sInput[2]=GUICtrlCreateInput(800*$gSens/25.4    , 20, 85, 75, 20)
-         $sInput[3]=GUICtrlCreateInput(800*$gSens*60      ,105, 85, 75, 20)
-         $sInput[4]=GUICtrlCreateInput(360/$gSens/800*2.54, 20,150, 75, 20)
-         $sInput[5]=GUICtrlCreateInput(360/$gSens/800     ,105,150, 75, 20)
+         $sInput[1]=GUICtrlCreateInput(                 IniRead($gStartupIni,"Default","cpi",800)   , 85, 30, 80, 20)
+         $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20, 85, 75, 20)
+         $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105, 85, 75, 20)
+         $sInput[4]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens*2.54, 20,150, 75, 20)
+         $sInput[5]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens     ,105,150, 75, 20)
          $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,190,130)
          GUICtrlCreateLabel("Virtual factor:",10,9,75,15,$SS_RIGHT)
          GUICtrlCreateLabel("Physical factor:",10,33,75,15,$SS_RIGHT)
