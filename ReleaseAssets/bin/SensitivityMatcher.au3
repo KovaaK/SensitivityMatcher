@@ -119,13 +119,15 @@ Func MakeGUI()
 
 
 
-   Local $lCalculator[7] ; Handle of physical stats, accessed by reference through HandyCalculator()
    Local $idMsg[2]       = [$sYaw,$idGUI] ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
    Local $idGUICalc      = "INACTIVE" ; Handle of the stats calculator. When the calculator is not open, manually set to "INACTIVE" so it won't execute anything
    Local $lPartition     = $gPartition ; Local copy of user-entered partition value, for when it's modified dynamically while measuring other games
    Local $lastgSens      = $gSens ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-
+   Local $lMeasureBinds[3], $lCalculator[7] ; Handle of physical stats, accessed by reference through HandyCalculator()
+   
+   EnableMeasureHotkeys(1,$lMeasureBinds)
+   EnableMeasureHotkeys(0,$lMeasureBinds)
    GUISetState(@SW_SHOW)
    While 1                                  ; Loop until the user exits.
       Switch $idMsg[0]
@@ -170,7 +172,7 @@ Func MakeGUI()
             $gResidual  = 0
             $gPartition = $lPartition
             $idMsg[0]   = GUICtrlRead($sYawPresets)
-            EnableMeasureHotkeys(0)
+            EnableMeasureHotkeys(0,$lMeasureBinds)
            _GUICtrlComboBox_DeleteString($sYawPresets,0)
            _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0)
            _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])
@@ -184,7 +186,7 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawReflex))
               Case "Measure any game","< Swap yaw & sens >"
                    ClearBounds()
-                   EnableMeasureHotkeys(1)                   
+                   EnableMeasureHotkeys(1,$lMeasureBinds)                   
                   _GUICtrlComboBox_DeleteString($sYawPresets,0)
                   _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0)
                   _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")
@@ -206,7 +208,7 @@ Func MakeGUI()
                    Else
                       _GUICtrlComboBox_SetEditText( $sYawPresets ,     $lastYawPresets)
                        If  $lastYawPresets == "Measure any game" Then
-                           EnableMeasureHotkeys(1)
+                           EnableMeasureHotkeys(1,$lMeasureBinds)
                        EndIf
                    EndIf
               Case Else
@@ -544,15 +546,18 @@ Func LoadYawList($sFilePath)
    Return $sYawList
 EndFunc
 
-Func EnableMeasureHotkeys($bind)
-    If $bind Then
-       HotKeySet( IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}"), "DecreasePolygon")
-       HotKeySet( IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}"), "IncreasePolygon")
-       HotKeySet( IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}"), "ClearBounds"    )
+Func EnableMeasureHotkeys( $enable, ByRef $binds)
+    If $enable Then
+       $binds[0] = IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}")
+       $binds[1] = IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}")
+       $binds[2] = IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}")
+       HotKeySet( $binds[0] , "DecreasePolygon" )
+       HotKeySet( $binds[1] , "IncreasePolygon" )
+       HotKeySet( $binds[2] , "ClearBounds"     )
     Else
-       HotKeySet( IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}") )
-       HotKeySet( IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}") )
-       HotKeySet( IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}") )
+       HotKeySet( $binds[0] )
+       HotKeySet( $binds[1] )
+       HotKeySet( $binds[2] )
     EndIf
 EndFunc
 
