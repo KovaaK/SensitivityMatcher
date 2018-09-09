@@ -15,15 +15,14 @@ Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gSettingIni = "UserSettings.Ini"
 
-Global $gValid     =  1 ; Keeps track of whether all user inputs are valid numbers or not
-Global $gMode      = -1 ; Three states of $gMode: -1, 0, 1. A 0 means in-progress and exits the command without doing anything.
-						; -1 means manual override and is checked for before performing every operation, 1 means all is good to go.
+Global $gValid     =  1    ; Keeps track of whether all user inputs are valid numbers or not
+Global $gMode      = -1    ; Three states of $gMode: -1, 0, and 1, for halt override, in-progress, and ready.
 Global $gSens      =  1.0
 Global $gPartition =  127
 Global $gDelay     =  10
 Global $gCycle     =  20
-Global $gResidual  =  0.0 ; Between-run leftovers of turning
-Global $gBounds[2] = [0,0] ; Keeps track of the range of possible yaw while measuring/testing a game.
+Global $gResidual  =  0.0  ; Residual accumulator
+Global $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
 If _Singleton("Sensitivity Matcher", 1) == 0 Then
     MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
@@ -119,17 +118,17 @@ Func MakeGUI()
 
 
 
-   Local $idMsg[2]       = [$sYaw,$idGUI] ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
-   Local $idGUICalc      = "INACTIVE" ; Handle of the stats calculator. When the calculator is not open, manually set to "INACTIVE" so it won't execute anything
-   Local $lPartition     = $gPartition ; Local copy of user-entered partition value, for when it's modified dynamically while measuring other games
-   Local $lastgSens      = $gSens ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
+   Local $idMsg[2]       = [$sYaw,$idGUI]            ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
+   Local $idGUICalc      = "INACTIVE"                ; Handle of the stats calculator. When the calculator is not open, manually set to "INACTIVE" so it won't execute anything
+   Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, for when it's modified dynamically while measuring other games
+   Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-   Local $lMeasureBinds[3], $lCalculator[7] ; Handle of physical stats, accessed by reference through HandyCalculator()
+   Local $lMeasureBinds[3], $lCalculator[7]          ; Handle of physical stats, accessed by reference through HandyCalculator()
    
    EnableMeasureHotkeys(1,$lMeasureBinds)
    EnableMeasureHotkeys(0,$lMeasureBinds)
    GUISetState(@SW_SHOW)
-   While 1                                  ; Loop until the user exits.
+   While 1
       Switch $idMsg[0]
          Case $GUI_EVENT_CLOSE
             Switch $idMsg[1]
@@ -325,9 +324,9 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
    Else
       If $idGUICalc == "INITIALIZE" Then
          Local $pos=WinGetPos("Sensitivity Matcher")
-         $idGUICalc=GUICreate(     "Physical Sensitivity" ,200,220,$pos[0]+$pos[2],$pos[1])
-         $sInput[0]=GUICtrlCreateInput($gSens             , 85,  6, 80, 20)
-                    GUICtrlSendMsg(    $sInput[0], $EM_SETREADONLY,  1,  0)
+         $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[0]+$pos[2],$pos[1])
+         $sInput[0]=GUICtrlCreateInput(                                                  $gSens     , 85,  6, 80, 20)
+                    GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
          $sInput[1]=GUICtrlCreateInput(                 IniRead($gSettingIni,"Default","cpi",800)   , 85, 30, 80, 20)
          $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20, 85, 75, 20)
          $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105, 85, 75, 20)
