@@ -64,7 +64,6 @@ Func MakeGUI()
    Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)
                         GUICtrlSendMsg(     $sIncr  , $EM_SETREADONLY,   1,  0)
    Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)
-                       _GUICtrlEdit_SetSel( $sCounts  , 0, 0 )
                         GUICtrlSendMsg(     $sCounts, $EM_SETREADONLY,   1,  0)
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
@@ -101,6 +100,7 @@ Func MakeGUI()
    GUICtrlSetData($sSens      , IniRead($gSettingIni,"Default","sens","1"    ))
    GUICtrlSetData($sIncr      ,     _GetNumberFromString(GUICtrlRead($sSens))*_GetNumberFromstring(GUICtrlread($sYaw)))
    GUICtrlSetData($sCounts    , 360/_GetNumberFromString(GUICtrlRead($sSens))/_GetNumberFromstring(GUICtrlread($sYaw)))
+  _GUICtrlEdit_SetSel($sCounts,0,0)
    GUICtrlSetData($sYawPresets, "Measure any game|" & _
                                     "Quake/Source|" & _
                                        "Overwatch|" & _
