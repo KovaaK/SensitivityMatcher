@@ -59,40 +59,24 @@ Func MakeGUI()
 
 
    Local $sYawPresets = GUICtrlCreateCombo( ""             , 100,   5, 110, 20)
-                        GUICtrlSetData(     $sYawPresets, "Measure any game|" & _
-                                                              "Quake/Source|" & _
-                                                                 "Overwatch|" & _
-                                                           "Rainbow6/Reflex|" & _
-                                                   LoadYawList($gYawListIni)  & _
-                                                      "< Save current yaw >|"   _
-                                                           ,  "Quake/Source"  )
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
-   GUICtrlSetData($sSens     ,IniRead($gSettingIni,"Default","sens","1"))
    Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
-   GUICtrlSetData($sYaw      ,IniRead($gSettingIni,"Default","yaw" ,"0.022"))
    Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)
-   GUICtrlSetData($sIncr     ,    _GetNumberFromString(GUICtrlRead($sSens))*_GetNumberFromstring(GUICtrlread($sYaw)))
                         GUICtrlSendMsg(     $sIncr  , $EM_SETREADONLY,   1,  0)
    Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)
-   GUICtrlSetData($sCounts   ,360/_GetNumberFromString(GUICtrlRead($sSens))/_GetNumberFromstring(GUICtrlread($sYaw)))
                        _GUICtrlEdit_SetSel( $sCounts  , 0, 0 )
                         GUICtrlSendMsg(     $sCounts, $EM_SETREADONLY,   1,  0)
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
-   GUICtrlSetdata($sPartition,IniRead($gSettingIni,"Default","part","959"))
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
-   GUICtrlSetdata($sTickRate ,IniRead($gSettingIni,"Default","freq","60"))
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
-   GUICtrlSetdata($sCycle    ,IniRead($gSettingIni,"Default","cycl","20"))
    Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
    Local $idCalc      = GUICtrlCreateButton("Physical Stats..."    , 195, 205,  95, 25)
 
 
-   Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
-                                                                                 ; Set the tooltip to last 30 seconds.
-                       _GUIToolTip_SetDelayTime($hToolTip, $TTDT_AUTOPOP, 30000) ; if I set this to 60 seconds, it seems to go back to 5.
+   Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip                                                                                 
+                       _GUIToolTip_SetDelayTime($hToolTip, $TTDT_AUTOPOP, 30000) ; Set the tooltip to last 30 seconds. If I set this to 60 seconds, it seems to go back to 5.
                        _GUIToolTip_SetDelayTime($hToolTip, $TTDT_RESHOW, 500)    ; don't show a new tooltip till 0.5 secs later
                        _GUIToolTip_SetMaxTipWidth($hToolTip, 500)
-
    Local $hSens       = GUICtrlGetHandle($sSens)
                        _GUIToolTip_AddTool($hToolTip, 0, "Enter your game's sensitivity here", $hSens)
    Local $hYaw        = GUICtrlGetHandle($sYaw)
@@ -108,28 +92,44 @@ Func MakeGUI()
    Local $hCycle      = GUICtrlGetHandle($sCycle)
                        _GUIToolTip_AddTool($hToolTip, 0, "How many full revolutions to perform when pressing Alt+].", $hCycle)
 
+
+   ; Initialize all inputs to ini or hardcoded defaults
+   GUICtrlSetdata($sPartition , IniRead($gSettingIni,"Default","part","959"  ))
+   GUICtrlSetdata($sTickRate  , IniRead($gSettingIni,"Default","freq","60"   ))
+   GUICtrlSetdata($sCycle     , IniRead($gSettingIni,"Default","cycl","20"   ))
+   GUICtrlSetData($sYaw       , IniRead($gSettingIni,"Default","yaw" ,"0.022"))
+   GUICtrlSetData($sSens      , IniRead($gSettingIni,"Default","sens","1"    ))
+   GUICtrlSetData($sIncr      ,     _GetNumberFromString(GUICtrlRead($sSens))*_GetNumberFromstring(GUICtrlread($sYaw)))
+   GUICtrlSetData($sCounts    , 360/_GetNumberFromString(GUICtrlRead($sSens))/_GetNumberFromstring(GUICtrlread($sYaw)))
+   GUICtrlSetData($sYawPresets, "Measure any game|" & _
+                                    "Quake/Source|" & _
+                                       "Overwatch|" & _
+                                 "Rainbow6/Reflex|" & _
+                         LoadYawList($gYawListIni)  & _
+                            "< Save current yaw >|" )
+
+
    ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating within the main loop
-   $gResidual  = 0.0
-   $gMode      = 1
    $gSens      = _GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))
+   $gDelay     =  Ceiling( 1000/_GetNumberFromString( GuiCtrlRead($sTickRate) ) )
    $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
-   $gDelay     =  Ceiling(  1000/_GetNumberFromString( GuiCtrlRead($sTickRate) )  )
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
+   $gResidual  =  0.0
+   $gMode      =  1
 
 
-
+   ; Declare adhoc local variables outside the loop
    Local $idMsg[2]       = [$sYaw,$idGUI]            ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
-   Local $idGUICalc      = "INACTIVE"                ; Handle of the stats calculator. When the calculator is not open, manually set to "INACTIVE" so it won't execute anything
+   Local $idGUICalc      = "INACTIVE"                ; Handle of stats calculator. When not open, manually set to "INACTIVE" so it won't execute anything
    Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, for when it's modified dynamically while measuring other games
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-   Local $lMeasureBinds[3], $lCalculator[7]          ; Handle of physical stats, accessed by reference through HandyCalculator()
-   
-   EnableMeasureHotkeys(1,$lMeasureBinds)
-   EnableMeasureHotkeys(0,$lMeasureBinds)
-   GUISetState(@SW_SHOW)
-   While 1
-      Switch $idMsg[0]
+   Local $lCalculator[7], $lMeasureBinds[3]          ; ByRef handles for HandyCalc and measurement keybinds. Never addressed directly in loop.
+   EnableMeasureHotkeys(1,$lMeasureBinds)            ; populate the lMeasurebinds variable with ini value
+   EnableMeasureHotkeys(0,$lMeasureBinds)            ; unbind lMeasurebinds till measure mode is selected
+   GUISetState(@SW_SHOW)   
+   While 1   
+      Switch $idMsg[0]      
          Case $GUI_EVENT_CLOSE
             Switch $idMsg[1]
                Case $idGUI
@@ -154,8 +154,8 @@ Func MakeGUI()
             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
-
             If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
+                    ; Do nothing if in measurement mode
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
@@ -171,12 +171,13 @@ Func MakeGUI()
             $gResidual  = 0
             $gPartition = $lPartition
             $idMsg[0]   = GUICtrlRead($sYawPresets)
-            EnableMeasureHotkeys(0,$lMeasureBinds)
-           _GUICtrlComboBox_DeleteString($sYawPresets,0)
-           _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0)
-           _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])
+            EnableMeasureHotkeys(0,$lMeasureBinds)                          ; indiscriminately disable measure binds till measure
+           _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
+           _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and 
+           _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])            ; only set to swap first if you select measure or swap
             Switch $idMsg[0]
               Case "Custom"
+                   ; vestigial legacy case prior to version 1.1 where there was a dedicated "Custom" entry
               Case "Quake/Source"
                    GUICtrlSetData($sYaw, String($yawQuake))
               Case "Overwatch"
@@ -186,26 +187,26 @@ Func MakeGUI()
               Case "Measure any game","< Swap yaw & sens >"
                    ClearBounds()
                    EnableMeasureHotkeys(1,$lMeasureBinds)                   
-                  _GUICtrlComboBox_DeleteString($sYawPresets,0)
-                  _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0)
-                  _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")
-		   If $idMsg[0] == "< Swap yaw & sens >" Then
-		      GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))
-		   Else
-		      GUICtrlSetData($sYaw,1)
-		   EndIf
+                  _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when 
+                  _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
+                  _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
+                   If $idMsg[0] == "< Swap yaw & sens >" Then
+                      GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))               ; set yaw to sens if swap is selected
+                   Else                                                               ; ElseIf idMsg[0] is Measure any game
+                      GUICtrlSetData($sYaw,1)                                         ; set yaw to 1 on measure mode select
+                   EndIf
               Case "< Save current yaw >"
-                  _GUICtrlComboBox_SetEditText( $sYawPresets, InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1) )
-                   If  GUICtrlRead($sYawPresets) Then
-                       IniWrite($gYawListIni, GUICtrlRead($sYawPresets), "yaw", GUICtrlRead($sYaw) )
-                      $lastYawPresets = GUICtrlRead($sYawPresets)
-                      _GUICtrlComboBox_ResetContent($sYawPresets)
-                       GUICtrlSetData(              $sYawPresets, _
-		       "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _
-                                        LoadYawList($gYawListIni)& "< Save current yaw >|")
-                      _GUICtrlComboBox_SelectString($sYawPresets ,"/ "&$lastYawPresets)
+                  _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
+                   If  GUICtrlRead($sYawPresets) Then                                 ; if user input name is not void
+                       IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"yaw",GUICtrlRead($sYaw) )
+                       $lastYawPresets =     GUICtrlRead($sYawPresets)
+                      _GUICtrlComboBox_ResetContent(     $sYawPresets)
+                       GUICtrlSetData(                   $sYawPresets ,                     _
+                       "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _
+                                         LoadYawList($gYawListIni)&"< Save current yaw >|")
+                      _GUICtrlComboBox_SelectString(     $sYawPresets ,"/ "&$lastYawPresets)
                    Else
-                      _GUICtrlComboBox_SetEditText( $sYawPresets ,     $lastYawPresets)
+                      _GUICtrlComboBox_SetEditText(      $sYawPresets ,     $lastYawPresets)
                        If  $lastYawPresets == "Measure any game" Then
                            EnableMeasureHotkeys(1,$lMeasureBinds)
                        EndIf
@@ -219,83 +220,34 @@ Func MakeGUI()
             $lastYawPresets = GUICtrlRead($sYawPresets)
 
          Case $sPartition
-            $gResidual  = 0
+            $gResidual  =  0
             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
-            $lPartition = $gPartition
+            $lPartition =  $gPartition
             If GUICtrlRead($sYawPresets) == "Measure any game" Then
                UpdatePartition($lPartition)
             EndIf
 	 
          Case $sTickRate
-            $gResidual  = 0
-            $gDelay     = Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
+            $gResidual  =  0
+            $gDelay     =  Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
 
          Case $sCycle
-            $gResidual  = 0
-            $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle)     )
+            $gResidual  =  0
+            $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle) )
 
          Case $idCalc
             If $idGUICalc == "INACTIVE" Then
                $idGUICalc = HandyCalculator("INITIALIZE",$lCalculator,$idMsg)
-	    Else
-	       GUISetState(@SW_RESTORE,$idGUICalc)
+            Else
+               GUISetState(@SW_RESTORE,$idGUICalc)
             EndIf
 
          Case $idHelp
-            If $gValid Then
-               $time = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
-               MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
-                                 & "To match your old sensitivity to a new game:"                 & @crlf _
-                                 & "------------------------------------------------------------" & @crlf _
-                                 & "1) Select the preset/game that you are coming from."          & @crlf _
-                                 & "2) Input your sensitivity value from your old game."          & @crlf _
-                                 & "3) In your new game, adjust its sens until the test matches." & @crlf _
-                                                                                                  & @crlf _
-                                 & "Press Alt+[ to perform one full revolution."                  & @crlf _
-                                 & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
-                                 & "Press Alt+\ to halt and/or clear residuals (for realignment)" & @crlf _
-                                                                                                  & @crlf _
-                                 & "------------------------------------------------------------" & @crlf _
-                                 & "If your old game is not listed/yaw is unknown:"               & @crlf _
-                                 & "------------------------------------------------------------" & @crlf _
-                                 & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
-                                 & "2) Perform rotations in old game to test your estimate."      & @crlf _
-                                 & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
-                                                                                                  & @crlf _
-                                 & "Increase counts with Alt+= if it's undershooting."            & @crlf _
-                                 & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
-                                 & "Clear all memory with Alt+0 if you made a wrong input."       & @crlf _
-                                                                                                  & @crlf _
-                                 & "The estimate will converge to your exact sensitivity as you nudge "   _
-                                 & "measurement bounds with hotkeys. You can then use the measured "      _
-                                 & "sensitivity and match your new game to it."                   & @crlf _
-                                                                                                  & @crlf _
-                                 & "------------------------------------------------------------" & @crlf _
-                                 & "Additional Info:"                                             & @crlf _
-                                 & "------------------------------------------------------------" & @crlf _
-                                 & "Key bindings can be changed in UserSettings.ini "             & @crlf _
-                                                                                                  & @crlf _
-                                 & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
-                                 & "Estimated Completion Time for " & $gCycle                             _
-                                 & " cycles: " & $time & " sec"                                   & @crlf _
-                                                                                                  & @crlf _
-                                 & "Current Residual Angle: " & $gResidual & "°"                  & @crlf _
-                                 & "Current Lower Bound: " & $gBounds[0] & "°"                    & @crlf _
-                                 & "Current Increment: "   & $gSens      & "°"                    & @crlf _
-                                 & "Current Upper Bound: " & $gBounds[1] & "°"                    & @crlf _
-                                                                                                  & @crlf _
-                                 & "NOTE: "                                                               _
-                                 & "under/overshoot drifts might take multiple cycles before it becomes " _
-                                 & "observable. Slight shifts that snaps back periodically are simply "   _
-                                 & "visual artifacts of residual angles that cancels itself out over "    _
-                                 & "many rotations. It only counts as an under/overshoot if you observe " _
-                                 & "systematic drift in spite of the snapback.")
-            Else
-               MsgBox(0, "Error", "Inputs must be a number")
-            EndIf
+            HelpMessage()
+            
       EndSwitch
-      If $gSens == $lastgSens Then
-      Else
+
+      If $gSens <> $lastgSens Then
          $gResidual = 0
          $lastgSens = $gSens
          $idMsg[0]  = -1
@@ -309,18 +261,17 @@ Func MakeGUI()
             UpdatePartition( $lPartition    )
          EndIf
       EndIf
+      
       HandyCalculator($idGUICalc,$lCalculator,$idMsg)
-      If $gMode == -1 Then
-         $gMode = 1
-      EndIf
+      $gMode  = Abs($gMode)       ; if override then ready, if ready or in progress then no change.
       $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-      $idMsg  = GUIGetMsg(1)
+      $idMsg  = GUIGetMsg(1)   
    WEnd
 EndFunc
 
 Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
    If $idGUICalc == "INACTIVE" Then
-      ; do nothing
+      ; do nothing and exit the function
    Else
       If $idGUICalc == "INITIALIZE" Then
          Local $pos=WinGetPos("Sensitivity Matcher")
@@ -388,14 +339,14 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
               $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[5]) ) / $cpi        * 360
               $idMsg[0] = -1
          Case $sInput[6]
-	      If $lock == $GUI_CHECKED Then
-	         Local $readonly = 1
-              Else
-	         Local $readonly = 0
-              EndIf
-              For $i = 2 to 5
-                  GUICtrlSendMsg($sInput[$i],$EM_SETREADONLY,$readonly,0)
-              Next
+           If $lock == $GUI_CHECKED Then
+	             Local $readonly = 1
+           Else
+	             Local $readonly = 0
+           EndIf
+           For $i = 2 to 5
+               GUICtrlSendMsg($sInput[$i],$EM_SETREADONLY,$readonly,0)
+           Next
       EndSwitch
       If $idMsg[0] == -1 Then
          GUICtrlSetData($sInput[0],String(    $gSens          ))
@@ -413,6 +364,60 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
       EndIf
       Return $idGUICalc
    EndIf
+EndFunc
+
+Func HelpMessage()
+     If $gValid Then
+        Local $time = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
+        MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
+                          & "To match your old sensitivity to a new game:"                 & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
+                          & "1) Select the preset/game that you are coming from."          & @crlf _
+                          & "2) Input your sensitivity value from your old game."          & @crlf _
+                          & "3) In your new game, adjust its sens until the test matches." & @crlf _
+                                                                                           & @crlf _
+                          & "Press Alt+[ to perform one full revolution."                  & @crlf _
+                          & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
+                          & "Press Alt+\ to halt and/or clear residuals (for realignment)" & @crlf _
+                                                                                           & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
+                          & "If your old game is not listed/yaw is unknown:"               & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
+                          & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
+                          & "2) Perform rotations in old game to test your estimate."      & @crlf _
+                          & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
+                                                                                           & @crlf _
+                          & "Increase counts with Alt+= if it's undershooting."            & @crlf _
+                          & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
+                          & "Clear all memory with Alt+0 if you made a wrong input."       & @crlf _
+                                                                                           & @crlf _
+                          & "The estimate will converge to your exact sensitivity as you nudge "   _
+                          & "measurement bounds with hotkeys. You can then use the measured "      _
+                          & "sensitivity and match your new game to it."                   & @crlf _
+                                                                                           & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
+                          & "Additional Info:"                                             & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
+                          & "Key bindings can be changed in UserSettings.ini "             & @crlf _
+                                                                                           & @crlf _
+                          & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
+                          & "Estimated Completion Time for " & $gCycle                             _
+                          & " cycles: " & $time & " sec"                                   & @crlf _
+                                                                                           & @crlf _
+                          & "Current Residual Angle: " & $gResidual  & "°"                 & @crlf _
+                          & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
+                          & "Current Increment: "      & $gSens      & "°"                 & @crlf _
+                          & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
+                                                                                           & @crlf _
+                          & "NOTE: "                                                               _
+                          & "under/overshoot drifts might take multiple cycles before it becomes " _
+                          & "observable. Slight shifts that snaps back periodically are simply "   _
+                          & "visual artifacts of residual angles that cancels itself out over "    _
+                          & "many rotations. It only counts as an under/overshoot if you observe " _
+                          & "systematic drift in spite of the snapback.")
+     Else
+        MsgBox(0, "Error", "Inputs must be a number")
+     EndIf
 EndFunc
 
 Func TestMouse($cycle)
