@@ -278,7 +278,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[0]+$pos[2],$pos[1])
          $sInput[0]=GUICtrlCreateInput(                                                  $gSens     , 85,  6, 80, 20)
                     GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
-         $sInput[1]=GUICtrlCreateInput(                 IniRead($gSettingIni,"Default","cpi",800)   , 85, 30, 80, 20)
+         $sInput[1]=GUICtrlCreateInput(     IniRead($gSettingIni,"Default","cpi",800)               , 85, 30, 80, 20)
          $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20, 85, 75, 20)
          $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105, 85, 75, 20)
          $sInput[4]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens*2.54, 20,150, 75, 20)
@@ -401,7 +401,7 @@ Func HelpMessage()
                           & "------------------------------------------------------------" & @crlf _
                           & "Key bindings can be changed in UserSettings.ini "             & @crlf _
                                                                                            & @crlf _
-                          & "Interval: " & $gDelay & " ms (round up to nearest milisecond)"& @crlf _
+                          & "Interval: " & $gDelay & " ms (round up to nearest millisec.)" & @crlf _
                           & "Estimated Completion Time for " & $gCycle                             _
                           & " cycles: " & $time & " sec"                                   & @crlf _
                                                                                            & @crlf _
