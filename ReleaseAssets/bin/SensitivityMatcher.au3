@@ -121,7 +121,7 @@ Func MakeGUI()
    ; Declare adhoc local variables outside the loop
    Local $idMsg[2]       = [$sYaw,$idGUI]            ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
    Local $idGUICalc      = "INACTIVE"                ; Handle of stats calculator. When not open, manually set to "INACTIVE" so it won't execute anything
-   Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, for when it's modified dynamically while measuring other games
+   Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, passed to UpdatePartition to clip the NormalizedPartition result
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
    Local $lCalculator[7], $lMeasureBinds[3]          ; ByRef handles for HandyCalc and measurement keybinds. Never addressed directly in loop.
@@ -460,6 +460,21 @@ Func TestMouse($cycle)
    EndIf
 EndFunc
 
+Func EnableMeasureHotkeys( $enable, ByRef $binds)
+    If $enable Then
+       $binds[0] = IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}")
+       $binds[1] = IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}")
+       $binds[2] = IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}")
+       HotKeySet( $binds[0] , "DecreasePolygon" )
+       HotKeySet( $binds[1] , "IncreasePolygon" )
+       HotKeySet( $binds[2] , "ClearBounds"     )
+    Else
+       HotKeySet( $binds[0] )
+       HotKeySet( $binds[1] )
+       HotKeySet( $binds[2] )
+    EndIf
+EndFunc
+
 Func Halt()
    If $gMode > -1 Then
       $gMode = -1
@@ -518,16 +533,6 @@ Func ClearBounds()
    $gPartition = NormalizedPartition($defaultTurnPeriod)
 EndFunc
 
-Func NormalizedPartition($turntime)
-    Local $incre = $gSens
-    Local $total = round( 360 / $incre )
-    Local $slice = ceiling( $total * $gDelay / $turntime )
-       If $slice > $total Then
-          $slice = $total
-       EndIf
-   Return $slice
-EndFunc
-
 Func UpdatePartition($lPartition)
     Local $lBoundedError = 1
     If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
@@ -537,6 +542,16 @@ Func UpdatePartition($lPartition)
     If $gPartition > $lPartition Then
        $gPartition = $lPartition
     EndIf
+EndFunc
+
+Func NormalizedPartition($turntime)
+    Local $incre = $gSens
+    Local $total = round( 360 / $incre )
+    Local $slice = ceiling( $total * $gDelay / $turntime )
+       If $slice > $total Then
+          $slice = $total
+       EndIf
+   Return $slice
 EndFunc
 
 Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
@@ -550,21 +565,6 @@ Func LoadYawList($sFilePath)
           $sYawList = $sYawList & "/ " & $aYawList[$i] & "|"
     Next
    Return $sYawList
-EndFunc
-
-Func EnableMeasureHotkeys( $enable, ByRef $binds)
-    If $enable Then
-       $binds[0] = IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}")
-       $binds[1] = IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}")
-       $binds[2] = IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}")
-       HotKeySet( $binds[0] , "DecreasePolygon" )
-       HotKeySet( $binds[1] , "IncreasePolygon" )
-       HotKeySet( $binds[2] , "ClearBounds"     )
-    Else
-       HotKeySet( $binds[0] )
-       HotKeySet( $binds[1] )
-       HotKeySet( $binds[2] )
-    EndIf
 EndFunc
 
 Func _MouseMovePlus($X = "", $Y = "")
