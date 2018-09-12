@@ -72,7 +72,7 @@ Func MakeGUI()
    Local $idCalc      = GUICtrlCreateButton("Physical Stats..."    , 195, 205,  95, 25)
 
 
-   Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip                                                                                 
+   Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
                        _GUIToolTip_SetDelayTime($hToolTip, $TTDT_AUTOPOP, 30000) ; Set the tooltip to last 30 seconds. If I set this to 60 seconds, it seems to go back to 5.
                        _GUIToolTip_SetDelayTime($hToolTip, $TTDT_RESHOW, 500)    ; don't show a new tooltip till 0.5 secs later
                        _GUIToolTip_SetMaxTipWidth($hToolTip, 500)
@@ -127,9 +127,9 @@ Func MakeGUI()
    Local $lCalculator[7], $lMeasureBinds[3]          ; ByRef handles for HandyCalc and measurement keybinds. Never addressed directly in loop.
    EnableMeasureHotkeys(1,$lMeasureBinds)            ; populate the lMeasurebinds variable with ini value
    EnableMeasureHotkeys(0,$lMeasureBinds)            ; unbind lMeasurebinds till measure mode is selected
-   GUISetState(@SW_SHOW)   
-   While 1   
-      Switch $idMsg[0]      
+   GUISetState(@SW_SHOW)
+   While 1
+      Switch $idMsg[0]
          Case $GUI_EVENT_CLOSE
             Switch $idMsg[1]
                Case $idGUI
@@ -173,7 +173,7 @@ Func MakeGUI()
             $idMsg[0]   = GUICtrlRead($sYawPresets)
             EnableMeasureHotkeys(0,$lMeasureBinds)                          ; indiscriminately disable measure binds till measure
            _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
-           _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and 
+           _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and
            _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])            ; only set to swap first if you select measure or swap
             Switch $idMsg[0]
               Case "Custom"
@@ -186,8 +186,8 @@ Func MakeGUI()
                    GUICtrlSetData($sYaw, String($yawReflex))
               Case "Measure any game","< Swap yaw & sens >"
                    ClearBounds()
-                   EnableMeasureHotkeys(1,$lMeasureBinds)                   
-                  _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when 
+                   EnableMeasureHotkeys(1,$lMeasureBinds)
+                  _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
                   _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
                   _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
                    If $idMsg[0] == "< Swap yaw & sens >" Then
@@ -226,7 +226,7 @@ Func MakeGUI()
             If GUICtrlRead($sYawPresets) == "Measure any game" Then
                UpdatePartition($lPartition)
             EndIf
-	 
+
          Case $sTickRate
             $gResidual  =  0
             $gDelay     =  Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
@@ -244,7 +244,7 @@ Func MakeGUI()
 
          Case $idHelp
             HelpMessage()
-            
+
       EndSwitch
 
       If $gSens <> $lastgSens Then
@@ -261,11 +261,11 @@ Func MakeGUI()
             UpdatePartition( $lPartition    )
          EndIf
       EndIf
-      
+
       HandyCalculator($idGUICalc,$lCalculator,$idMsg)
       $gMode  = Abs($gMode)       ; if override then ready, if ready or in progress then no change.
       $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-      $idMsg  = GUIGetMsg(1)   
+      $idMsg  = GUIGetMsg(1)
    WEnd
 EndFunc
 
@@ -311,7 +311,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
                          _GUIToolTip_AddTool($hToolTip, 0, "Centimeter Per Revolution = rev/(incre*CPI)*2.54", $hCcm)
          Local $hCin    = GUICtrlGetHandle($sInput[5])
                          _GUIToolTip_AddTool($hToolTip, 0, "Inch Per Revolution = rev/(incre*CPI)", $hCin)
-         For $i = 0 to 5 
+         For $i = 0 to 5
             _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
          Next
          GUISetState(@SW_SHOW)
@@ -358,7 +358,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
             GUICtrlSetData($sInput[4],String(360/$gSens/$cpi*2.54))
             GUICtrlSetData($sInput[5],String(360/$gSens/$cpi     ))
          EndIf
-         For $i = 0 to 5 
+         For $i = 0 to 5
             _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
          Next
       EndIf
@@ -368,7 +368,8 @@ EndFunc
 
 Func HelpMessage()
      If $gValid Then
-        Local $time = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
+        Local $error = ($gBounds[1]-$gBounds[0])/2
+        Local $time  = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
         MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
                           & "To match your old sensitivity to a new game:"                 & @crlf _
                           & "------------------------------------------------------------" & @crlf _
@@ -408,6 +409,7 @@ Func HelpMessage()
                           & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
                           & "Current Increment: "      & $gSens      & "°"                 & @crlf _
                           & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
+                          & "Uncertainty: ±"  & $error & "° (±" & $error/$gSens*100 & "%)" & @crlf _
                                                                                            & @crlf _
                           & "NOTE: "                                                               _
                           & "under/overshoot drifts might take multiple cycles before it becomes " _
