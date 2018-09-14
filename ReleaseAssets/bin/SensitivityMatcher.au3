@@ -245,9 +245,12 @@ Func MakeGUI()
              IniWrite($gSettingIni,"Default","cycl",_GetNumberFromString(GuiCtrlRead($sCycle)))
              If NOT ($idGUICalc == "INACTIVE") Then
               IniWrite($gSettingIni,"Default","cpi",_GetNumberFromString(GuiCtrlRead($lCalculator[1])))
+              MsgBox(0,"Success","Saved CPI, Sens, Yaw, Partition, Frequency, and Cycle to defaults.")
+             Else
+              MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, and Cycle to defaults.")
              EndIf
             Else
-             MsgBox(0, "Error", "Inputs must be numbers")
+             HelpMessage()
             EndIf
 
          Case $idCalc
@@ -501,7 +504,7 @@ Func SingleCycle()
    if $gValid Then
 	  TestMouse(1)
    Else
-	  MsgBox(0, "Error", "Inputs must be numbers")
+	  HelpMessage()
    EndIf
 EndFunc
 
@@ -509,7 +512,7 @@ Func AutoCycle()
    if $gValid Then
 	  TestMouse($gCycle)
    Else
-	  MsgBox(0, "Error", "Inputs must be numbers")
+	  HelpMessage()
    EndIf
 EndFunc
 
