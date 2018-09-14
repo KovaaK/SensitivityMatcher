@@ -68,7 +68,8 @@ Func MakeGUI()
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
-   Local $idHelp      = GUICtrlCreateButton("Info"            , 100, 205,  95, 25)
+   Local $idSave      = GUICtrlCreateButton("Save Defaults",   5, 205,  95, 25)
+   Local $idHelp      = GUICtrlCreateButton("Info"         , 100, 205,  95, 25)
    Local $idCalc      = GUICtrlCreateButton("Physical Stats..."    , 195, 205,  95, 25)
 
 
@@ -234,6 +235,20 @@ Func MakeGUI()
          Case $sCycle
             $gResidual  =  0
             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle) )
+
+         Case $idSave
+            If $gValid Then
+             IniWrite($gSettingIni,"Default","sens",_GetNumberFromString(GuiCtrlRead($sSens)))
+             IniWrite($gSettingIni,"Default","yaw" ,_GetNumberFromString(GuiCtrlRead($sYaw)))
+             IniWrite($gSettingIni,"Default","part",_GetNumberFromString(GuiCtrlRead($sPartition)))
+             IniWrite($gSettingIni,"Default","freq",_GetNumberFromString(GuiCtrlRead($sTickRate)))
+             IniWrite($gSettingIni,"Default","cycl",_GetNumberFromString(GuiCtrlRead($sCycle)))
+             If NOT ($idGUICalc == "INACTIVE") Then
+              IniWrite($gSettingIni,"Default","cpi",_GetNumberFromString(GuiCtrlRead($lCalculator[1])))
+             EndIf
+            Else
+             MsgBox(0, "Error", "Inputs must be numbers")
+            EndIf
 
          Case $idCalc
             If $idGUICalc == "INACTIVE" Then
@@ -418,7 +433,7 @@ Func HelpMessage()
                           & "many rotations. It only counts as an under/overshoot if you observe " _
                           & "systematic drift in spite of the snapback.")
      Else
-        MsgBox(0, "Error", "Inputs must be a number")
+        MsgBox(0, "Error", "Inputs must be numbers")
      EndIf
 EndFunc
 
@@ -486,7 +501,7 @@ Func SingleCycle()
    if $gValid Then
 	  TestMouse(1)
    Else
-	  MsgBox(0, "Error", "Inputs must be a number")
+	  MsgBox(0, "Error", "Inputs must be numbers")
    EndIf
 EndFunc
 
@@ -494,7 +509,7 @@ Func AutoCycle()
    if $gValid Then
 	  TestMouse($gCycle)
    Else
-	  MsgBox(0, "Error", "Inputs must be a number")
+	  MsgBox(0, "Error", "Inputs must be numbers")
    EndIf
 EndFunc
 
