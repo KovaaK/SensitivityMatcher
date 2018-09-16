@@ -200,6 +200,9 @@ Func MakeGUI()
                   _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
                    If  GUICtrlRead($sYawPresets) Then                                 ; if user input name is not void
                        IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"yaw",GUICtrlRead($sYaw) )
+                       If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then
+                          IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncertainty","±"&($gBounds[1]-$gBounds[0])*50/$gSens&"%" )
+                       EndIf
                        $lastYawPresets =     GUICtrlRead($sYawPresets)
                       _GUICtrlComboBox_ResetContent(     $sYawPresets)
                        GUICtrlSetData(                   $sYawPresets ,                     _
