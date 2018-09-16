@@ -4,9 +4,10 @@
 
 _New Feature: Added button to save current inputs to startup values._
 
+_New Feature: Saved custom yaw now includes uncertainty if obtained from measurement._
+
 _Bug Fix:  Measurement hotkeys now unbinds properly if keybind is tweaked while still in measurement mode._ \
-_Bug Fix:  Measurement bounds are no longer lost when swapping yaw and sens._ \
-_Tweak: Saved custom yaw now includes uncertainty if obtained from measurement._
+_Bug Fix:  Measurement bounds are no longer lost when swapping yaw and sens._ 
 
 ## Download
 
