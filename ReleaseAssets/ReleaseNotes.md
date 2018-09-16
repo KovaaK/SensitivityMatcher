@@ -1,23 +1,14 @@
 ## Release Notes
 
-[version 1.3] 
+[version 1.4] 
 
-_New Feature: Custom keybind and yaw .ini files_
-- Loads custom yaw list and keybinds from respective .ini files placed in executable directory.
-- Select "Save current yaw" from dropdown to save currently-entered yaw value to list.
-- Moved two Fornite presets to .ini file.
-
-_New Feature: Physical stats calculator_
-- Enter your mouse CPI to calculate your [physical sensitivity](https://liquipedia.net/counterstrike/Mouse_settings#Sensitivity), or enter physical metric to find corresponding virtual sens.
-- **Curvature** in **MPI** and **deg/mm**. (universal, linear scale of physical sensitivity)
-- **Circumference** in **cm/rev** and **in/rev**. (physical length of a turn, reciprocal scale of physical sensitivity)
-
-_Bug Fix: Measurement Mode autopartition now normalizes when changing partition limit rather than set straight to cap._ \
-_Tweak: During Measurement Mode you can select "Swap sens & yaw" from dropdown so you don't need to copy&paste to save._
+_New Feature: Added button to save current inputs to startup values_ \
+_Bug Fix:  Measurement hotkeys now unbind properly in the edge case of tweaking the keybind while still in measurement mode._ \
+_Tweak: Saved custom yaw now includes uncertainty if it comes off of measurement._
 
 ## Download
 
-[**SensitivityMatcher_exe.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.3/SensitivityMatcher_exe.zip) \
-[**SensitivityMatcher_a3x.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.3/SensitivityMatcher_a3x.zip) (Use this instead if .exe is triggering false positives)
+[**SensitivityMatcher_exe.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.4/SensitivityMatcher_exe.zip) \
+[**SensitivityMatcher_a3x.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.4/SensitivityMatcher_a3x.zip) (Use this instead if .exe is triggering false positives)
 
 [_Go to newest release_](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
