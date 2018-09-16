@@ -1,11 +1,12 @@
 ## Release Notes
 
-[version 1.4] 
+[version 1.4]
 
-_New Feature: Added button to save current inputs to startup values._ 
+_New Feature: Added button to save current inputs to startup values._
 
 _Bug Fix:  Measurement hotkeys now unbind properly in the edge case of tweaking the keybind while still in measurement mode._ \
-_Tweak: Saved custom yaw now includes uncertainty if it comes off of measurement._
+_Bug Fix:  Measurement bounds are no longer lost when swapping yaw and sens._ \
+_Tweak: Saved custom yaw now includes uncertainty if it comes from measurement._
 
 ## Download
 
