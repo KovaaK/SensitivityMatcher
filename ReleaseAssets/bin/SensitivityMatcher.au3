@@ -201,7 +201,7 @@ Func MakeGUI()
                    If  GUICtrlRead($sYawPresets) Then                                 ; if user input name is not void
                        IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"yaw",GUICtrlRead($sYaw) )
                        If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then
-                          IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncertainty","+/- "&($gBounds[1]-$gBounds[0])*50/$gSens&"%" )
+                          IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncertainty","+/-"&($gBounds[1]-$gBounds[0])*50/$gSens&"%" )
                        EndIf
                        $lastYawPresets =     GUICtrlRead($sYawPresets)
                       _GUICtrlComboBox_ResetContent(     $sYawPresets)
