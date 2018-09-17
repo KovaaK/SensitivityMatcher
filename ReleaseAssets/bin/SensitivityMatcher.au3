@@ -68,9 +68,9 @@ Func MakeGUI()
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
-   Local $idSave      = GUICtrlCreateButton("Save Defaults",   5, 205,  95, 25)
+   Local $idSave      = GUICtrlCreateButton("Save to Defaults",5, 205,  95, 25)
    Local $idHelp      = GUICtrlCreateButton("Info"         , 100, 205,  95, 25)
-   Local $idCalc      = GUICtrlCreateButton("Physical Stats..."    , 195, 205,  95, 25)
+   Local $idCalc      = GUICtrlCreateButton("Physical Stats...",195,205,95, 25)
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -194,7 +194,7 @@ Func MakeGUI()
                       GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))               ; set yaw to sens if swap is selected
                    Else                                                               ; ElseIf idMsg[0] is Measure any game
                       GUICtrlSetData($sYaw,1)                                         ; set yaw to 1 on measure mode select
-                      ClearBounds()                                                   ; as well as clearing bounds 
+                      ClearBounds()                                                   ; as well as clearing bounds
                    EndIf
               Case "< Save current yaw >"
                   _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
