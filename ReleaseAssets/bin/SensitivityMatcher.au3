@@ -576,7 +576,11 @@ Func NormalizedPartition($turntime)
 EndFunc
 
 Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-   return _StringIsNumber(GuiCtrlRead($sSens)) AND _StringIsNumber(GuiCtrlRead($sPartition)) AND _StringIsNumber(GuiCtrlRead($sYaw)) AND _StringIsNumber(GuiCtrlRead($sTickrate)) AND _StringIsNumber(GuiCtrlRead($sCycle))
+   return _StringIsNumber(GuiCtrlRead($sYaw))       AND _
+	  _StringIsNumber(GuiCtrlRead($sSens))      AND _
+	  _StringIsNumber(GuiCtrlRead($sCycle))     AND _
+	  _StringIsNumber(GuiCtrlRead($sTickrate))  AND _
+          _StringIsNumber(GuiCtrlRead($sPartition))
 EndFunc
 
 Func LoadYawList($sFilePath)
