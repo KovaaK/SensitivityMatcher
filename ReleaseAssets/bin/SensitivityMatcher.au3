@@ -112,7 +112,7 @@ Func MakeGUI()
 
    ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating within the main loop
    $gSens      = _GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))
-   $gDelay     =  Ceiling( 1000/_GetNumberFromString( GuiCtrlRead($sTickRate) ) )
+   $gDelay     =  Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
    $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
    $gResidual  =  0.0
@@ -131,140 +131,140 @@ Func MakeGUI()
    GUISetState(@SW_SHOW)
    While 1
       Switch $idMsg[0]
-         Case $GUI_EVENT_CLOSE
-            Switch $idMsg[1]
+        Case $GUI_EVENT_CLOSE
+             Switch $idMsg[1]
                Case $idGUI
                     Exit
                Case $idGUICalc
                     GUIDelete($idGUICalc)
                     $idGUICalc="INACTIVE"
-            EndSwitch
+             EndSwitch
 
-         Case $sSens
-            $gResidual = 0
-            $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
-            $lastgSens = $gSens
-            $idMsg[0]  = -1
-            GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
-           _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
-            GUICtrlSetData(     $sIncr  , String(     $gSens ) )
-           _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
+        Case $sSens
+             $gResidual = 0
+             $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
+             $lastgSens = $gSens
+             $idMsg[0]  = -1
+             GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
+            _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
+             GUICtrlSetData(     $sIncr  , String(     $gSens ) )
+            _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
 
-         Case $sYaw
-            $gResidual = 0
-            GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
-           _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-           _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
-            If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
-                    ; Do nothing if in measurement mode
-            ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
-                   _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
-            ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
-                   _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
-            ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawReflex         Then
-                   _GUICtrlComboBox_SelectString($sYawPresets, "Rainbow6/Reflex")
-            Else
-                   _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
-            EndIf
-            $lastYawPresets = GUICtrlRead($sYawPresets)
+        Case $sYaw
+             $gResidual = 0
+             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
+            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
+            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
+             If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
+                     ; Do nothing if in measurement mode
+             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
+                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
+             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
+                    _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
+             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawReflex         Then
+                    _GUICtrlComboBox_SelectString($sYawPresets, "Rainbow6/Reflex")
+             Else
+                    _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
+             EndIf
+             $lastYawPresets = GUICtrlRead($sYawPresets)
 
-         Case $sYawPresets
-            $gResidual  = 0
-            $gPartition = $lPartition
-            $idMsg[0]   = GUICtrlRead($sYawPresets)
-            EnableMeasureHotkeys(0,$lMeasureBinds)                          ; indiscriminately disable measure binds till measure
-           _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
-           _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and
-           _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])            ; only set to swap first if you select measure or swap
-            Switch $idMsg[0]
-              Case "Custom"
-                   ; vestigial legacy case prior to version 1.1 where there was a dedicated "Custom" entry
-              Case "Quake/Source"
-                   GUICtrlSetData($sYaw, String($yawQuake))
-              Case "Overwatch"
-                   GUICtrlSetData($sYaw, String($yawOverwatch))
-              Case "Rainbow6/Reflex"
-                   GUICtrlSetData($sYaw, String($yawReflex))
-              Case "Measure any game","< Swap yaw & sens >"
-                   EnableMeasureHotkeys(1,$lMeasureBinds)
-                  _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
-                  _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
-                  _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
-                   If $idMsg[0] == "< Swap yaw & sens >" Then
-                      GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))               ; set yaw to sens if swap is selected
-                   Else                                                               ; ElseIf idMsg[0] is Measure any game
-                      GUICtrlSetData($sYaw,1)                                         ; set yaw to 1 on measure mode select
-                      ClearBounds()                                                   ; as well as clearing bounds
-                   EndIf
-              Case "< Save current yaw >"
-                  _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
-                   If  GUICtrlRead($sYawPresets) Then                                 ; if user input name is not void
-                       IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"yaw",GUICtrlRead($sYaw) )
+        Case $sYawPresets
+             $gResidual  = 0
+             $gPartition = $lPartition
+             $idMsg[0]   = GUICtrlRead($sYawPresets)
+             EnableMeasureHotkeys(0,$lMeasureBinds)                          ; indiscriminately disable measure binds till measure
+            _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
+            _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and
+            _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])            ; only set to swap first if you select measure or swap
+             Switch $idMsg[0]
+               Case "Custom"
+                    ; vestigial legacy case prior to version 1.1 where there was a dedicated "Custom" entry
+               Case "Quake/Source"
+                    GUICtrlSetData($sYaw, String($yawQuake))
+               Case "Overwatch"
+                    GUICtrlSetData($sYaw, String($yawOverwatch))
+               Case "Rainbow6/Reflex"
+                    GUICtrlSetData($sYaw, String($yawReflex))
+               Case "Measure any game","< Swap yaw & sens >"
+                    EnableMeasureHotkeys(1,$lMeasureBinds)
+                   _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
+                   _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
+                   _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
+                    If $idMsg[0] == "< Swap yaw & sens >" Then
+                       GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))               ; set yaw to sens if swap is selected
+                    Else                                                               ; ElseIf idMsg[0] is Measure any game
+                       GUICtrlSetData($sYaw,1)                                         ; set yaw to 1 on measure mode select
+                       ClearBounds()                                                   ; as well as clearing bounds
+                    EndIf
+               Case "< Save current yaw >"
+                   _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
+                    If GUICtrlRead($sYawPresets) Then                                  ; if user input name is not void
+                       IniWrite(   $gYawListIni,GUICtrlRead($sYawPresets),"yaw",GUICtrlRead($sYaw)   )
                        If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then
                           IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncertainty","+/-"&($gBounds[1]-$gBounds[0])*50/$gSens&"%" )
                        EndIf
-                       $lastYawPresets =     GUICtrlRead($sYawPresets)
-                      _GUICtrlComboBox_ResetContent(     $sYawPresets)
-                       GUICtrlSetData(                   $sYawPresets ,                     _
+                       $lastYawPresets = GUICtrlRead($sYawPresets)
+                      _GUICtrlComboBox_ResetContent( $sYawPresets)
+                       GUICtrlSetData(               $sYawPresets ,                         _
                        "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _
                                          LoadYawList($gYawListIni)&"< Save current yaw >|")
-                      _GUICtrlComboBox_SelectString(     $sYawPresets ,"/ "&$lastYawPresets)
-                   Else
-                      _GUICtrlComboBox_SetEditText(      $sYawPresets ,     $lastYawPresets)
-                       If  $lastYawPresets == "Measure any game" Then
-                           EnableMeasureHotkeys(1,$lMeasureBinds)
+                      _GUICtrlComboBox_SelectString( $sYawPresets ,"/ "&$lastYawPresets)
+                    Else
+                      _GUICtrlComboBox_SetEditText(  $sYawPresets ,     $lastYawPresets)
+                       If $lastYawPresets == "Measure any game" Then
+                          EnableMeasureHotkeys(1,$lMeasureBinds)
                        EndIf
-                   EndIf
-              Case Else
-                 GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
-            EndSwitch
-            GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
-           _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-           _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
-            $lastYawPresets = GUICtrlRead($sYawPresets)
+                    EndIf
+               Case Else
+                    GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
+             EndSwitch
+             GUICtrlSetData(    $sSens, String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
+            _GUICtrlEdit_SetSel($sSens, 0, 0 )
+            _GUICtrlEdit_SetSel($sYaw , 0, 0 )
+             $lastYawPresets = GUICtrlRead($sYawPresets)
 
-         Case $sPartition
-            $gResidual  =  0
-            $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
-            $lPartition =  $gPartition
-            If GUICtrlRead($sYawPresets) == "Measure any game" Then
-               UpdatePartition($lPartition)
-            EndIf
+        Case $sPartition
+             $gResidual  =  0
+             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
+             $lPartition =  $gPartition
+             If GUICtrlRead($sYawPresets) == "Measure any game" Then
+                UpdatePartition($lPartition)
+             EndIf
 
-         Case $sTickRate
-            $gResidual  =  0
-            $gDelay     =  Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
+        Case $sTickRate
+             $gResidual  =  0
+             $gDelay     =  Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
 
-         Case $sCycle
-            $gResidual  =  0
-            $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle) )
+        Case $sCycle
+             $gResidual  =  0
+             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle) )
 
-         Case $idSave
-            If $gValid Then
-             IniWrite($gSettingIni,"Default","sens",_GetNumberFromString(GuiCtrlRead($sSens)))
-             IniWrite($gSettingIni,"Default","yaw" ,_GetNumberFromString(GuiCtrlRead($sYaw)))
-             IniWrite($gSettingIni,"Default","part",_GetNumberFromString(GuiCtrlRead($sPartition)))
-             IniWrite($gSettingIni,"Default","freq",_GetNumberFromString(GuiCtrlRead($sTickRate)))
-             IniWrite($gSettingIni,"Default","cycl",_GetNumberFromString(GuiCtrlRead($sCycle)))
-             If NOT ($idGUICalc == "INACTIVE") Then
+        Case $idSave
+          If $gValid Then
+              IniWrite($gSettingIni,"Default","sens",_GetNumberFromString(GuiCtrlRead($sSens)))
+              IniWrite($gSettingIni,"Default","yaw" ,_GetNumberFromString(GuiCtrlRead($sYaw)))
+              IniWrite($gSettingIni,"Default","part",_GetNumberFromString(GuiCtrlRead($sPartition)))
+              IniWrite($gSettingIni,"Default","freq",_GetNumberFromString(GuiCtrlRead($sTickRate)))
+              IniWrite($gSettingIni,"Default","cycl",_GetNumberFromString(GuiCtrlRead($sCycle)))
+             If   NOT ($idGUICalc == "INACTIVE") Then
               IniWrite($gSettingIni,"Default","cpi",_GetNumberFromString(GuiCtrlRead($lCalculator[1])))
               MsgBox(0,"Success","Saved CPI, Sens, Yaw, Partition, Frequency, and Cycle to defaults.")
              Else
               MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, and Cycle to defaults.")
              EndIf
-            Else
+          Else
              HelpMessage()
-            EndIf
+          EndIf
 
-         Case $idCalc
-            If $idGUICalc == "INACTIVE" Then
-               $idGUICalc = HandyCalculator("INITIALIZE",$lCalculator,$idMsg)
-            Else
-               GUISetState(@SW_RESTORE,$idGUICalc)
-            EndIf
+        Case $idCalc
+          If $idGUICalc == "INACTIVE" Then
+             $idGUICalc = HandyCalculator("INITIALIZE",$lCalculator,$idMsg)
+          Else
+             GUISetState(@SW_RESTORE,$idGUICalc)
+          EndIf
 
-         Case $idHelp
-            HelpMessage()
+        Case $idHelp
+             HelpMessage()
 
       EndSwitch
 
@@ -291,9 +291,9 @@ Func MakeGUI()
 EndFunc
 
 Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
-   If $idGUICalc == "INACTIVE" Then
+  If $idGUICalc == "INACTIVE" Then
       ; do nothing and exit the function
-   Else
+  Else
       If $idGUICalc == "INITIALIZE" Then
          Local $pos=WinGetPos("Sensitivity Matcher")
          $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[0]+$pos[2],$pos[1])
@@ -338,39 +338,39 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          GUISetState(@SW_SHOW)
          GUICtrlSetState($sInput[1],$GUI_FOCUS)
       EndIf
-      Local $cpi = _GetNumberFromString( GUICtrlRead($sInput[1]) )
-      Local $lock=  GUICtrlRead($sInput[6])
+      Local  $cpi = _GetNumberFromString( GUICtrlRead($sInput[1]) )
+      Local  $lock=  GUICtrlRead($sInput[6])
       Switch $idMsg[0]
-         Case $sInput[1]
-           If $lock == $GUI_UNCHECKED Then
-              $idMsg[0] = -1
-           Else
-              $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
-           EndIf
-         Case $sInput[2]
-              $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[2]) ) / $cpi * 25.4
-              $idMsg[0] = -1
-         Case $sInput[3]
-              $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
-              $idMsg[0] = -1
-         Case $sInput[4]
-              $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[4]) ) / $cpi * 2.54 * 360
-              $idMsg[0] = -1
-         Case $sInput[5]
-              $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[5]) ) / $cpi        * 360
-              $idMsg[0] = -1
-         Case $sInput[6]
-           If $lock == $GUI_CHECKED Then
-	             Local $readonly = 1
-           Else
-	             Local $readonly = 0
-           EndIf
-           For $i = 2 to 5
-               GUICtrlSendMsg($sInput[$i],$EM_SETREADONLY,$readonly,0)
-           Next
+        Case $sInput[1]
+          If $lock == $GUI_UNCHECKED Then
+             $idMsg[0] = -1
+          Else
+             $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
+          EndIf
+        Case $sInput[2]
+             $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[2]) ) / $cpi * 25.4
+             $idMsg[0] = -1
+        Case $sInput[3]
+             $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
+             $idMsg[0] = -1
+        Case $sInput[4]
+             $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[4]) ) / $cpi * 2.54 * 360
+             $idMsg[0] = -1
+        Case $sInput[5]
+             $gSens    =  1 / _GetNumberFromString( GUICtrlRead($sInput[5]) ) / $cpi        * 360
+             $idMsg[0] = -1
+        Case $sInput[6]
+          If $lock == $GUI_CHECKED Then
+             Local $readonly = 1
+          Else
+             Local $readonly = 0
+          EndIf
+          For $i = 2 to 5
+              GUICtrlSendMsg($sInput[$i],$EM_SETREADONLY,$readonly,0)
+          Next
       EndSwitch
       If $idMsg[0] == -1 Then
-         GUICtrlSetData($sInput[0],String(    $gSens          ))
+            GUICtrlSetData($sInput[0],String(    $gSens          ))
          If $lock == $GUI_CHECKED Then
             GUICtrlSetData($sInput[1],String(_GetNumberFromString(GUICtrlRead($sInput[3]))/$gSens/60))
          Else
@@ -383,8 +383,8 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
             _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
          Next
       EndIf
-      Return $idGUICalc
-   EndIf
+    Return $idGUICalc
+  EndIf
 EndFunc
 
 Func HelpMessage()
@@ -453,13 +453,11 @@ Func TestMouse($cycle)
       $totalcount = 1
 
       While $cycle > 0
-         $cycle = $cycle - 1
-
+            $cycle         = $cycle - 1
             $turn          = 360                                               ; one revolution in deg
             $totalcount    = ( $turn + $gResidual ) / ( $gSens )               ; partitioned by user-defined increments
             $totalcount    = Round( $totalcount )                              ; round to nearest integer
             $gResidual     = ( $turn + $gResidual ) - ( $gSens * $totalcount ) ; save the residual angles
-
          While $totalcount > $partition
             If $gMode < 0 Then
                ExitLoop
@@ -471,7 +469,7 @@ Func TestMouse($cycle)
          If $gMode < 0 Then
             ExitLoop
          EndIf
-         _MouseMovePlus($totalcount,0) ; do the leftover
+        _MouseMovePlus($totalcount,0) ; do the leftover
          Sleep($delay)
       WEnd
 
@@ -482,124 +480,124 @@ Func TestMouse($cycle)
 EndFunc
 
 Func EnableMeasureHotkeys( $enable, ByRef $binds)
-    If $enable Then
-       $binds[0] = IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}")
-       $binds[1] = IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}")
-       $binds[2] = IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}")
-       HotKeySet( $binds[0] , "DecreasePolygon" )
-       HotKeySet( $binds[1] , "IncreasePolygon" )
-       HotKeySet( $binds[2] , "ClearBounds"     )
-    Else
-       HotKeySet( $binds[0] )
-       HotKeySet( $binds[1] )
-       HotKeySet( $binds[2] )
-    EndIf
+  If $enable Then
+     $binds[0] = IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}")
+     $binds[1] = IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}")
+     $binds[2] = IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}")
+     HotKeySet( $binds[0] , "DecreasePolygon" )
+     HotKeySet( $binds[1] , "IncreasePolygon" )
+     HotKeySet( $binds[2] , "ClearBounds"     )
+  Else
+     HotKeySet( $binds[0] )
+     HotKeySet( $binds[1] )
+     HotKeySet( $binds[2] )
+  EndIf
 EndFunc
 
 Func Halt()
-   If $gMode > -1 Then
-      $gMode = -1
-      $gResidual = 0
-   EndIf
+  If $gMode > -1 Then
+     $gMode = -1
+     $gResidual = 0
+  EndIf
 EndFunc
 
 Func SingleCycle()
-   if $gValid Then
-	  TestMouse(1)
-   Else
-	  HelpMessage()
-   EndIf
+  if $gValid Then
+     TestMouse(1)
+  Else
+     HelpMessage()
+  EndIf
 EndFunc
 
 Func AutoCycle()
-   if $gValid Then
-	  TestMouse($gCycle)
-   Else
-	  HelpMessage()
-   EndIf
+  if $gValid Then
+     TestMouse($gCycle)
+  Else
+     HelpMessage()
+  EndIf
 EndFunc
 
 Func DecreasePolygon()
-      $gResidual  = 0
-      $gBounds[0] = $gSens
-   if $gBounds[1] < $gBounds[0] then
-      $gBounds[1] = 0
-      $gSens      = $gBounds[0] * 2
-   else
-      $gSens      =($gBounds[0] + $gBounds[1]) / 2
-   endif
+     $gResidual  = 0
+     $gBounds[0] = $gSens
+  if $gBounds[1] < $gBounds[0] then
+     $gBounds[1] = 0
+     $gSens      = $gBounds[0] * 2
+  else
+     $gSens      =($gBounds[0] + $gBounds[1]) / 2
+  endif
 EndFunc
 
 Func IncreasePolygon()
-      $gResidual  = 0
-      $gBounds[1] = $gSens
-   if $gBounds[1] < $gBounds[0] then
-      $gBounds[0] = 0
-      $gSens      = $gBounds[1] / 2
-   else
-      $gSens      =($gBounds[0] + $gBounds[1]) / 2
-   endif
-   if $gSens == 0 then
-      $gSens =  $gBounds[1]
-      if $gSens == 0 then
-         $gSens =  0.022
-      endif
-   endif
+     $gResidual  = 0
+     $gBounds[1] = $gSens
+  if $gBounds[1] < $gBounds[0] then
+     $gBounds[0] = 0
+     $gSens      = $gBounds[1] / 2
+  else
+     $gSens      =($gBounds[0] + $gBounds[1]) / 2
+  endif
+  if $gSens == 0 then
+     $gSens =  $gBounds[1]
+     if $gSens == 0 then
+        $gSens =  0.022
+     endif
+  endif
 EndFunc
 
 Func ClearBounds()
-   $gResidual  = 0
-   $gBounds[0] = 0
-   $gBounds[1] = 0
-   $gPartition = NormalizedPartition($defaultTurnPeriod)
+     $gResidual  = 0
+     $gBounds[0] = 0
+     $gBounds[1] = 0
+     $gPartition = NormalizedPartition($defaultTurnPeriod)
 EndFunc
 
 Func UpdatePartition($lPartition)
-    Local $lBoundedError = 1
-    If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
-       $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
-    EndIf
-       $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
-    If $gPartition > $lPartition Then
-       $gPartition = $lPartition
-    EndIf
+  Local $lBoundedError = 1
+     If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
+        $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
+     EndIf
+        $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
+     If $gPartition > $lPartition Then
+        $gPartition = $lPartition
+     EndIf
 EndFunc
 
 Func NormalizedPartition($turntime)
-    Local $incre = $gSens
-    Local $total = round( 360 / $incre )
-    Local $slice = ceiling( $total * $gDelay / $turntime )
-       If $slice > $total Then
-          $slice = $total
-       EndIf
-   Return $slice
+     Local $incre = $gSens
+     Local $total = round( 360 / $incre )
+     Local $slice = ceiling( $total * $gDelay / $turntime )
+        If $slice > $total Then
+           $slice = $total
+        EndIf
+    Return $slice
 EndFunc
 
 Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-   return _StringIsNumber(GuiCtrlRead($sYaw))       AND _
-	  _StringIsNumber(GuiCtrlRead($sSens))      AND _
-	  _StringIsNumber(GuiCtrlRead($sCycle))     AND _
-	  _StringIsNumber(GuiCtrlRead($sTickrate))  AND _
-          _StringIsNumber(GuiCtrlRead($sPartition))
+     return _StringIsNumber(GuiCtrlRead($sYaw))       AND _
+            _StringIsNumber(GuiCtrlRead($sSens))      AND _
+            _StringIsNumber(GuiCtrlRead($sCycle))     AND _
+            _StringIsNumber(GuiCtrlRead($sTickrate))  AND _
+            _StringIsNumber(GuiCtrlRead($sPartition))
 EndFunc
 
 Func LoadYawList($sFilePath)
-    Local $aYawList = IniReadSectionNames($sFilePath)
-    Local $sYawList = ""
-    For $i = 1 to UBound($aYawList)-1
-          $sYawList = $sYawList & "/ " & $aYawList[$i] & "|"
-    Next
-   Return $sYawList
+     Local $aYawList = IniReadSectionNames($sFilePath)
+     Local $sYawList = ""
+     For $i = 1 to UBound($aYawList)-1
+           $sYawList = $sYawList & "/ " & $aYawList[$i] & "|"
+     Next
+    Return $sYawList
 EndFunc
 
 Func _MouseMovePlus($X = "", $Y = "")
-        Local $MOUSEEVENTF_MOVE = 0x1
-    DllCall("user32.dll", "none", "mouse_event", _
-            "long",  $MOUSEEVENTF_MOVE, _
-            "long",  $X, _
-            "long",  $Y, _
-            "long",  0, _
-        "long",  0)
+     Local $MOUSEEVENTF_MOVE = 0x1
+     DllCall("user32.dll", "none",     "mouse_event", _
+                           "long", $MOUSEEVENTF_MOVE, _
+                           "long",                $X, _
+                           "long",                $Y, _
+                           "long",                 0, _
+                           "long",                 0)
 EndFunc
 
 Func _StringIsNumber($input) ; Checks if an input string is a number.
