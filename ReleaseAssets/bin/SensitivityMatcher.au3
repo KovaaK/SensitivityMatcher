@@ -197,7 +197,7 @@ Func MakeGUI()
                        ClearBounds()                                                   ; as well as clearing bounds
                     EndIf
                Case "< Save current yaw >"
-                   _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
+                      _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
                     If GUICtrlRead($sYawPresets) Then                                  ; if user input name is not void
                        IniWrite(   $gYawListIni,GUICtrlRead($sYawPresets),"yaw",GUICtrlRead($sYaw)   )
                        If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then
