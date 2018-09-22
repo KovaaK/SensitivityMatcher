@@ -68,7 +68,7 @@ Func MakeGUI()
    Local $sPartition  = GUICtrlCreateInput( "959"          , 100, 125,  95, 20)
    Local $sTickRate   = GUICtrlCreateInput( "60"           , 100, 150,  95, 20)
    Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
-   Local $idSave      = GUICtrlCreateButton("Save to Defaults",5, 205,  95, 25)
+   Local $idSave      = GUICtrlCreateButton("Save to Default", 5, 205,  95, 25)
    Local $idHelp      = GUICtrlCreateButton("Info"         , 100, 205,  95, 25)
    Local $idCalc      = GUICtrlCreateButton("Physical Stats...",195,205,95, 25)
 
@@ -248,9 +248,9 @@ Func MakeGUI()
               IniWrite($gSettingIni,"Default","cycl",_GetNumberFromString(GuiCtrlRead($sCycle)))
              If NOT ($idGUICalc == "INACTIVE") Then
               IniWrite($gSettingIni,"Default","cpi" ,_GetNumberFromString(GuiCtrlRead($lCalculator[1])))
-              MsgBox(0,"Success","Saved CPI, Sens, Yaw, Partition, Frequency, and Cycle to defaults.")
+              MsgBox(0,"Success","Saved CPI, Sens, Yaw, Partition, Frequency, and Cycle to default.")
              Else
-              MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, and Cycle to defaults.")
+              MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, and Cycle to default.")
              EndIf
           Else
              HelpMessage()
