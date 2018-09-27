@@ -291,8 +291,8 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          If GUICtrlRead(     $sYawPresets   ) == "Measure any game" Then
             UpdatePartition( $lPartition    )
-           If ($lAuto == 6) AND ($gCycle < Ceiling($gSens/($gBounds[1]-$gBounds[0])/360)) Then
-            GUICtrlSetData($sCycle, String(Ceiling($gSens/($gBounds[1]-$gBounds[0])/360)))
+           If ($lAuto == 6) AND ($gCycle < Ceiling($gSens/($gBounds[1]-$gBounds[0])/180)) Then
+            GUICtrlSetData($sCycle, String(Ceiling($gSens/($gBounds[1]-$gBounds[0])/180)))
             $gCycle = _GetNumberFromString( GuiCtrlRead($sCycle) )
            EndIf
          EndIf
