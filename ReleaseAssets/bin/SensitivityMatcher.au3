@@ -1,11 +1,13 @@
 #NoTrayIcon
+#include <Date.au3>
 #include <Misc.au3>
-#include <GUIConstantsEx.au3>
-#include <EditConstants.au3>
-#include <GUIComboBox.au3>
 #include <GuiEdit.au3>
-#include <StaticConstants.au3>
 #include <GUIToolTip.au3>
+#include <GUIComboBox.au3>
+#include <EditConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <StaticConstants.au3>
+#include <StringConstants.au3>
 
 Global Const $gPi               = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116
 Global Const $yawQuake          = 0.022
@@ -14,6 +16,7 @@ Global Const $yawReflex         = 0.018/$gPi
 Global Const $defaultTurnPeriod = 1000
 Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gSettingIni = "UserSettings.Ini"
+Global       $gReportFile = "MeasureReport.txt"
 
 Global $gValid     =  1    ; Keeps track of whether all user inputs are valid numbers or not
 Global $gMode      = -1    ; Three states of $gMode: -1, 0, and 1, for halt override, in-progress, and ready.
@@ -198,21 +201,27 @@ Func MakeGUI()
                     EndIf
                Case "< Save current yaw >"
                       _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
-                    If GUICtrlRead($sYawPresets) Then                                  ; if user input name is not void
+                    If GUICtrlRead($sYawPresets) Then                                  ; if user input name is valid
                        IniWrite(   $gYawListIni,GUICtrlRead($sYawPresets),"yaw",GUICtrlRead($sYaw)   )
-                       If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then
-                          IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncertainty","+/-"&($gBounds[1]-$gBounds[0])*50/$gSens&"%" )
-                       EndIf
+                      If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then
+                       IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncertainty","+/-"&GlobalUncertainty("%")&"%")
+                       IniWrite($gReportFile,GUICtrlRead($sYawPresets),"sens"       ,      GUICtrlRead($sSens)       )
+                       IniWrite($gReportFile,GUICtrlRead($sYawPresets),"yaw"        ,      GUICtrlRead($sYaw)        )
+                       IniWrite($gReportFile,GUICtrlRead($sYawPresets),"uncertainty","+/-"&GlobalUncertainty("%")&"%")
+                      EndIf
                        $lastYawPresets = GUICtrlRead($sYawPresets)
                       _GUICtrlComboBox_ResetContent( $sYawPresets)
-                       GUICtrlSetData(               $sYawPresets ,                         _
-                       "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _
-                                         LoadYawList($gYawListIni)&"< Save current yaw >|")
+                       GUICtrlSetData(               $sYawPresets ,                        _
+                      "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _
+                                        LoadYawList($gYawListIni)&"< Save current yaw >|")
                       _GUICtrlComboBox_SelectString( $sYawPresets ,"/ "&$lastYawPresets)
-                    Else
+                    Else                                                               ; if user input name is void
                       _GUICtrlComboBox_SetEditText(  $sYawPresets ,     $lastYawPresets)
                        If $lastYawPresets == "Measure any game" Then
                           EnableMeasureHotkeys(1,$lMeasureBinds)
+                         _GUICtrlComboBox_DeleteString($sYawPresets,0)
+                         _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0)
+                         _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")
                        EndIf
                     EndIf
                Case Else
@@ -389,7 +398,7 @@ EndFunc
 
 Func HelpMessage()
      If $gValid Then
-        Local $error = ($gBounds[1]-$gBounds[0])/2
+        Local $error = GlobalUncertainty()
         Local $time  = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
         MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
                           & "To match your old sensitivity to a new game:"                 & @crlf _
@@ -430,7 +439,7 @@ Func HelpMessage()
                           & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
                           & "Current Increment: "      & $gSens      & "°"                 & @crlf _
                           & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
-                          & "Uncertainty: ±"  & $error & "° (±" & $error/$gSens*100 & "%)" & @crlf _
+                          & "Uncertainty: ±" & $error  & "° (±"&GlobalUncertainty("%")&"%)"& @crlf _
                                                                                            & @crlf _
                           & "NOTE: "                                                               _
                           & "under/overshoot drifts might take multiple cycles before it becomes " _
@@ -526,6 +535,7 @@ Func DecreasePolygon()
   else
      $gSens      =($gBounds[0] + $gBounds[1]) / 2
   endif
+  IniWrite($gReportFile, "Log", $gBounds[0], "lowerbound, next autoguess="&$gSens&", (uncertainty: +/-"&GlobalUncertainty("%")&"%)")
 EndFunc
 
 Func IncreasePolygon()
@@ -543,6 +553,7 @@ Func IncreasePolygon()
         $gSens =  0.022
      endif
   endif
+  IniWrite($gReportFile, "Log", $gBounds[1], "upperbound, next autoguess="&$gSens&", (uncertainty: +/-"&GlobalUncertainty("%")&"%)")
 EndFunc
 
 Func ClearBounds()
@@ -550,6 +561,7 @@ Func ClearBounds()
      $gBounds[0] = 0
      $gBounds[1] = 0
      $gPartition = NormalizedPartition($defaultTurnPeriod)
+     $gReportFile= CleanupFileName("MeasureReport"&_Now()&".txt")
 EndFunc
 
 Func UpdatePartition($lPartition)
@@ -573,12 +585,37 @@ Func NormalizedPartition($turntime)
     Return $slice
 EndFunc
 
+Func CleanupFileName($input)
+     $input = StringReplace( $input, "?", "" )
+     $input = StringReplace( $input, ":", "-" )
+     $input = StringReplace( $input, "*", "" )
+     $input = StringReplace( $input, "|", "" )
+     $input = StringReplace( $input, "/", "-" )
+     $input = StringReplace( $input, "\", "" )
+     $input = StringReplace( $input, "<", "" )
+     $input = StringReplace( $input, ">", "" )
+     $input = StringReplace( $input, " ", "_" )
+     Return $input
+EndFunc
+
 Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
      return _StringIsNumber(GuiCtrlRead($sYaw))       AND _
             _StringIsNumber(GuiCtrlRead($sSens))      AND _
             _StringIsNumber(GuiCtrlRead($sCycle))     AND _
             _StringIsNumber(GuiCtrlRead($sTickrate))  AND _
             _StringIsNumber(GuiCtrlRead($sPartition))
+EndFunc
+
+Func GlobalUncertainty($mode=".")
+     Local $output = ($gBounds[1]-$gBounds[0])/2
+     If    $mode  == "%" Then
+           $output = ($gBounds[1]-$gBounds[0])*50/$gSens
+     EndIf
+     If $output < 0 Then
+        Return "infty"
+     Else
+        Return $output
+     EndIf
 EndFunc
 
 Func LoadYawList($sFilePath)
