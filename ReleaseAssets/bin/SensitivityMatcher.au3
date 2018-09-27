@@ -519,11 +519,11 @@ Func DecreasePolygon()
    Else
       $gSens      =($gBounds[0] + $gBounds[1]) / 2
    EndIf
-      IniWrite($gReportFile,"Convergence Log",    _
-      "lwrbnd:,"&$gBounds[0]&",nxtgss:,"&$gSens&  _
-      ",uncrty:+/-,"&GlobalUncertainty()&         _
-      ",(+/-"&GlobalUncertainty("%")&"%),mincyl", _
-              GlobalUncertainty("rev")            )
+      IniWrite($gReportFile,"Convergence Log",     _
+      "lwrbnd:,"&$gBounds[0]&",nxtgss:,"&$gSens&   _
+      ",uncrty:+/-,"&GlobalUncertainty()&          _
+      ",(+/-"&GlobalUncertainty("%")&"%),mincycl", _
+              GlobalUncertainty("rev")             )
   Else
       HelpMessage()
   EndIf
@@ -539,11 +539,11 @@ Func IncreasePolygon()
    Else
       $gSens      =($gBounds[0] + $gBounds[1]) / 2
    EndIf
-      IniWrite($gReportFile,"Convergence Log",    _
-      "uprbnd:,"&$gBounds[1]&",nxtgss:,"&$gSens&  _
-      ",uncrty:+/-,"&GlobalUncertainty()&         _
-      ",(+/-"&GlobalUncertainty("%")&"%),mincyl", _
-              GlobalUncertainty("rev")            )
+      IniWrite($gReportFile,"Convergence Log",     _
+      "uprbnd:,"&$gBounds[1]&",nxtgss:,"&$gSens&   _
+      ",uncrty:+/-,"&GlobalUncertainty()&          _
+      ",(+/-"&GlobalUncertainty("%")&"%),mincycl", _
+              GlobalUncertainty("rev")             )
   Else
       HelpMessage()
   EndIf
