@@ -291,8 +291,8 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          If GUICtrlRead(     $sYawPresets   ) == "Measure any game" Then
             UpdatePartition( $lPartition    )
-           If ($lAuto == 6) AND ($gCycle < Ceiling($gSens/($gBounds[1]-$gBounds[0])/180)) Then
-            GUICtrlSetData($sCycle, String(Ceiling($gSens/($gBounds[1]-$gBounds[0])/180)))
+           If ($lAuto == 6) AND ($gCycle < GlobalUncertainty("rev")) Then
+            GUICtrlSetData($sCycle, String(GlobalUncertainty("rev")))
             $gCycle = _GetNumberFromString( GuiCtrlRead($sCycle) )
            EndIf
          EndIf
@@ -519,9 +519,11 @@ Func DecreasePolygon()
    Else
       $gSens      =($gBounds[0] + $gBounds[1]) / 2
    EndIf
-      IniWrite(  $gReportFile,  "Convergence Log",         _
-      "lwrbnd:,"&$gBounds[0]&",nxtgss:,"&$gSens&",uncrty", _
-      "+/-,"&GlobalUncertainty()&",(+/-"&GlobalUncertainty("%")&"%)")
+      IniWrite($gReportFile,"Convergence Log",    _
+      "lwrbnd:,"&$gBounds[0]&",nxtgss:,"&$gSens&  _
+      ",uncrty:+/-,"&GlobalUncertainty()&         _
+      ",(+/-"&GlobalUncertainty("%")&"%),mincyl", _
+              GlobalUncertainty("rev")            )
   Else
       HelpMessage()
   EndIf
@@ -537,9 +539,11 @@ Func IncreasePolygon()
    Else
       $gSens      =($gBounds[0] + $gBounds[1]) / 2
    EndIf
-      IniWrite(  $gReportFile,  "Convergence Log",         _
-      "uprbnd:,"&$gBounds[1]&",nxtgss:,"&$gSens&",uncrty", _
-      "+/-,"&GlobalUncertainty()&",(+/-"&GlobalUncertainty("%")&"%)")
+      IniWrite($gReportFile,"Convergence Log",    _
+      "uprbnd:,"&$gBounds[1]&",nxtgss:,"&$gSens&  _
+      ",uncrty:+/-,"&GlobalUncertainty()&         _
+      ",(+/-"&GlobalUncertainty("%")&"%),mincyl", _
+              GlobalUncertainty("rev")            )
   Else
       HelpMessage()
   EndIf
@@ -619,9 +623,11 @@ Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
 EndFunc
 
 Func GlobalUncertainty($mode=".")
-     Local $output = ($gBounds[1]-$gBounds[0])/2
-     If    $mode  == "%" Then
-           $output = ($gBounds[1]-$gBounds[0])*50/$gSens
+     Local  $output = ($gBounds[1]-$gBounds[0])/2
+     If     $mode  == "%"   Then
+            $output = ($gBounds[1]-$gBounds[0])*50/$gSens
+     ElseIf $mode  == "rev" Then
+            $output = Ceiling($gSens*$gSens/($gBounds[1]-$gBounds[0])/180)
      EndIf
      If $output < 0 Then
         Return "infty"
