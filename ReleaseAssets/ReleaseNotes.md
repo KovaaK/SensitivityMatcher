@@ -2,6 +2,10 @@
 
 [version 1.4]
 
+_New Feature: Measurement Report_
+
+To facilitate crowdsourced efforts for stringent measurement and independent verification of yaw scales, measurement reports are now produced automatically to better enable rigorous peer review of shared results.
+
 _New: Added button to save current inputs to startup values._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
 _Fix:  Measurement hotkeys now unbinds properly if keybind is tweaked while still in measurement mode._ \
