@@ -14,8 +14,8 @@ Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = 0.018/$gPi
 Global Const $defaultTurnPeriod = 1000
-Global Const $gYawListIni = "CustomYawList.ini"
 Global Const $gSettingIni = "UserSettings.Ini"
+Global Const $gYawListIni = "CustomYawList.ini"
 Global       $gReportFile = "MeasureReport.txt"
 
 Global $gValid     =  1    ; Keeps track of whether all user inputs are valid numbers or not
@@ -199,7 +199,7 @@ Func MakeGUI()
                        GUICtrlSetData($sYaw,1)                                         ; set yaw to 1 on measure mode select
                        ClearBounds()                                                   ; as well as clearing bounds
                        $lAuto = MsgBox(4,"Option", _
-                       "Auto-adjust cycles based on uncertainty?"&@crlf&"(Recommended for high-precision measurement)")
+                       "Enable auto-adjustment of cycle based on uncertainty?"&@crlf&"(Recommended for high-precision measurement)")
                     EndIf
                Case "< Save current yaw >"
                       _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
@@ -518,7 +518,7 @@ Func DecreasePolygon()
   else
      $gSens      =($gBounds[0] + $gBounds[1]) / 2
   endif
-  IniWrite( $gReportFile, "Log", $gBounds[0],                   _
+  IniWrite( $gReportFile, "Convergence Log", $gBounds[0],       _
             "lowerbound, autoguess=" & $gSens                 & _
             ", uncertainty=+/-"      & GlobalUncertainty()    & _
             " (+/-"                  & GlobalUncertainty("%") & "%)" )
@@ -533,7 +533,7 @@ Func IncreasePolygon()
   else
      $gSens      =($gBounds[0] + $gBounds[1]) / 2
   endif
-  IniWrite( $gReportFile, "Log", $gBounds[1],                   _
+  IniWrite( $gReportFile, "Convergence Log", $gBounds[1],       _
             "upperbound, autoguess=" & $gSens                 & _
             ", uncertainty=+/-"      & GlobalUncertainty()    & _
             " (+/-"                  & GlobalUncertainty("%") & "%)" )
