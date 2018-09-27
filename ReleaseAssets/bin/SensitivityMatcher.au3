@@ -520,7 +520,7 @@ Func DecreasePolygon()
   endif
   IniWrite( $gReportFile, "Log", $gBounds[0],                   _
             "lowerbound, autoguess=" & $gSens                 & _
-            ", uncertainty="         & GlobalUncertainty()    & _
+            ", uncertainty=+/-"      & GlobalUncertainty()    & _
             " (+/-"                  & GlobalUncertainty("%") & "%)" )
 EndFunc
 
@@ -535,7 +535,7 @@ Func IncreasePolygon()
   endif
   IniWrite( $gReportFile, "Log", $gBounds[1],                   _
             "upperbound, autoguess=" & $gSens                 & _
-            ", uncertainty="         & GlobalUncertainty()    & _
+            ", uncertainty=+/-"      & GlobalUncertainty()    & _
             " (+/-"                  & GlobalUncertainty("%") & "%)" )
 EndFunc
 
