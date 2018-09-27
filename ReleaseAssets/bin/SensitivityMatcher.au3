@@ -128,7 +128,7 @@ Func MakeGUI()
    Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, passed to UpdatePartition to clip the NormalizedPartition result
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-   Local $lCalculator[7] , $lMeasureBinds[3], $lAuto ; ByRef handles for HandyCalc and measurement keybinds. Never addressed directly in loop.
+   Local $lCalculator[7] , $lMeasureBinds[3],        ; ByRef handles for HandyCalc and measurement keybinds. Never addressed directly in loop.
    EnableMeasureHotkeys(1, $lMeasureBinds)           ; populate the lMeasurebinds variable with ini value
    EnableMeasureHotkeys(0, $lMeasureBinds)           ; unbind lMeasurebinds till measure mode is selected
    GUISetState(@SW_SHOW)
@@ -198,10 +198,6 @@ Func MakeGUI()
                     Else                                                               ; ElseIf idMsg[0] is Measure any game
                         GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
                         ClearBounds()                                                  ; as well as clearing bounds
-                        $lAuto = MsgBox(4,"Option", _
-                        "Would you like cycles to adjust according to the uncertainty?"& _
-                                                                           @crlf&@crlf & _
-                                      "(Recommended if you're obtaining rigorous data)"  )
                     EndIf
                Case "< Save current yaw >"
                    _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
@@ -293,7 +289,7 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          If GUICtrlRead(     $sYawPresets   ) == "Measure any game" Then
             UpdatePartition( $lPartition    )
-           If ($lAuto == 6) AND ($gCycle < GlobalUncertainty("rev")) Then
+           If GlobalUncertainty("rev") > $gCycle Then
             GUICtrlSetData($sCycle, String(GlobalUncertainty("rev")))
             $gCycle = _GetNumberFromString( GuiCtrlRead($sCycle) )
            EndIf
