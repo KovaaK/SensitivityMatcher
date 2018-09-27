@@ -503,29 +503,6 @@ Func EnableMeasureHotkeys( $enable, ByRef $binds)
   EndIf
 EndFunc
 
-Func Halt()
-  If $gMode > -1 Then
-     $gMode = -1
-     $gResidual = 0
-  EndIf
-EndFunc
-
-Func SingleCycle()
-  if $gValid Then
-     TestMouse(1)
-  Else
-     HelpMessage()
-  EndIf
-EndFunc
-
-Func AutoCycle()
-  if $gValid Then
-     TestMouse($gCycle)
-  Else
-     HelpMessage()
-  EndIf
-EndFunc
-
 Func DecreasePolygon()
      $gResidual  = 0
      $gBounds[0] = $gSens
@@ -562,6 +539,29 @@ Func ClearBounds()
      $gBounds[1] = 0
      $gPartition = NormalizedPartition($defaultTurnPeriod)
      $gReportFile= CleanupFileName("MeasureReport"&_Now()&".txt")
+EndFunc
+
+Func SingleCycle()
+  if $gValid Then
+     TestMouse(1)
+  Else
+     HelpMessage()
+  EndIf
+EndFunc
+
+Func AutoCycle()
+  if $gValid Then
+     TestMouse($gCycle)
+  Else
+     HelpMessage()
+  EndIf
+EndFunc
+
+Func Halt()
+  If $gMode > -1 Then
+     $gMode = -1
+     $gResidual = 0
+  EndIf
 EndFunc
 
 Func UpdatePartition($lPartition)
