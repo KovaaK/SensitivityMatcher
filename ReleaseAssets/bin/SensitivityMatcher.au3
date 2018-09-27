@@ -199,7 +199,9 @@ Func MakeGUI()
                         GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
                         ClearBounds()                                                  ; as well as clearing bounds
                         $lAuto = MsgBox(4,"Option", _
-                        "Auto-increase cycles based on uncertainty?"&@crlf&@crlf&"(Recommended for high-precision measurement)")
+                        "Would you like cycles to adjust according to the uncertainty?"& _
+                                                                           @crlf&@crlf & _
+                                      "(Recommended if you're obtaining rigorous data)"  )
                     EndIf
                Case "< Save current yaw >"
                    _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
