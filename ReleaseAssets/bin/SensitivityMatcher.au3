@@ -199,7 +199,7 @@ Func MakeGUI()
                        GUICtrlSetData($sYaw,1)                                         ; set yaw to 1 on measure mode select
                        ClearBounds()                                                   ; as well as clearing bounds
                        $lAuto = MsgBox(4,"Option", _
-                       "Enable auto-adjustment of cycle based on uncertainty?"&@crlf&"(Recommended for high-precision measurement)")
+                       "Enable auto-adjustment of cycle number?"&@crlf&@crlf&"(Recommended for high-precision measurement)")
                     EndIf
                Case "< Save current yaw >"
                       _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
@@ -219,12 +219,12 @@ Func MakeGUI()
                       _GUICtrlComboBox_SelectString( $sYawPresets ,"/ "&$lastYawPresets)
                     Else                                                               ; if user input name is void
                       _GUICtrlComboBox_SetEditText(  $sYawPresets ,     $lastYawPresets)
-                       If $lastYawPresets == "Measure any game" Then
-                          EnableMeasureHotkeys(1,$lMeasureBinds)
-                         _GUICtrlComboBox_DeleteString($sYawPresets,0)
-                         _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0)
-                         _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")
-                       EndIf
+                      If $lastYawPresets == "Measure any game" Then
+                         EnableMeasureHotkeys(1,$lMeasureBinds)
+                        _GUICtrlComboBox_DeleteString($sYawPresets,0)
+                        _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0)
+                        _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")
+                      EndIf
                     EndIf
                Case Else
                     GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
@@ -454,7 +454,7 @@ Func HelpMessage()
                           & "many rotations. It only counts as an under/overshoot if you observe " _
                           & "systematic drift in spite of the snapback.")
      Else
-        MsgBox(0, "Error", "Inputs must be numbers")
+        MsgBox(0, "Error", "Inputs must be positive numbers")
      EndIf
 EndFunc
 
@@ -510,33 +510,41 @@ Func EnableMeasureHotkeys( $enable, ByRef $binds)
 EndFunc
 
 Func DecreasePolygon()
-     $gResidual  = 0
-     $gBounds[0] = $gSens
-  if $gBounds[1] < $gBounds[0] then
-     $gBounds[1] = 0
-     $gSens      = $gBounds[0] * 2
-  else
-     $gSens      =($gBounds[0] + $gBounds[1]) / 2
-  endif
-  IniWrite( $gReportFile, "Convergence Log", $gBounds[0],       _
-            "lowerbound, autoguess=" & $gSens                 & _
-            ", uncertainty=+/-"      & GlobalUncertainty()    & _
-            " (+/-"                  & GlobalUncertainty("%") & "%)" )
+  If  $gValid Then
+      $gResidual  = 0
+      $gBounds[0] = $gSens
+   If $gBounds[1] < $gBounds[0] then
+      $gBounds[1] = 0
+      $gSens      = $gBounds[0] * 2
+   Else
+      $gSens      =($gBounds[0] + $gBounds[1]) / 2
+   EndIf
+      IniWrite( $gReportFile, "Convergence Log", $gBounds[0],       _
+                "lowerbound, autoguess=" & $gSens                 & _
+                ", uncertainty=+/-"      & GlobalUncertainty()    & _
+                " (+/-"                  & GlobalUncertainty("%") & "%)" )
+  Else
+      HelpMessage()
+  EndIf
 EndFunc
 
 Func IncreasePolygon()
-     $gResidual  = 0
-     $gBounds[1] = $gSens
-  if $gBounds[1] < $gBounds[0] then
-     $gBounds[0] = 0
-     $gSens      = $gBounds[1] / 2
-  else
-     $gSens      =($gBounds[0] + $gBounds[1]) / 2
-  endif
-  IniWrite( $gReportFile, "Convergence Log", $gBounds[1],       _
-            "upperbound, autoguess=" & $gSens                 & _
-            ", uncertainty=+/-"      & GlobalUncertainty()    & _
-            " (+/-"                  & GlobalUncertainty("%") & "%)" )
+  If  $gValid Then
+      $gResidual  = 0
+      $gBounds[1] = $gSens
+   If $gBounds[1] < $gBounds[0] then
+      $gBounds[0] = 0
+      $gSens      = $gBounds[1] / 2
+   Else
+      $gSens      =($gBounds[0] + $gBounds[1]) / 2
+   EndIf
+      IniWrite( $gReportFile, "Convergence Log", $gBounds[1],       _
+                "upperbound, autoguess=" & $gSens                 & _
+                ", uncertainty=+/-"      & GlobalUncertainty()    & _
+                " (+/-"                  & GlobalUncertainty("%") & "%)" )
+  Else
+      HelpMessage()
+  EndIf
 EndFunc
 
 Func ClearBounds()
@@ -548,7 +556,7 @@ Func ClearBounds()
 EndFunc
 
 Func SingleCycle()
-  if $gValid Then
+  If $gValid Then
      TestMouse(1)
   Else
      HelpMessage()
@@ -556,7 +564,7 @@ Func SingleCycle()
 EndFunc
 
 Func AutoCycle()
-  if $gValid Then
+  If $gValid Then
      TestMouse($gCycle)
   Else
      HelpMessage()
@@ -605,11 +613,11 @@ Func CleanupFileName($input)
 EndFunc
 
 Func InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-     return _StringIsNumber(GuiCtrlRead($sYaw))       AND _
-            _StringIsNumber(GuiCtrlRead($sSens))      AND _
-            _StringIsNumber(GuiCtrlRead($sCycle))     AND _
-            _StringIsNumber(GuiCtrlRead($sTickrate))  AND _
-            _StringIsNumber(GuiCtrlRead($sPartition))
+     return _StringIsNumber(GuiCtrlRead($sYaw))       AND 0<_GetNumberFromString(GuiCtrlRead($sYaw))      _
+        AND _StringIsNumber(GuiCtrlRead($sSens))      AND 0<_GetNumberFromString(GuiCtrlRead($sSens))     _
+        AND _StringIsNumber(GuiCtrlRead($sCycle))     AND 0<_GetNumberFromString(GuiCtrlRead($sCycle))    _
+        AND _StringIsNumber(GuiCtrlRead($sTickrate))  AND 0<_GetNumberFromString(GuiCtrlRead($sTickrate)) _
+        AND _StringIsNumber(GuiCtrlRead($sPartition)) AND 0<_GetNumberFromString(GuiCtrlRead($sPartition))
 EndFunc
 
 Func GlobalUncertainty($mode=".")
