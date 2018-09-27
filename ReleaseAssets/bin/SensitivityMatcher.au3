@@ -535,7 +535,10 @@ Func DecreasePolygon()
   else
      $gSens      =($gBounds[0] + $gBounds[1]) / 2
   endif
-  IniWrite($gReportFile, "Log", $gBounds[0], "lowerbound, next autoguess="&$gSens&", (uncertainty: +/-"&GlobalUncertainty("%")&"%)")
+  IniWrite( $gReportFile, "Log", $gBounds[0],                   _
+            "lowerbound, autoguess=" & $gSens                 & _
+            ", uncertainty="         & GlobalUncertainty()    & _
+            " (+/-"                  & GlobalUncertainty("%") & "%)" )
 EndFunc
 
 Func IncreasePolygon()
@@ -547,13 +550,10 @@ Func IncreasePolygon()
   else
      $gSens      =($gBounds[0] + $gBounds[1]) / 2
   endif
-  if $gSens == 0 then
-     $gSens =  $gBounds[1]
-     if $gSens == 0 then
-        $gSens =  0.022
-     endif
-  endif
-  IniWrite($gReportFile, "Log", $gBounds[1], "upperbound, next autoguess="&$gSens&", (uncertainty: +/-"&GlobalUncertainty("%")&"%)")
+  IniWrite( $gReportFile, "Log", $gBounds[1],                   _
+            "upperbound, autoguess=" & $gSens                 & _
+            ", uncertainty="         & GlobalUncertainty()    & _
+            " (+/-"                  & GlobalUncertainty("%") & "%)" )
 EndFunc
 
 Func ClearBounds()
