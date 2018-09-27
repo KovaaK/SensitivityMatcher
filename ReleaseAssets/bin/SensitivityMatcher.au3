@@ -208,8 +208,8 @@ Func MakeGUI()
                    If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then  ; write uncertainty and report info if valid bounds
                     IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncrty","+/-"&GlobalUncertainty("%")&"%")
                     IniWrite($gReportFile,GUICtrlRead($sYawPresets),"uncrty","+/-"&GlobalUncertainty("%")&"%")
-                    IniWrite($gReportFile,GUICtrlRead($sYawPresets),"sens"  ,      GUICtrlRead($sSens)       )
                     IniWrite($gReportFile,GUICtrlRead($sYawPresets),"yaw"   ,      GUICtrlRead($sYaw)        )
+                    IniWrite($gReportFile,GUICtrlRead($sYawPresets),"sens"  ,      GUICtrlRead($sSens)       )
                    EndIf
                     $lastYawPresets = GUICtrlRead($sYawPresets)                            ; update preset memory
                    _GUICtrlComboBox_ResetContent( $sYawPresets)                            ; clear yaw list to rebuild from ini
@@ -521,7 +521,7 @@ Func DecreasePolygon()
    EndIf
       IniWrite( $gReportFile, "Convergence Log", $gBounds[0],       _
                 "lowerbound, autoguess=" & $gSens                 & _
-                ", uncertainty=+/-"      & GlobalUncertainty()    & _
+                ", uncrty=+/-"           & GlobalUncertainty()    & _
                 " (+/-"                  & GlobalUncertainty("%") & "%)" )
   Else
       HelpMessage()
@@ -540,7 +540,7 @@ Func IncreasePolygon()
    EndIf
       IniWrite( $gReportFile, "Convergence Log", $gBounds[1],       _
                 "upperbound, autoguess=" & $gSens                 & _
-                ", uncertainty=+/-"      & GlobalUncertainty()    & _
+                ", uncrty=+/-"           & GlobalUncertainty()    & _
                 " (+/-"                  & GlobalUncertainty("%") & "%)" )
   Else
       HelpMessage()
