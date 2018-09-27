@@ -513,7 +513,7 @@ Func DecreasePolygon()
   If  $gValid Then
       $gResidual  = 0
       $gBounds[0] = $gSens
-   If $gBounds[1] < $gBounds[0] then
+   If $gBounds[1] < $gBounds[0] Then
       $gBounds[1] = 0
       $gSens      = $gBounds[0] * 2
    Else
@@ -532,7 +532,7 @@ Func IncreasePolygon()
   If  $gValid Then
       $gResidual  = 0
       $gBounds[1] = $gSens
-   If $gBounds[1] < $gBounds[0] then
+   If $gBounds[1] < $gBounds[0] Then
       $gBounds[0] = 0
       $gSens      = $gBounds[1] / 2
    Else
