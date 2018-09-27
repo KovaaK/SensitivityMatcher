@@ -627,7 +627,7 @@ Func GlobalUncertainty($mode=".")
      If     $mode  == "%"   Then
             $output = ($gBounds[1]-$gBounds[0])*50/$gSens
      ElseIf $mode  == "rev" Then
-            $output = Ceiling($gSens*$gSens/($gBounds[1]-$gBounds[0])/180)
+            $output = Ceiling($gSens*$gSens/($gBounds[1]-$gBounds[0])/360)
      EndIf
      If $output < 0 Then
         Return "infty"
