@@ -508,42 +508,50 @@ Func EnableMeasureHotkeys( $enable, ByRef $binds)
 EndFunc
 
 Func DecreasePolygon()
-  If  $gValid Then
-      $gResidual  = 0
-      $gBounds[0] = $gSens
-   If $gBounds[1] < $gBounds[0] Then
-      $gBounds[1] = 0
-      $gSens      = $gBounds[0] * 2
-   Else
-      $gSens      =($gBounds[0] + $gBounds[1]) / 2
-   EndIf
-      IniWrite($gReportFile,"Convergence Log",     _
-      "lwrbnd:,"&$gBounds[0]&",nxtgss:,"&$gSens&   _
-      ",uncrty:+/-,"&GlobalUncertainty()&          _
-      ",(+/-"&GlobalUncertainty("%")&"%),mincycl", _
-              GlobalUncertainty("rev")             )
-  Else
-      HelpMessage()
+  If     $gMode>0 Then
+         $gMode=0
+    If   $gValid  Then
+         $gResidual  = 0
+         $gBounds[0] = $gSens
+      If $gBounds[1] < $gBounds[0] Then
+         $gBounds[1] = 0
+         $gSens      = $gBounds[0] * 2
+      Else
+         $gSens      =($gBounds[0] + $gBounds[1]) / 2
+      EndIf
+         IniWrite($gReportFile,"Convergence Log",     _
+         "lwrbnd:,"&$gBounds[0]&",nxtgss:,"&$gSens&   _
+         ",uncrty:+/-,"&GlobalUncertainty()&          _
+         ",(+/-"&GlobalUncertainty("%")&"%),mincycl", _
+                 GlobalUncertainty("rev")             )
+    Else
+         HelpMessage()
+    EndIf
+    $gMode=1
   EndIf
 EndFunc
 
 Func IncreasePolygon()
-  If  $gValid Then
-      $gResidual  = 0
-      $gBounds[1] = $gSens
-   If $gBounds[1] < $gBounds[0] Then
-      $gBounds[0] = 0
-      $gSens      = $gBounds[1] / 2
-   Else
-      $gSens      =($gBounds[0] + $gBounds[1]) / 2
-   EndIf
-      IniWrite($gReportFile,"Convergence Log",     _
-      "uprbnd:,"&$gBounds[1]&",nxtgss:,"&$gSens&   _
-      ",uncrty:+/-,"&GlobalUncertainty()&          _
-      ",(+/-"&GlobalUncertainty("%")&"%),mincycl", _
-              GlobalUncertainty("rev")             )
-  Else
-      HelpMessage()
+  If     $gMode>0 Then
+         $gMode=0
+    If   $gValid  Then
+         $gResidual  = 0
+         $gBounds[1] = $gSens
+      If $gBounds[1] < $gBounds[0] Then
+         $gBounds[0] = 0
+         $gSens      = $gBounds[1] / 2
+      Else
+         $gSens      =($gBounds[0] + $gBounds[1]) / 2
+      EndIf
+         IniWrite($gReportFile,"Convergence Log",     _
+         "uprbnd:,"&$gBounds[1]&",nxtgss:,"&$gSens&   _
+         ",uncrty:+/-,"&GlobalUncertainty()&          _
+         ",(+/-"&GlobalUncertainty("%")&"%),mincycl", _
+                 GlobalUncertainty("rev")             )
+    Else
+         HelpMessage()
+    EndIf
+    $gMode=1
   EndIf
 EndFunc
 
