@@ -519,10 +519,10 @@ Func DecreasePolygon()
    Else
       $gSens      =($gBounds[0] + $gBounds[1]) / 2
    EndIf
-      IniWrite( $gReportFile, "Convergence Log", $gBounds[0],       _
-                "lowerbound, autoguess=" & $gSens                 & _
-                ", uncrty=+/-"           & GlobalUncertainty()    & _
-                " (+/-"                  & GlobalUncertainty("%") & "%)" )
+      IniWrite( $gReportFile, "Convergence Log", $gBounds[0] &"," , _
+                "lwrbnd,nxtgss=," & $gSens                   &      _
+                ", uncrty=+/-"    & GlobalUncertainty()      &      _
+                " (+/-"           & GlobalUncertainty("%")   & "%)" )
   Else
       HelpMessage()
   EndIf
@@ -538,10 +538,10 @@ Func IncreasePolygon()
    Else
       $gSens      =($gBounds[0] + $gBounds[1]) / 2
    EndIf
-      IniWrite( $gReportFile, "Convergence Log", $gBounds[1],       _
-                "upperbound, autoguess=" & $gSens                 & _
-                ", uncrty=+/-"           & GlobalUncertainty()    & _
-                " (+/-"                  & GlobalUncertainty("%") & "%)" )
+      IniWrite( $gReportFile, "Convergence Log", $gBounds[1] &"," , _
+                "uprbnd,nxtgss=," & $gSens                   &      _
+                ", uncrty=+/-"    & GlobalUncertainty()      &      _
+                " (+/-"           & GlobalUncertainty("%")   & "%)" )
   Else
       HelpMessage()
   EndIf
