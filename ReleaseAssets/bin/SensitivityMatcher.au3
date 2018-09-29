@@ -499,19 +499,27 @@ Func EnableMeasureHotkeys( $enable, ByRef $binds)
      $binds[0] = IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}")
      $binds[1] = IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}")
      $binds[2] = IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}")
-     $binds[3] = IniRead($gSettingIni, "Hotkeys", "NudgeFwd", "!{.}")
-     $binds[4] = IniRead($gSettingIni, "Hotkeys", "NudgeBkd", "!{,}")
+     $binds[3] = IniRead($gSettingIni, "Hotkeys", "NudgeFwd", "")
+     $binds[4] = IniRead($gSettingIni, "Hotkeys", "NudgeBkd", "")
      HotKeySet( $binds[0] , "DecreasePolygon" )
      HotKeySet( $binds[1] , "IncreasePolygon" )
      HotKeySet( $binds[2] , "ClearBounds"     )
+    If $binds[3] Then
      HotKeySet( $binds[3] , "NudgeRight"   )
+    EndIf
+    If $binds[4] Then
      HotKeySet( $binds[4] , "NudgeLeft"    )
+    EndIf
   Else
      HotKeySet( $binds[0] )
      HotKeySet( $binds[1] )
      HotKeySet( $binds[2] )
+    If $binds[3] Then
      HotKeySet( $binds[3] )
+    EndIf
+    If $binds[4] Then
      HotKeySet( $binds[4] )
+    EndIf
   EndIf
 EndFunc
 
