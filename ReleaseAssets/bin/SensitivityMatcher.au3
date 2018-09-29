@@ -258,9 +258,9 @@ Func MakeGUI()
               IniWrite($gSettingIni,"Default","cycl",_GetNumberFromString(GuiCtrlRead($sCycle)))
              If NOT ($idGUICalc == "INACTIVE") Then
               IniWrite($gSettingIni,"Default","cpi" ,_GetNumberFromString(GuiCtrlRead($lCalculator[1])))
-              MsgBox(0,"Success","Saved CPI, Sens, Yaw, Partition, Frequency, and Cycle to default.")
+              MsgBox(0,"Success","Saved CPI, Sens, Yaw, Partition, Frequency, and Cycle.")
              Else
-              MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, and Cycle to default.")
+              MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, and Cycle.")
              EndIf
            EndIf
           Else
