@@ -250,6 +250,7 @@ Func MakeGUI()
 
         Case $idSave
           If $gValid Then
+           If MsgBox(1,"Save values","Save current values to startup default?") == 1 Then
               IniWrite($gSettingIni,"Default","sens",_GetNumberFromString(GuiCtrlRead($sSens)))
               IniWrite($gSettingIni,"Default","yaw" ,_GetNumberFromString(GuiCtrlRead($sYaw)))
               IniWrite($gSettingIni,"Default","part",_GetNumberFromString(GuiCtrlRead($sPartition)))
@@ -261,6 +262,7 @@ Func MakeGUI()
              Else
               MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, and Cycle to default.")
              EndIf
+           EndIf
           Else
              HelpMessage()
           EndIf
