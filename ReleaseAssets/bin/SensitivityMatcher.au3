@@ -594,12 +594,17 @@ Func OscillationTest()
   If $gMode = 1 Then
      $gMode = 0
      For $i = 0 to $gCycle
+         If $gMode < 0 Then
+            ExitLoop
+         EndIf
         _MouseMovePlus(1,0)
          Sleep($gDelay)
         _MouseMovePlus(-1,0)
          Sleep($gDelay)
      Next
-     $gMode = 1
+     If $gMode == 0 Then
+        $gMode = 1
+     EndIf
   EndIf
 EndFunc
 
