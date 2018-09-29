@@ -596,7 +596,6 @@ Func OscillationTest()
     _MouseMovePlus(1,0)
      Sleep($gDelay)
     _MouseMovePlus(-1,0)
-     Sleep($gDelay)
      $gMode = 1
   EndIf
 EndFunc
