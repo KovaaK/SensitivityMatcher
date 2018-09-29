@@ -602,7 +602,7 @@ Func OscillationTest()
         _MouseMovePlus(-1,0)
          Sleep($gDelay)
      Next
-     If $gMode == 0 Then
+     If $gMode = 0 Then
         $gMode = 1
      EndIf
   EndIf
