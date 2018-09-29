@@ -128,7 +128,7 @@ Func MakeGUI()
    Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, passed to UpdatePartition to clip the NormalizedPartition result
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-   Local $lCalculator[7] , $lMeasureBinds[3]         ; ByRef handles for HandyCalc and measurement keybinds. Never addressed directly in loop.
+   Local $lCalculator[7] , $lMeasureBinds[6]         ; ByRef handles for HandyCalc and measurement keybinds. Never addressed directly in loop.
    EnableMeasureHotkeys(1, $lMeasureBinds)           ; populate the lMeasurebinds variable with ini value
    EnableMeasureHotkeys(0, $lMeasureBinds)           ; unbind lMeasurebinds till measure mode is selected
    GUISetState(@SW_SHOW)
@@ -499,13 +499,22 @@ Func EnableMeasureHotkeys( $enable, ByRef $binds)
      $binds[0] = IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}")
      $binds[1] = IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}")
      $binds[2] = IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}")
+     $binds[3] = IniRead($gSettingIni, "Hotkeys", "NudgeFwd", "!{.}")
+     $binds[4] = IniRead($gSettingIni, "Hotkeys", "NudgeBkd", "!{,}")
+     $binds[5] = IniRead($gSettingIni, "Hotkeys", "Oscillat", "!{/}")
      HotKeySet( $binds[0] , "DecreasePolygon" )
      HotKeySet( $binds[1] , "IncreasePolygon" )
      HotKeySet( $binds[2] , "ClearBounds"     )
+     HotKeySet( $binds[3] , "NudgeRight"   )
+     HotKeySet( $binds[4] , "NudgeLeft"    )
+     HotKeySet( $binds[5] , "OscillationTest" )
   Else
      HotKeySet( $binds[0] )
      HotKeySet( $binds[1] )
      HotKeySet( $binds[2] )
+     HotKeySet( $binds[3] )
+     HotKeySet( $binds[4] )
+     HotKeySet( $binds[5] )
   EndIf
 EndFunc
 
@@ -563,6 +572,33 @@ Func ClearBounds()
      $gBounds[1] = 0
      $gPartition = NormalizedPartition($defaultTurnPeriod)
      $gReportFile= CleanupFileName("MeasureReport"&_Now()&".txt")
+EndFunc
+
+Func NudgeLeft()
+  If $gMode = 1 Then
+     $gMode = 0
+    _MouseMovePlus(-1,0)
+     $gMode = 1
+  EndIf
+EndFunc
+
+Func NudgeRight()
+  If $gMode = 1 Then
+     $gMode = 0
+    _MouseMovePlus(1,0)
+     $gMode = 1
+  EndIf
+EndFunc
+
+Func OscillationTest()
+  If $gMode = 1 Then
+     $gMode = 0
+    _MouseMovePlus(1,0)
+     Sleep($gDelay)
+    _MouseMovePlus(-1,0)
+     Sleep($gDelay)
+     $gMode = 1
+  EndIf
 EndFunc
 
 Func SingleCycle()
