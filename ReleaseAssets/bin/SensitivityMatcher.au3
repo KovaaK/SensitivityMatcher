@@ -9,6 +9,12 @@
 #include <StaticConstants.au3>
 #include <StringConstants.au3>
 
+       If _Singleton("Sensitivity Matcher", 1) == 0 Then
+         MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
+         Exit
+       EndIf
+       Opt("GUICloseOnESC" , 0)
+
 Global Const $gPi               = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
@@ -17,28 +23,18 @@ Global Const $defaultTurnPeriod = 1000
 Global Const $gSettingIni = "UserSettings.Ini"
 Global Const $gYawListIni = "CustomYawList.ini"
 Global       $gReportFile = "MeasureReport.txt"
+Global       $gHotkey[8]  =  KeybindSetter("initialize")
 
-Global $gValid     =  1    ; Keeps track of whether all user inputs are valid numbers or not
-Global $gMode      = -1    ; Three states of $gMode: -1, 0, and 1, for halt override, in-progress, and ready.
-Global $gSens      =  1.0
-Global $gPartition =  127
-Global $gDelay     =  10
-Global $gCycle     =  20
-Global $gResidual  =  0.0  ; Residual accumulator
-Global $gBounds[2] = [0,0] ; Upper/lower bounds of increment
+Global       $gValid     =  1    ; Keeps track of whether all user inputs are valid numbers or not
+Global       $gMode      = -1    ; Three states of $gMode: -1, 0, and 1, for halt override, in-progress, and ready.
+Global       $gSens      =  1.0
+Global       $gPartition =  127
+Global       $gDelay     =  10
+Global       $gCycle     =  20
+Global       $gResidual  =  0.0  ; Residual accumulator
+Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
-If _Singleton("Sensitivity Matcher", 1) == 0 Then
-    MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
-    Exit
-EndIf
-
-Opt("GUICloseOnESC" , 0)
-HotKeySet( IniRead($gSettingIni, "Hotkeys", "TurnOnce", "!{[}") , "SingleCycle")
-HotKeySet( IniRead($gSettingIni, "Hotkeys", "TurnALot", "!{]}") , "AutoCycle"  )
-HotKeySet( IniRead($gSettingIni, "Hotkeys", "StopTurn", "!{\}") , "Halt"       )
 MakeGUI()
-
-
 
 Func MakeGUI()
    Local $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
@@ -121,6 +117,8 @@ Func MakeGUI()
    $gResidual  =  0.0
    $gMode      =  1
 
+   ; Keybind is enabled only after all global variables are properly initialized
+   KeybindSetter("enable","turn")
 
    ; Declare adhoc local variables outside the loop
    Local $idMsg[2]       = [$sYaw,$idGUI]            ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
@@ -128,9 +126,7 @@ Func MakeGUI()
    Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, passed to UpdatePartition to clip the NormalizedPartition result
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-   Local $lCalculator[7] , $lMeasureBinds[5]         ; ByRef handles for HandyCalc and measurement keybinds. Never addressed directly in loop.
-   EnableMeasureHotkeys(1, $lMeasureBinds)           ; populate the lMeasurebinds variable with ini value
-   EnableMeasureHotkeys(0, $lMeasureBinds)           ; unbind lMeasurebinds till measure mode is selected
+   Local $lCalculator[7]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
    GUISetState(@SW_SHOW)
    While 1
       Switch $idMsg[0]
@@ -142,6 +138,22 @@ Func MakeGUI()
                     GUIDelete($idGUICalc)
                     $idGUICalc="INACTIVE"
              EndSwitch
+             
+        Case $sCycle
+             $gResidual  =  0
+             $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
+
+        Case $sTickRate
+             $gResidual  =  0
+             $gDelay     =  Ceiling(1000/_GetNumberFromString(GuiCtrlRead($sTickRate)))
+
+        Case $sPartition
+             $gResidual  =  0
+             $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
+             $lPartition =  $gPartition
+             If GUICtrlRead($sYawPresets) == "Measure any game" Then
+                UpdatePartition($lPartition)
+             EndIf
 
         Case $sSens
              $gResidual = 0
@@ -175,7 +187,7 @@ Func MakeGUI()
              $gResidual  = 0
              $gPartition = $lPartition
              $idMsg[0]   = GUICtrlRead($sYawPresets)
-             EnableMeasureHotkeys(0,$lMeasureBinds)                          ; indiscriminately disable measure binds till measure
+             KeybindSetter("disable","measure")                              ; indiscriminately disable measure binds till measure
             _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
             _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and
             _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])            ; only set to swap first if you select measure or swap
@@ -189,7 +201,7 @@ Func MakeGUI()
                Case "Rainbow6/Reflex"
                     GUICtrlSetData($sYaw, String($yawReflex))
                Case "Measure any game","< Swap yaw & sens >"
-                    EnableMeasureHotkeys(1,$lMeasureBinds)
+                    KeybindSetter("enable","measure")
                    _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
                    _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
                    _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
@@ -218,7 +230,7 @@ Func MakeGUI()
                     Else                                                                       ; if user input name is void
                        _GUICtrlComboBox_SetEditText(  $sYawPresets, $lastYawPresets )          ; restore box to last selected
                        If $lastYawPresets == "Measure any game" Then                           ; if pre-cancel preset is measure
-                        EnableMeasureHotkeys(1,$lMeasureBinds)                                 ; re-enable measure binds
+                        KeybindSetter("enable","measure")                                      ; re-enable measure binds
                        _GUICtrlComboBox_DeleteString( $sYawPresets, 0 )                        ; delete first item and
                        _GUICtrlComboBox_InsertString( $sYawPresets, "< Swap yaw & sens >", 0 ) ; set to swap
                        _GUICtrlComboBox_SetEditText(  $sYawPresets, "Measure any game" )       ; reselect measure
@@ -232,25 +244,10 @@ Func MakeGUI()
             _GUICtrlEdit_SetSel($sYaw , 0, 0 )
              $lastYawPresets = GUICtrlRead($sYawPresets)
 
-        Case $sPartition
-             $gResidual  =  0
-             $gPartition = _GetNumberFromString( GuiCtrlRead($sPartition) )
-             $lPartition =  $gPartition
-             If GUICtrlRead($sYawPresets) == "Measure any game" Then
-                UpdatePartition($lPartition)
-             EndIf
-
-        Case $sTickRate
-             $gResidual  =  0
-             $gDelay     =  Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
-
-        Case $sCycle
-             $gResidual  =  0
-             $gCycle     = _GetNumberFromString( GuiCtrlRead($sCycle) )
-
         Case $idSave
           If $gValid Then
            If MsgBox(1,"Save values","Save current values to startup default?") == 1 Then
+              KeybindSetter("save")
               IniWrite($gSettingIni,"Default","sens",_GetNumberFromString(GuiCtrlRead($sSens)))
               IniWrite($gSettingIni,"Default","yaw" ,_GetNumberFromString(GuiCtrlRead($sYaw)))
               IniWrite($gSettingIni,"Default","part",_GetNumberFromString(GuiCtrlRead($sPartition)))
@@ -258,9 +255,9 @@ Func MakeGUI()
               IniWrite($gSettingIni,"Default","cycl",_GetNumberFromString(GuiCtrlRead($sCycle)))
              If NOT ($idGUICalc == "INACTIVE") Then
               IniWrite($gSettingIni,"Default","cpi" ,_GetNumberFromString(GuiCtrlRead($lCalculator[1])))
-              MsgBox(0,"Success","Saved CPI, Sens, Yaw, Partition, Frequency, and Cycle.")
+              MsgBox(0,"Success","Saved CPI, Sens, Yaw, Partition, Frequency, Cycle, and Hotkeys.")
              Else
-              MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, and Cycle.")
+              MsgBox(0,"Success","Saved Sens, Yaw, Partition, Frequency, Cycle, and Hotkeys.")
              EndIf
            EndIf
           Else
@@ -458,6 +455,59 @@ Func HelpMessage()
      EndIf
 EndFunc
 
+Func KeybindSetter($mode,$subset="all")
+     Local  $size = 8
+     Local  $readval[$size]
+     Local  $default[$size] = [   "!{[}"  ,  "!{]}"  ,  "!{\}"  , _
+                                  "!{-}"  ,  "!{=}"  ,  "!{0}"  , _
+                                  "!{'}"  ,  "!{;}"  ]
+     Local  $keyname[$size] = [ "TurnOnce","TurnAlot","StopTurn", _
+                                "LessTurn","MoreTurn","ClearMem", _
+                                "NudgeFwd","NudgeBkd"] 
+     Local  $fncname[$size] = [ "SingleCycle", _
+                                  "AutoCycle", _
+                                       "Halt", _
+                            "DecreasePolygon", _
+                            "IncreasePolygon", _
+                                "ClearBounds", _
+                                 "NudgeRight", _
+                                  "NudgeLeft" ]     
+     For    $i = 0 to $size-1
+            $readval[$i] = IniRead($gSettingIni,"Hotkeys",$keyname[$i],$default[$i]) 
+     Next
+     Local  $start  = 0
+     Local  $end    = $size-1
+     If     $subset = "measure" Then
+            $start  = 3
+     ElseIf $subset = "turn"    Then
+            $end    = 2
+     EndIf
+     Switch $mode
+       Case "initialize"
+            Return $readval
+       Case "save"
+        For $i = $start To $end
+            IniWrite($gSettingIni,"Hotkeys",$keyname[$i],$gHotkey[$i]) 
+        Next
+       Case "disable"
+        For $i = $start to $end
+         If $gHotkey[$i] Then
+            HotKeySet($gHotkey[$i])
+         EndIf
+        Next
+       Case "enable"
+        For $i = $start to $end
+         If $gHotkey[$i] Then
+            HotKeySet($gHotkey[$i],$fncname[$i])
+         ElseIf MsgBox(4,"Hotkeys","The hotkey "&$keyname[$i]&" is unbound."&@crlf& _
+                          "Use default bind of "&$default[$i]&" instead?") == 6 Then
+            $gHotkey[$i] = $default[$i]
+            HotKeySet($gHotkey[$i],$fncname[$i])
+         EndIf
+        Next
+     EndSwitch
+EndFunc
+
 Func TestMouse($cycle)
    If $gMode > 0 Then           ; three states of $gMode: -1, 0, 1. A 0 means in-progress and exits the command without doing anything.
       $gMode = 0                ; -1 means manual override and is checked for before performing every operation, 1 means all is good to go.
@@ -492,35 +542,6 @@ Func TestMouse($cycle)
          $gMode = 1
       EndIf
    EndIf
-EndFunc
-
-Func EnableMeasureHotkeys( $enable, ByRef $binds)
-  If $enable Then
-     $binds[0] = IniRead($gSettingIni, "Hotkeys", "LessTurn", "!{-}")
-     $binds[1] = IniRead($gSettingIni, "Hotkeys", "MoreTurn", "!{=}")
-     $binds[2] = IniRead($gSettingIni, "Hotkeys", "ClearMem", "!{0}")
-     $binds[3] = IniRead($gSettingIni, "Hotkeys", "NudgeFwd", "")
-     $binds[4] = IniRead($gSettingIni, "Hotkeys", "NudgeBkd", "")
-     HotKeySet( $binds[0] , "DecreasePolygon" )
-     HotKeySet( $binds[1] , "IncreasePolygon" )
-     HotKeySet( $binds[2] , "ClearBounds"     )
-    If $binds[3] Then
-     HotKeySet( $binds[3] , "NudgeRight"   )
-    EndIf
-    If $binds[4] Then
-     HotKeySet( $binds[4] , "NudgeLeft"    )
-    EndIf
-  Else
-     HotKeySet( $binds[0] )
-     HotKeySet( $binds[1] )
-     HotKeySet( $binds[2] )
-    If $binds[3] Then
-     HotKeySet( $binds[3] )
-    EndIf
-    If $binds[4] Then
-     HotKeySet( $binds[4] )
-    EndIf
-  EndIf
 EndFunc
 
 Func DecreasePolygon()
