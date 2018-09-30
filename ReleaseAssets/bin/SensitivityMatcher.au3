@@ -532,10 +532,10 @@ Func TestMouse($cycle)
             $totalcount = $totalcount - $partition
             Sleep($delay)
          WEnd
-        _MouseMovePlus($totalcount,0) ; do the leftover
          If $gMode < 0 Then
             ExitLoop
          EndIf
+        _MouseMovePlus($totalcount,0) ; do the leftover
          Sleep($delay)
       WEnd
 
