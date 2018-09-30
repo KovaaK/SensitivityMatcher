@@ -2,16 +2,16 @@
 
 [version 1.4]
 
-_New Feature: Measurement Report_
-
-* To facilitate crowdsourced measurement of yaw scales, measurement reports (.csv) are now produced automatically to better enable rigorous verification of shared results.
-
 _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and Nudge hotkeys_
 
 * Number of cycle automatically bumps up to match the (best-case) minimum required to drift one count. \
 (Only kicks-in when you get very precise with convergence)
 * Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error. \
 (Residual artifact can drifts up to half count both ways)
+
+_New Feature: Measurement Report_
+
+* To facilitate crowdsourced measurement of yaw scales, measurement reports (.csv) are now produced automatically to better enable rigorous verification of shared results.
 
 _New: Added button to save current inputs to startup values._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
