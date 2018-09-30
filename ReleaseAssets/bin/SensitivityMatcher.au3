@@ -486,7 +486,9 @@ Func KeybindSetter($mode,$subset="all")
             Return $readval
        Case "save"
         For $i = $start To $end
+         If $gHotkey[$i] Then
             IniWrite($gSettingIni,"Hotkeys",$keyname[$i],$gHotkey[$i]) 
+         EndIf
         Next
        Case "disable"
         For $i = $start to $end
