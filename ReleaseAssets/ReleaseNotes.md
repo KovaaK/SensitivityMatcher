@@ -4,7 +4,7 @@
 
 _New Feature: Measurement Report_
 
-To facilitate crowdsourced measurement of yaw scales, measurement reports (.csv) are now produced automatically to better enable rigorous peer review of shared results.
+To facilitate crowdsourced measurement of yaw scales, measurement reports (.csv) are now produced automatically to better enable rigorous verification of shared results.
 
 _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and Nudge hotkeys_
 
