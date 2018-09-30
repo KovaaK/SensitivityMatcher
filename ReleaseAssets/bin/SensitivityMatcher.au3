@@ -423,9 +423,23 @@ Func HelpMessage()
                           & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
                           & "Clear all memory with Alt+0 if you made a wrong input."       & @crlf _
                                                                                            & @crlf _
-                          & "The estimate will converge to your exact sensitivity as you nudge "   _
+                          & "The estimate will converge to your exact sensitivity as you set "     _
                           & "measurement bounds with hotkeys. You can then use the measured "      _
                           & "sensitivity and match your new game to it."                   & @crlf _
+                                                                                           & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
+                          & "Notes on precision measurements:"                             & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
+                          & "Under/overshoot drifts can take many cycles to become observable. "   _
+                          & "Slight shifts up to half-increment that snaps back periodically are " _
+                          & "simply visual artifacts of residual angles that cancels itself out "  _
+                          & "over many rotations. To positively qualify under/overshoots, the "    _
+                          & "deviations must equal or exceed single increment angles. Use the "    _
+                          & "nudge hotkeys in measurement mode to move single increments to check" _
+                          & " that deviation is at least one count away from origin."      & @crlf _
+                                                                                           & @crlf _
+                          & "Press Alt+' (quotation mark) to nudge one count to the right" & @crlf _
+                          & "Press Alt+; (semicolon) to nudge one count to the left"       & @crlf _
                                                                                            & @crlf _
                           & "------------------------------------------------------------" & @crlf _
                           & "Additional Info:"                                             & @crlf _
@@ -440,14 +454,7 @@ Func HelpMessage()
                           & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
                           & "Current Increment: "      & $gSens      & "°"                 & @crlf _
                           & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
-                          & "Uncertainty: ±" & $error  & "° (±"&GlobalUncertainty("%")&"%)"& @crlf _
-                                                                                           & @crlf _
-                          & "NOTE: "                                                               _
-                          & "under/overshoot drifts might take multiple cycles before it becomes " _
-                          & "observable. Slight shifts that snaps back periodically are simply "   _
-                          & "visual artifacts of residual angles that cancels itself out over "    _
-                          & "many rotations. It only counts as an under/overshoot if you observe " _
-                          & "systematic drift in spite of the snapback.")
+                          & "Uncertainty: ±" & $error  & "° (±"&GlobalUncertainty("%")&"%)")
      Else
         MsgBox(0, "Error", "Inputs must be positive numbers")
      EndIf
