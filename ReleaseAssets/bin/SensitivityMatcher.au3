@@ -29,8 +29,8 @@ Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
 If _Singleton("Sensitivity Matcher", 1) == 0 Then
-  MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
-  Exit
+    MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
+    Exit
 EndIf
 
 Opt("GUICloseOnESC" , 0)
