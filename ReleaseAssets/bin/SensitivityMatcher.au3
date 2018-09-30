@@ -34,7 +34,6 @@ If _Singleton("Sensitivity Matcher", 1) == 0 Then
 EndIf
 
 Opt("GUICloseOnESC" , 0)
-KeybindSetter("enable","turn")
 MakeGUI()
 
 Func MakeGUI()
@@ -127,6 +126,7 @@ Func MakeGUI()
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
    Local $lCalculator[7]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
    GUISetState(@SW_SHOW)
+   KeybindSetter("enable","turn")
    While 1
       Switch $idMsg[0]
         Case $GUI_EVENT_CLOSE
