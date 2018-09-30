@@ -228,13 +228,12 @@ Func MakeGUI()
                                           LoadYawList($gYawListIni)&"< Save current yaw >|")   ; read yaw list from ini
                        _GUICtrlComboBox_SelectString( $sYawPresets, "/ "&$lastYawPresets )     ; select the new preset
                     Else                                                                       ; if user input name is void
-                       _GUICtrlComboBox_SetEditText(  $sYawPresets, $lastYawPresets )          ; restore box to last selected
                        If $lastYawPresets == "Measure any game" Then                           ; if pre-cancel preset is measure
                         KeybindSetter("enable","measure")                                      ; re-enable measure binds
                        _GUICtrlComboBox_DeleteString( $sYawPresets, 0 )                        ; delete first item and
                        _GUICtrlComboBox_InsertString( $sYawPresets, "< Swap yaw & sens >", 0 ) ; set to swap
-                       _GUICtrlComboBox_SetEditText(  $sYawPresets, "Measure any game" )       ; reselect measure
                        EndIf
+                       _GUICtrlComboBox_SetEditText(  $sYawPresets, $lastYawPresets )          ; restore box to last selected
                     EndIf
                Case Else
                     GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
