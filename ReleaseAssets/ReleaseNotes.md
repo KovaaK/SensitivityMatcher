@@ -6,7 +6,7 @@ _New Feature: Measurement Report_
 
 To facilitate crowdsourced efforts for stringent measurement and independent verification of yaw scales, measurement reports are now produced automatically to better enable rigorous peer review of shared results.
 
-_Enhancement: Measurement Cycle Autoscale and Nudge hotkeys (active only in measurement mode)_
+_Enhancement (active only in measurement mode): Measurement Cycle Autoscale and Nudge hotkeys_
 
 Number of cycles now scales to match the (best-case) minimum required to deviate one count (kicks-in only when you get very precise). Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error (residual artifact deviates up to half count both ways).
 
