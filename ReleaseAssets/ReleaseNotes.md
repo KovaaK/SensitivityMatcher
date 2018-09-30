@@ -8,7 +8,7 @@ To facilitate crowdsourced efforts for stringent measurement and independent ver
 
 _Enhancement: Measurement Cycle Autoscale and Nudge hotkeys (active only in measurement mode)_
 
-Number of cycles now scales to match the (best-case) minimum required to deviate one count (only kicks-in when convergence gets very, very precise). Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error (residual artifact deviates up to half count both ways).
+Number of cycles now scales to match the (best-case) minimum required to deviate one count (kicks-in only when you get very, very precise). Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error (residual artifact deviates up to half count both ways).
 
 _New: Added button to save current inputs to startup values._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
