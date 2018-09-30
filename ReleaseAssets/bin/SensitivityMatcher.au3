@@ -438,7 +438,7 @@ Func HelpMessage()
                           & "nudge hotkeys in measurement mode to move single increments to check" _
                           & " that deviation is at least one count away from origin."      & @crlf _
                                                                                            & @crlf _
-                          & "Press Alt+' (quotation mark) to nudge one count to the right" & @crlf _
+                          & "Press Alt+' (quotation) to nudge one count to the right"      & @crlf _
                           & "Press Alt+; (semicolon) to nudge one count to the left"       & @crlf _
                                                                                            & @crlf _
                           & "------------------------------------------------------------" & @crlf _
