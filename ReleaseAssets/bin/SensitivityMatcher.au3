@@ -34,6 +34,7 @@ If _Singleton("Sensitivity Matcher", 1) == 0 Then
 EndIf
 
 Opt("GUICloseOnESC" , 0)
+KeybindSetter("enable","turn")
 MakeGUI()
 
 Func MakeGUI()
@@ -116,10 +117,8 @@ Func MakeGUI()
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
    $gResidual  =  0.0
    $gMode      =  1
-
-   ; Keybind is enabled only after all global variables are properly initialized
-   KeybindSetter("enable","turn")
-
+   
+   
    ; Declare adhoc local variables outside the loop
    Local $idMsg[2]       = [$sYaw,$idGUI]            ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
    Local $idGUICalc      = "INACTIVE"                ; Handle of stats calculator. When not open, manually set to "INACTIVE" so it won't execute anything
