@@ -16,7 +16,7 @@ Global Const $yawReflex         = 0.018/$gPi
 Global Const $defaultTurnPeriod = 1000
 Global Const $gSettingIni = "UserSettings.Ini"
 Global Const $gYawListIni = "CustomYawList.ini"
-Global       $gReportFile = "MeasureReport.txt"
+Global       $gReportFile = "MeasureReport.csv"
 Global       $gHotkey[8]  =  KeybindSetter("initialize")
 
 Global       $gValid     =  1    ; Keeps track of whether all user inputs are valid numbers or not
@@ -612,7 +612,7 @@ Func ClearBounds()
      $gBounds[0] = 0
      $gBounds[1] = 0
      $gPartition = NormalizedPartition($defaultTurnPeriod)
-     $gReportFile= CleanupFileName("MeasureReport"&_Now()&".txt")
+     $gReportFile= CleanupFileName("MeasureReport"&_Now()&".csv")
 EndFunc
 
 Func NudgeLeft()
