@@ -428,7 +428,7 @@ Func HelpMessage()
                           & "sensitivity and match your new game to it."                   & @crlf _
                                                                                            & @crlf _
                           & "------------------------------------------------------------" & @crlf _
-                          & "Notes on precision measurements:"                             & @crlf _
+                          & "Precision measurements (advanced):"                           & @crlf _
                           & "------------------------------------------------------------" & @crlf _
                           & "Under/overshoot drifts can take many cycles to become observable. "   _
                           & "Slight shifts up to half-increment that snaps back periodically are " _
@@ -440,6 +440,14 @@ Func HelpMessage()
                                                                                            & @crlf _
                           & "Press Alt+' (quotation) to nudge one count to the right"      & @crlf _
                           & "Press Alt+; (semicolon) to nudge one count to the left"       & @crlf _
+                                                                                           & @crlf _
+                          & "Remember to un-nudge if you wish to continue cycling. To share your " _
+                          & "measurement results for others to verify, it is recommended that "    _
+                          & "at least two measurement sessions with different non-overlapping "    _
+                          & "initial values be performed on two separate in-game settings, for a " _
+                          & "total of four MeasureReport files that passes validation for "        _
+                          & "consistency (no contradiction between files) and continuity (no "     _
+                          & "mismatched bound sequence within a file)."                    & @crlf _
                                                                                            & @crlf _
                           & "------------------------------------------------------------" & @crlf _
                           & "Additional Info:"                                             & @crlf _
