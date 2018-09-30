@@ -428,6 +428,21 @@ Func HelpMessage()
                           & "sensitivity and match your new game to it."                   & @crlf _
                                                                                            & @crlf _
                           & "------------------------------------------------------------" & @crlf _
+                          & "Additional Info:"                                             & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
+                          & "Key bindings can be changed in UserSettings.ini "             & @crlf _
+                                                                                           & @crlf _
+                          & "Interval: " & $gDelay & " ms (round up to nearest millisec.)" & @crlf _
+                          & "Estimated Completion Time for " & $gCycle                             _
+                          & " cycles: " & $time & " sec"                                   & @crlf _
+                                                                                           & @crlf _
+                          & "Current Residual Angle: " & $gResidual  & "°"                 & @crlf _
+                          & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
+                          & "Current Increment: "      & $gSens      & "°"                 & @crlf _
+                          & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
+                          & "Uncertainty: ±" & $error  & "° (±"&GlobalUncertainty("%")&"%)"& @crlf _
+                                                                                           & @crlf _
+                          & "------------------------------------------------------------" & @crlf _
                           & "Precision measurements (advanced):"                           & @crlf _
                           & "------------------------------------------------------------" & @crlf _
                           & "Under/overshoot drifts can take many cycles to become observable. "   _
@@ -447,22 +462,7 @@ Func HelpMessage()
                           & "initial values be performed on two separate in-game settings, for a " _
                           & "total of four MeasureReport files that passes validation for "        _
                           & "consistency (no contradiction between files) and continuity (no "     _
-                          & "mismatched bound sequence within a file)."                    & @crlf _
-                                                                                           & @crlf _
-                          & "------------------------------------------------------------" & @crlf _
-                          & "Additional Info:"                                             & @crlf _
-                          & "------------------------------------------------------------" & @crlf _
-                          & "Key bindings can be changed in UserSettings.ini "             & @crlf _
-                                                                                           & @crlf _
-                          & "Interval: " & $gDelay & " ms (round up to nearest millisec.)" & @crlf _
-                          & "Estimated Completion Time for " & $gCycle                             _
-                          & " cycles: " & $time & " sec"                                   & @crlf _
-                                                                                           & @crlf _
-                          & "Current Residual Angle: " & $gResidual  & "°"                 & @crlf _
-                          & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
-                          & "Current Increment: "      & $gSens      & "°"                 & @crlf _
-                          & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
-                          & "Uncertainty: ±" & $error  & "° (±"&GlobalUncertainty("%")&"%)")
+                          & "mismatched bound sequence within a file).")
      Else
         MsgBox(0, "Error", "Inputs must be positive numbers")
      EndIf
