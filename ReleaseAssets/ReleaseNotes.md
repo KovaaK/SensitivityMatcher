@@ -8,7 +8,7 @@ _New Feature: Measurement Report_
 
 _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and Nudge hotkeys_
 
-* Number of cycle bumps up to match the (best-case) minimum required to deviate one count (kicks-in only when you get very precise). 
+* # of cycle bumps up to match the (best-case) minimum required to deviate one count (kicks-in only when you get very precise). 
 * Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error (residual artifact deviates up to half count both ways).
 
 _New: Added button to save current inputs to startup values._ \
