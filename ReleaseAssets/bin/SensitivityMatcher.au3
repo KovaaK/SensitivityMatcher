@@ -206,6 +206,7 @@ Func MakeGUI()
                    _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
                     If  $idMsg[0] == "< Swap yaw & sens >" Then
                         GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
+                        UpdatePartition($lPartition)
                     Else                                                               ; ElseIf idMsg[0] is Measure any game
                         GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
                         ClearBounds()                                                  ; as well as clearing bounds
