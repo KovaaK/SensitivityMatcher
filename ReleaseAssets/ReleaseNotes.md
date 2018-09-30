@@ -8,7 +8,7 @@ _New Feature: Measurement Report_
 
 _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and Nudge hotkeys_
 
-* Number of cycle bumps up to match the (best-case) minimum required to drift one count \
+* Number of cycle automatically bumps up to match the (best-case) minimum required to drift one count \
 (Only kicks-in when you get very precise). 
 * Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error \
 (Residual artifact drifts up to half count both ways).
