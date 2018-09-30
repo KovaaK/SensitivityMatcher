@@ -225,7 +225,7 @@ Func MakeGUI()
                        _GUICtrlComboBox_ResetContent( $sYawPresets)                            ; clear yaw list to rebuild from ini
                         GUICtrlSetData(               $sYawPresets,                          _ ; reinitialization
                         "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _ ; hardcoded list
-                                        LoadYawList($gYawListIni) & "< Save current yaw >|")   ; read yaw list from ini
+                                          LoadYawList($gYawListIni)&"< Save current yaw >|")   ; read yaw list from ini
                        _GUICtrlComboBox_SelectString( $sYawPresets, "/ "&$lastYawPresets )     ; select the new preset
                     Else                                                                       ; if user input name is void
                        _GUICtrlComboBox_SetEditText(  $sYawPresets, $lastYawPresets )          ; restore box to last selected
