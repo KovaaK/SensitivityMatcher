@@ -11,7 +11,7 @@ _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and 
 * Number of cycle automatically bumps up to match the (best-case) minimum required to drift one count \
 (Only kicks-in when you get very precise). 
 * Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error \
-(Residual artifact drifts up to half count both ways).
+(Residual artifact can drifts up to half count both ways).
 
 _New: Added button to save current inputs to startup values._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
