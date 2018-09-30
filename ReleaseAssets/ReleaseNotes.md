@@ -8,8 +8,10 @@ _New Feature: Measurement Report_
 
 _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and Nudge hotkeys_
 
-* \# of cycle bumps up to match the (best-case) minimum required to drift one count (kicks-in only when you get very precise). 
-* Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error (residual artifact drifts up to half count both ways).
+* \# of cycle bumps up to match the (best-case) minimum required to drift one count \
+(kicks-in only when you get very precise). 
+* Use this in conjunction with nudge hotkeys to verify whether observed deviations exceed margin of error \
+(residual artifact drifts up to half count both ways).
 
 _New: Added button to save current inputs to startup values._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
