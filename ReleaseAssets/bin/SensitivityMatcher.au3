@@ -140,33 +140,33 @@ Func MakeGUI()
              EndSwitch
              
         Case $sCycle
-             $gResidual  =  0
+             $gResidual  = 0
              $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
 
         Case $sTickRate
-             $gResidual  =  0
-             $gDelay     =  Ceiling(1000/_GetNumberFromString(GuiCtrlRead($sTickRate)))
+             $gResidual  = 0
+             $gDelay     = Ceiling(1000/_GetNumberFromString(GuiCtrlRead($sTickRate)))
 
         Case $sPartition
-             $gResidual  =  0
+             $gResidual  = 0
              $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
-             $lPartition =  $gPartition
+             $lPartition = $gPartition
              If GUICtrlRead($sYawPresets) == "Measure any game" Then
                 UpdatePartition($lPartition)
              EndIf
 
         Case $sSens
-             $gResidual = 0
-             $gSens     = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
-             $lastgSens = $gSens
-             $idMsg[0]  = -1
+             $gResidual  = 0
+             $gSens      = _GetNumberFromString( GuiCtrlRead($sSens) ) * _GetNumberFromString( GuiCtrlRead($sYaw) )
+             $lastgSens  = $gSens
+             $idMsg[0]   = -1
              GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
             _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
              GUICtrlSetData(     $sIncr  , String(     $gSens ) )
             _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
 
         Case $sYaw
-             $gResidual = 0
+             $gResidual  = 0
              GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
             _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
             _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
