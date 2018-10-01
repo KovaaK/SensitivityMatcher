@@ -200,13 +200,13 @@ Func MakeGUI()
                Case "Rainbow6/Reflex"
                     GUICtrlSetData($sYaw, String($yawReflex))
                Case "Measure any game","< Swap yaw & sens >"
+                    UpdatePartition($lPartition)
                     KeybindSetter("enable","measure")
                    _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
                    _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
                    _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
                     If  $idMsg[0] == "< Swap yaw & sens >" Then
                         GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
-                        UpdatePartition($lPartition)
                     Else                                                               ; ElseIf idMsg[0] is Measure any game
                         GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
                         ClearBounds()                                                  ; as well as clearing bounds
