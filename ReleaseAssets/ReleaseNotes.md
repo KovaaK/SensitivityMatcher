@@ -11,7 +11,7 @@ _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and 
 * Number of cycle bumps up to match the (best-case) minimum needed to possibly drift by one increment. \
 (Only kicks-in when you get very precise with convergence)
 * Use nudge hotkeys (move one count left/right) to verify whether suspected drift exceeds margin of error. \
-(Residual artifact can drift up to half count both ways)
+(Residual artifact can drift up to half increment both ways)
 
 _New: Added button to save current inputs to startup values._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
