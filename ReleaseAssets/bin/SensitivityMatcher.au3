@@ -190,6 +190,7 @@ Func MakeGUI()
             _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
             _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and
             _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])            ; only set to swap first if you select measure or swap
+             GUICtrlSetData($idHelp,"Info")
              Switch $idMsg[0]
                Case "Custom"
                     ; vestigial legacy case prior to version 1.1 where there was a dedicated "Custom" entry
@@ -200,6 +201,7 @@ Func MakeGUI()
                Case "Rainbow6/Reflex"
                     GUICtrlSetData($sYaw, String($yawReflex))
                Case "Measure any game","< Swap yaw & sens >"
+                    GUICtrlSetData($idHelp,"Advanced Info")
                     KeybindSetter("enable","measure")
                    _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
                    _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
