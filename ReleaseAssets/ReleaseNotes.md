@@ -16,6 +16,7 @@ _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and 
 _New: Added button to save current inputs to startup values._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
 _New: Asks whether user would like to use default binds if specific hotkeys are markedly unbound._ \
+_New: "Info" button shows information contexually depending on whether measure mode is selected._ \
 _Fix:  Measurement hotkeys now unbinds properly if ini is tweaked while still in measurement mode._ \
 _Fix:  Measurement bounds are no longer lost when swapping yaw and sens; cancelling Save now restores swap options._
 
