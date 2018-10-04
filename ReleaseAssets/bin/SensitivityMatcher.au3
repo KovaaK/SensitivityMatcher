@@ -227,9 +227,9 @@ Func MakeGUI()
          $lastgSens =  $gSens
          $gResidual =  0
          $idMsg[0]  = -1
-         GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
-         GUICtrlSetData(     $sIncr  , String(     $gSens ) )
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
+         GUICtrlSetData(     $sIncr  , String(     $gSens ) )
+         GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
         _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
