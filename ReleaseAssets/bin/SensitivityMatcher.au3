@@ -152,7 +152,7 @@ Func MakeGUI()
              $gResidual  = 0
              $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
              $lPartition = $gPartition
-             If GUICtrlRead($sYawPresets) == "Measure any game" Then
+             If $lastYawPresets == "Measure any game" Then
                 UpdatePartition($lPartition)
              EndIf
 
@@ -171,7 +171,7 @@ Func MakeGUI()
           If $idMsg[0]  == $sYawPresets Then
              $gPartition = $lPartition
              GUICtrlSetData(   $idHelp, YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens)   )
-          ElseIf  GUICtrlRead($sYawPresets) == "Measure any game"          Then
+          ElseIf  $lastYawPresets == "Measure any game"          Then
                  ; Do nothing if yaw changed measurement mode
           ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake     Then
                  _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
@@ -215,7 +215,7 @@ Func MakeGUI()
           EndIf
 
         Case $idHelp
-          If GUICtrlRead($sYawPresets) == "Measure any game" Then
+          If $lastYawPresets == "Measure any game" Then
              HelpMessage("measure")
           Else
              HelpMessage()
@@ -233,8 +233,8 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-         If GUICtrlRead(     $sYawPresets   ) == "Measure any game" Then
-            UpdatePartition( $lPartition    )
+         If $lastYawPresets == "Measure any game" Then
+            UpdatePartition( $lPartition )
            If GlobalUncertainty("rev") > $gCycle Then
             GUICtrlSetData($sCycle, String(GlobalUncertainty("rev")))
             $gCycle = _GetNumberFromString( GuiCtrlRead($sCycle) )
