@@ -224,9 +224,9 @@ Func MakeGUI()
       EndSwitch
 
       If $gSens <> $lastgSens Then
+         $idMsg[0]  = -1
          $gResidual =  0
          $lastgSens =  $gSens
-         $idMsg[0]  = -1
          GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
          GUICtrlSetData(     $sIncr  , String(     $gSens ) )
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
