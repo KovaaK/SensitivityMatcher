@@ -172,7 +172,7 @@ Func MakeGUI()
              $gPartition = $lPartition
              GUICtrlSetData(   $idHelp, YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens)   )
           ElseIf  $lastYawPresets == "Measure any game"                    Then
-                 ; Do nothing if yaw changed measurement mode
+                 ; Do nothing if yaw changed during measurement mode
           ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake     Then
                  _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
           ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch Then
