@@ -125,6 +125,8 @@ Func MakeGUI()
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
    Local $lCalculator[7]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
+   
+   
    GUISetState(@SW_SHOW)
    KeybindSetter("enable","turn")
    While 1
