@@ -516,7 +516,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
             If  $Preset == "< Swap yaw & sens >" Then
                 UpdatePartition($gPartition)
                 GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
-            Else                                                               ; ElseIf idMsg[0] is Measure any game
+            Else                                                               ; ElseIf $Preset is Measure any game
                 GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
                 ClearBounds()                                                  ; as well as clearing bounds
             EndIf
