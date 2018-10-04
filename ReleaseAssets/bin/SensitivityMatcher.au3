@@ -166,8 +166,8 @@ Func MakeGUI()
 
         Case $sYaw, $sYawPresets
              $gResidual  = 0
-             $gPartition = $lPartition
              If $idMsg[0] == $sYawPresets Then
+                $gPartition = $lPartition
                 GUICtrlSetData($idHelp,YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens))
              EndIf
              GUICtrlSetData($sSens ,String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
