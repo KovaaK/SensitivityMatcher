@@ -490,11 +490,11 @@ Func KeybindSetter($mode,$subset="all")
 EndFunc
 
 Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
-     KeybindSetter("disable","measure")                              ; indiscriminately disable measure binds till measure
      Local  $Preset = GUICtrlRead($sYawPresets)
     _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
     _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and
     _GUICtrlComboBox_SetEditText( $sYawPresets,$Preset)              ; only set to swap first if you select measure or swap
+     KeybindSetter("disable","measure")                              ; indiscriminately disable measure binds till measure
      Switch $Preset
        Case "Custom"
             ; vestigial legacy case prior to version 1.1 where there was a dedicated "Custom" entry
