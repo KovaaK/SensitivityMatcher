@@ -367,7 +367,7 @@ Func HelpMessage($mode="default")
                               & "Uncertainty: ±" & $error  & "° (±"&GlobalUncertainty("%")&"%)"& @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
-                              & "Precision measurements (advanced):"                           & @crlf _
+                              & "Precision Measurements (Advanced):"                           & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "Under/overshoot drifts can take many cycles to become observable. "   _
                               & "Slight shifts up to half-increment that snaps back periodically are " _
