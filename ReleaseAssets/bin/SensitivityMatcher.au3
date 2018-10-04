@@ -164,31 +164,28 @@ Func MakeGUI()
              GUICtrlSetData(     $sIncr  , String(     $gSens ) )
             _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
 
-        Case $sYaw
-             $gResidual  = 0
-             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
-            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
-             If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
-                     ; Do nothing if in measurement mode
-             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
-                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
-             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
-                    _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
-             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawReflex         Then
-                    _GUICtrlComboBox_SelectString($sYawPresets, "Rainbow6/Reflex")
-             Else
-                    _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
-             EndIf
-             $lastYawPresets = GUICtrlRead($sYawPresets)
-
-        Case $sYawPresets
+        Case $sYaw, $sYawPresets
              $gResidual  = 0
              $gPartition = $lPartition
-             GUICtrlSetData($idHelp,YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens))
+             If $idMsg[0] == $sYawPresets Then
+                GUICtrlSetData($idHelp,YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens))
+             EndIf
              GUICtrlSetData($sSens ,String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
             _GUICtrlEdit_SetSel($sSens, 0, 0 )
             _GUICtrlEdit_SetSel($sYaw , 0, 0 )
+             If $idMsg[0] == $sYaw Then
+                 If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
+                         ; Do nothing if in measurement mode
+                 ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
+                        _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
+                 ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
+                        _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
+                 ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawReflex         Then
+                        _GUICtrlComboBox_SelectString($sYawPresets, "Rainbow6/Reflex")
+                 Else
+                        _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
+                 EndIf
+             EndIf
              $lastYawPresets = GUICtrlRead($sYawPresets)
 
         Case $idSave
