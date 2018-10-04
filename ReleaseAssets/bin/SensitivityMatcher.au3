@@ -350,7 +350,7 @@ Func HelpMessage($mode="default")
      If $gValid Then
         Local $error = GlobalUncertainty()
         Local $time  = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
-        If $mode == "measure" Then
+        If    $mode == "measure" Then
             MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
                               & "Additional Info:"                                             & @crlf _
                               & "------------------------------------------------------------" & @crlf _
