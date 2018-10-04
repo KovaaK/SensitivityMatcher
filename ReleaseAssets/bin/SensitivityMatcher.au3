@@ -223,7 +223,7 @@ Func MakeGUI()
 
       EndSwitch
 
-      If $gSens <> $lastgSens Then
+      If $lastgSens <> $gSens Then
          $lastgSens =  $gSens
          $gResidual =  0
          $idMsg[0]  = -1
