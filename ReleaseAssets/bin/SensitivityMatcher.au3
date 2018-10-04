@@ -505,8 +505,8 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
        Case "Measure any game","< Swap yaw & sens >"
             KeybindSetter("enable","measure")
            _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
-           _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
-           _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
+           _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected
+           _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; set input box to Measure regardless
             If  $Preset == "< Swap yaw & sens >" Then
                 UpdatePartition($gPartition)
                 GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
