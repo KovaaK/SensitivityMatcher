@@ -224,8 +224,8 @@ Func MakeGUI()
       EndSwitch
 
       If $gSens <> $lastgSens Then
-         $gResidual = 0
-         $lastgSens = $gSens
+         $gResidual =  0
+         $lastgSens =  $gSens
          $idMsg[0]  = -1
          GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
         _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
