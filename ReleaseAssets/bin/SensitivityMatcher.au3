@@ -168,7 +168,7 @@ Func MakeGUI()
              $gResidual  = 0
           If $idMsg[0]  == $sYawPresets Then
              $gPartition = $lPartition
-             GUICtrlSetData($idHelp,YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens))
+             GUICtrlSetData(   $idHelp, YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens)   )
           Else
              If      GUICtrlRead($sYawPresets) == "Measure any game"          Then
                    ; Do nothing if in measurement mode
