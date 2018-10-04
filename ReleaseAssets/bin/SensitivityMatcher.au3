@@ -9,6 +9,11 @@
 #include <StaticConstants.au3>
 #include <StringConstants.au3>
 
+If _Singleton("Sensitivity Matcher", 1) == 0 Then
+    MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
+    Exit
+EndIf
+
 Global Const $gPi               = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
@@ -28,13 +33,8 @@ Global       $gCycle     =  20
 Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
-If _Singleton("Sensitivity Matcher", 1) == 0 Then
-    MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
-    Exit
-EndIf
-
-Opt("GUICloseOnESC" , 0)
-MakeGUI()
+    Opt("GUICloseOnESC",0)
+     MakeGUI()
 
 Func MakeGUI()
    Local $idGUI = GUICreate("Sensitivity Matcher", 295, 235)
@@ -125,6 +125,8 @@ Func MakeGUI()
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
    Local $lCalculator[7]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
+   
+   
    GUISetState(@SW_SHOW)
    KeybindSetter("enable","turn")
    While 1
@@ -150,7 +152,7 @@ Func MakeGUI()
              $gResidual  = 0
              $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
              $lPartition = $gPartition
-             If GUICtrlRead($sYawPresets) == "Measure any game" Then
+             If $lastYawPresets == "Measure any game" Then
                 UpdatePartition($lPartition)
              EndIf
 
@@ -164,82 +166,22 @@ Func MakeGUI()
              GUICtrlSetData(     $sIncr  , String(     $gSens ) )
             _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
 
-        Case $sYaw
+        Case $sYaw, $sYawPresets
              $gResidual  = 0
-             GUICtrlSetData(     $sSens  , String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
-            _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-            _GUICtrlEdit_SetSel( $sYaw   , 0, 0 )
-             If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
-                     ; Do nothing if in measurement mode
-             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
-                    _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
-             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch      Then
-                    _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
-             ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawReflex         Then
-                    _GUICtrlComboBox_SelectString($sYawPresets, "Rainbow6/Reflex")
-             Else
-                    _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
-             EndIf
-             $lastYawPresets = GUICtrlRead($sYawPresets)
-
-        Case $sYawPresets
-             $gResidual  = 0
+          If $idMsg[0]  == $sYawPresets Then
              $gPartition = $lPartition
-             $idMsg[0]   = GUICtrlRead($sYawPresets)
-             KeybindSetter("disable","measure")                              ; indiscriminately disable measure binds till measure
-            _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
-            _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and
-            _GUICtrlComboBox_SetEditText( $sYawPresets,$idMsg[0])            ; only set to swap first if you select measure or swap
-             GUICtrlSetData($idHelp,"Info")
-             Switch $idMsg[0]
-               Case "Custom"
-                    ; vestigial legacy case prior to version 1.1 where there was a dedicated "Custom" entry
-               Case "Quake/Source"
-                    GUICtrlSetData($sYaw, String($yawQuake))
-               Case "Overwatch"
-                    GUICtrlSetData($sYaw, String($yawOverwatch))
-               Case "Rainbow6/Reflex"
-                    GUICtrlSetData($sYaw, String($yawReflex))
-               Case "Measure any game","< Swap yaw & sens >"
-                    GUICtrlSetData($idHelp,"Advanced Info")
-                    KeybindSetter("enable","measure")
-                   _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
-                   _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected so that
-                   _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; you can always swap in measure mode
-                    If  $idMsg[0] == "< Swap yaw & sens >" Then
-                        UpdatePartition($lPartition)
-                        GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
-                    Else                                                               ; ElseIf idMsg[0] is Measure any game
-                        GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
-                        ClearBounds()                                                  ; as well as clearing bounds
-                    EndIf
-               Case "< Save current yaw >"
-                   _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
-                    If  GUICtrlRead($sYawPresets) Then                                         ; if user input name is valid
-                        IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"yaw"   ,      GUICtrlRead($sYaw)        )
-                       If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then  ; write uncertainty and report info if valid bounds
-                        IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncrty","+/-"&GlobalUncertainty("%")&"%")
-                        IniWrite($gReportFile,GUICtrlRead($sYawPresets),"uncrty","+/-"&GlobalUncertainty("%")&"%")
-                        IniWrite($gReportFile,GUICtrlRead($sYawPresets),"yaw"   ,      GUICtrlRead($sYaw)        )
-                        IniWrite($gReportFile,GUICtrlRead($sYawPresets),"sens"  ,      GUICtrlRead($sSens)       )
-                       EndIf
-                        $lastYawPresets = GUICtrlRead($sYawPresets)                            ; update preset memory
-                       _GUICtrlComboBox_ResetContent( $sYawPresets)                            ; clear yaw list to rebuild from ini
-                        GUICtrlSetData(               $sYawPresets,                          _ ; reinitialization
-                        "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _ ; hardcoded list
-                                          LoadYawList($gYawListIni)&"< Save current yaw >|")   ; read yaw list from ini
-                       _GUICtrlComboBox_SelectString( $sYawPresets, "/ "&$lastYawPresets )     ; select the new preset
-                    Else                                                                       ; if user input name is void
-                       If $lastYawPresets == "Measure any game" Then                           ; if pre-cancel preset is measure
-                        KeybindSetter("enable","measure")                                      ; re-enable measure binds
-                       _GUICtrlComboBox_DeleteString( $sYawPresets, 0 )                        ; delete first item and
-                       _GUICtrlComboBox_InsertString( $sYawPresets, "< Swap yaw & sens >", 0 ) ; set to swap
-                       EndIf
-                       _GUICtrlComboBox_SetEditText(  $sYawPresets, $lastYawPresets )          ; restore box to last selected
-                    EndIf
-               Case Else
-                    GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
-             EndSwitch
+             GUICtrlSetData(   $idHelp, YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens)   )
+          ElseIf  $lastYawPresets == "Measure any game"          Then
+                 ; Do nothing if yaw changed measurement mode
+          ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake     Then
+                 _GUICtrlComboBox_SelectString($sYawPresets, "Quake/Source")
+          ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawOverwatch Then
+                 _GUICtrlComboBox_SelectString($sYawPresets, "Overwatch")
+          ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawReflex    Then
+                 _GUICtrlComboBox_SelectString($sYawPresets, "Rainbow6/Reflex")
+          Else
+                 _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
+          EndIf
              GUICtrlSetData(    $sSens, String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
             _GUICtrlEdit_SetSel($sSens, 0, 0 )
             _GUICtrlEdit_SetSel($sYaw , 0, 0 )
@@ -273,7 +215,7 @@ Func MakeGUI()
           EndIf
 
         Case $idHelp
-          If GUICtrlRead($sYawPresets) == "Measure any game" Then
+          If $lastYawPresets == "Measure any game" Then
              HelpMessage("measure")
           Else
              HelpMessage()
@@ -291,8 +233,8 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-         If GUICtrlRead(     $sYawPresets   ) == "Measure any game" Then
-            UpdatePartition( $lPartition    )
+         If $lastYawPresets == "Measure any game" Then
+            UpdatePartition( $lPartition )
            If GlobalUncertainty("rev") > $gCycle Then
             GUICtrlSetData($sCycle, String(GlobalUncertainty("rev")))
             $gCycle = _GetNumberFromString( GuiCtrlRead($sCycle) )
@@ -425,7 +367,7 @@ Func HelpMessage($mode="default")
                               & "Uncertainty: ±" & $error  & "° (±"&GlobalUncertainty("%")&"%)"& @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
-                              & "Precision measurements (advanced):"                           & @crlf _
+                              & "Precision Measurements (Advanced):"                           & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "Under/overshoot drifts can take many cycles to become observable. "   _
                               & "Slight shifts up to half-increment that snaps back periodically are " _
@@ -545,6 +487,64 @@ Func KeybindSetter($mode,$subset="all")
          EndIf
         Next
      EndSwitch
+EndFunc
+
+Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
+     Local  $Preset = GUICtrlRead($sYawPresets)
+    _GUICtrlComboBox_DeleteString($sYawPresets,0)                    ; indiscriminately set first entry to measure any game
+    _GUICtrlComboBox_InsertString($sYawPresets,"Measure any game",0) ; on any preset event so list is always the same and
+    _GUICtrlComboBox_SetEditText( $sYawPresets,$Preset)              ; only set to swap first if you select measure or swap
+     KeybindSetter("disable","measure")                              ; indiscriminately disable measure binds till measure
+     Switch $Preset
+       Case "Custom"
+            ; vestigial legacy case prior to version 1.1 where there was a dedicated "Custom" entry
+       Case "Quake/Source"
+            GUICtrlSetData($sYaw, String($yawQuake))
+       Case "Overwatch"
+            GUICtrlSetData($sYaw, String($yawOverwatch))
+       Case "Rainbow6/Reflex"
+            GUICtrlSetData($sYaw, String($yawReflex))
+       Case "Measure any game","< Swap yaw & sens >"
+            KeybindSetter("enable","measure")
+           _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
+           _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected
+           _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; set input box to Measure regardless
+            If  $Preset == "< Swap yaw & sens >" Then
+                UpdatePartition($gPartition)
+                GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
+            Else                                                               ; ElseIf $Preset is Measure any game
+                GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
+                ClearBounds()                                                  ; as well as clearing bounds
+            EndIf
+            Return "Advanced Info"
+       Case "< Save current yaw >"
+           _GUICtrlComboBox_SetEditText($sYawPresets,InputBox("Set name"," ","Yaw: "&String(GUICtrlRead($sYaw)),"",-1,1))
+            If  GUICtrlRead($sYawPresets) Then                                         ; if user input name is valid
+                IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"yaw"   ,      GUICtrlRead($sYaw)        )
+               If ($gBounds[0]<=$gSens) AND ($gBounds[1]>=$gSens) Then  ; write uncertainty and report info if valid bounds
+                IniWrite($gYawListIni,GUICtrlRead($sYawPresets),"uncrty","+/-"&GlobalUncertainty("%")&"%")
+                IniWrite($gReportFile,GUICtrlRead($sYawPresets),"uncrty","+/-"&GlobalUncertainty("%")&"%")
+                IniWrite($gReportFile,GUICtrlRead($sYawPresets),"yaw"   ,      GUICtrlRead($sYaw)        )
+                IniWrite($gReportFile,GUICtrlRead($sYawPresets),"sens"  ,      GUICtrlRead($sSens)       )
+               EndIf
+                $lastYawPresets = GUICtrlRead($sYawPresets)                            ; update preset memory
+               _GUICtrlComboBox_ResetContent( $sYawPresets)                            ; clear yaw list to rebuild from ini
+                GUICtrlSetData(               $sYawPresets,                          _ ; reinitialization
+                "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _ ; hardcoded list
+                                  LoadYawList($gYawListIni)&"< Save current yaw >|")   ; read yaw list from ini
+               _GUICtrlComboBox_SelectString( $sYawPresets, "/ "&$lastYawPresets )     ; select the new preset
+            Else                                                                       ; if user input name is void
+               If $lastYawPresets == "Measure any game" Then                           ; if pre-cancel preset is measure
+                KeybindSetter("enable","measure")                                      ; re-enable measure binds
+               _GUICtrlComboBox_DeleteString( $sYawPresets, 0 )                        ; delete first item and
+               _GUICtrlComboBox_InsertString( $sYawPresets, "< Swap yaw & sens >", 0 ) ; set to swap
+               EndIf
+               _GUICtrlComboBox_SetEditText(  $sYawPresets, $lastYawPresets )          ; restore box to last selected
+            EndIf
+       Case Else
+            GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
+     EndSwitch
+     Return "Info"
 EndFunc
 
 Func TestMouse($cycle)
