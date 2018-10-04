@@ -228,10 +228,10 @@ Func MakeGUI()
          $lastgSens =  $gSens
          $idMsg[0]  = -1
          GUICtrlSetData(     $sCounts, String( 360/$gSens ) )
-        _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
          GUICtrlSetData(     $sIncr  , String(     $gSens ) )
-        _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
          GUICtrlSetData(     $sSens  , String(     $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
+        _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
+        _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          If $lastYawPresets == "Measure any game" Then
             UpdatePartition( $lPartition )
