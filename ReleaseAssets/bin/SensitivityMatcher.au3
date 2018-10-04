@@ -166,14 +166,10 @@ Func MakeGUI()
 
         Case $sYaw, $sYawPresets
              $gResidual  = 0
-             If $idMsg[0] == $sYawPresets Then
-                $gPartition = $lPartition
-                GUICtrlSetData($idHelp,YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens))
-             EndIf
-             GUICtrlSetData($sSens ,String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
-            _GUICtrlEdit_SetSel($sSens, 0, 0 )
-            _GUICtrlEdit_SetSel($sYaw , 0, 0 )
-             If $idMsg[0] == $sYaw Then
+             If     $idMsg[0]  == $sYawPresets Then
+                    $gPartition = $lPartition
+                    GUICtrlSetData($idHelp,YawPresetHandler($lastYawPresets,$sYawPresets,$sYaw,$sSens))
+             ElseIf $idMsg[0]  == $sYaw Then
                  If      GUICtrlRead($sYawPresets) == "Measure any game"               Then
                          ; Do nothing if in measurement mode
                  ElseIf _GetNumberFromString(GuiCtrlRead($sYaw)) == $yawQuake          Then
@@ -186,6 +182,9 @@ Func MakeGUI()
                         _GUICtrlComboBox_SetEditText($sYawPresets, "Custom")
                  EndIf
              EndIf
+             GUICtrlSetData(    $sSens, String( $gSens / _GetNumberFromString( GuiCtrlRead($sYaw) ) ) )
+            _GUICtrlEdit_SetSel($sSens, 0, 0 )
+            _GUICtrlEdit_SetSel($sYaw , 0, 0 )
              $lastYawPresets = GUICtrlRead($sYawPresets)
 
         Case $idSave
