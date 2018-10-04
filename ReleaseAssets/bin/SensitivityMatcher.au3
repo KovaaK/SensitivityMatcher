@@ -233,12 +233,12 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sCounts, 0, 0 )
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
-         If $lastYawPresets == "Measure any game" Then
-            UpdatePartition( $lPartition )
-           If GlobalUncertainty("rev") > $gCycle Then
-            GUICtrlSetData($sCycle, String(GlobalUncertainty("rev")))
-            $gCycle = _GetNumberFromString( GuiCtrlRead($sCycle) )
-           EndIf
+         If  $lastYawPresets == "Measure any game" Then
+             UpdatePartition( $lPartition )
+          If GlobalUncertainty("rev") > $gCycle Then
+             $gCycle = GlobalUncertainty("rev")
+             GUICtrlSetData($sCycle, $gCycle)
+          EndIf
          EndIf
       EndIf
 
