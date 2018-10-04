@@ -33,7 +33,7 @@ Global       $gCycle     =  20
 Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
-     Opt("GUICloseOnESC",0)
+    Opt("GUICloseOnESC",0)
      MakeGUI()
 
 Func MakeGUI()
