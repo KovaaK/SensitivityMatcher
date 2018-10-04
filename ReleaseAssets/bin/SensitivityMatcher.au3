@@ -150,11 +150,11 @@ Func MakeGUI()
 
         Case $sPartition
              $gResidual  = 0
-             $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
-             $lPartition = $gPartition
-             If $lastYawPresets == "Measure any game" Then
-                UpdatePartition($lPartition)
-             EndIf
+             $lPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
+             $gPartition = $lPartition
+          If $lastYawPresets == "Measure any game" Then
+             $gPartition = UpdatePartition($gPartition)
+          EndIf
 
         Case $sSens
              $gResidual  = 0
@@ -234,7 +234,7 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          If  $lastYawPresets == "Measure any game" Then
-             UpdatePartition( $lPartition )
+             $gPartition = UpdatePartition( $lPartition )
           If GlobalUncertainty("rev") > $gCycle Then
              $gCycle = GlobalUncertainty("rev")
              GUICtrlSetData($sCycle, $gCycle)
@@ -455,7 +455,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
            _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected
            _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; set input box to Measure regardless
             If  $Preset == "< Swap yaw & sens >" Then
-                UpdatePartition($gPartition)
+                $gPartition = UpdatePartition($gPartition)
                 GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
             Else                                                               ; ElseIf $Preset is Measure any game
                 GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
@@ -678,15 +678,16 @@ Func Halt()
   EndIf
 EndFunc
 
-Func UpdatePartition($lPartition)
-  Local $lBoundedError = 1
-     If $gBounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
-        $lBoundedError = ( $gBounds[1] - $gBounds[0] ) / $gBounds[1]
+Func UpdatePartition($limit)
+  Local $error = 1
+     If NOT (GlobalUncertainty("%") == "infty") Then
+        $error = GlobalUncertainty("%")/100
      EndIf
-        $gPartition = NormalizedPartition( $defaultTurnPeriod * $lBoundedError )
-     If $gPartition > $lPartition Then
-        $gPartition = $lPartition
+  Local $parti = NormalizedPartition( $defaultTurnPeriod * $error )
+     If $parti > $limit Then
+        $parti = $limit
      EndIf
+ Return $parti
 EndFunc
 
 Func NormalizedPartition($turntime)
