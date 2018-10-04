@@ -235,7 +235,7 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          If  $lastYawPresets == "Measure any game" Then
              $gPartition = UpdatePartition( $lPartition )
-          If GlobalUncertainty("rev") > $gCycle Then
+          If $gCycle < GlobalUncertainty("rev") Then
              $gCycle = GlobalUncertainty("rev")
              GUICtrlSetData($sCycle, $gCycle)
           EndIf
