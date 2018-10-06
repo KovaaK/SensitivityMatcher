@@ -153,7 +153,7 @@ Func MakeGUI()
              $lPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
              $gPartition = $lPartition
           If $lastYawPresets == "Measure any game" Then
-             $gPartition = UpdatePartition($gPartition)
+             $gPartition = UpdatePartition($gPartition,$gBounds)
           EndIf
 
         Case $sSens
@@ -234,7 +234,7 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          If  $lastYawPresets == "Measure any game" Then
-             $gPartition = UpdatePartition( $lPartition )
+             $gPartition = UpdatePartition( $lPartition , $gBounds )
           If $gCycle < GlobalUncertainty("rev") Then
              $gCycle = GlobalUncertainty("rev")
              GUICtrlSetData($sCycle, $gCycle)
@@ -455,7 +455,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
            _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected
            _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; set input box to Measure regardless
             If  $Preset == "< Swap yaw & sens >" Then
-                $gPartition = UpdatePartition($gPartition)
+                $gPartition = UpdatePartition($gPartition,$gBounds)
                 GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
             Else                                                               ; ElseIf $Preset is Measure any game
                 GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
@@ -678,10 +678,10 @@ Func Halt()
   EndIf
 EndFunc
 
-Func UpdatePartition($limit)
+Func UpdatePartition($limit,$bounds)
   Local $error = 1
-     If NOT (GlobalUncertainty("%") == "infty") Then
-        $error = GlobalUncertainty("%")/100
+     If $bounds[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
+        $error = ( $bounds[1] - $bounds[0] ) / $bounds[1]
      EndIf
   Local $parti = NormalizedPartition( $defaultTurnPeriod * $error )
      If $parti > $limit Then
