@@ -555,6 +555,7 @@ Func TestMouse($cycle)
       $delay      = $gDelay
       $turn       = 0.0
       $totalcount = 1
+      $grandtotal = (($cycle*360)+$gResidual)/$gSens
 
       While $cycle > 0
             $cycle         = $cycle - 1
@@ -576,7 +577,8 @@ Func TestMouse($cycle)
         _MouseMovePlus($totalcount,0) ; do the leftover
          Sleep($delay)
       WEnd
-
+      
+      $gResidual = $gSens * ( $grandtotal - round($grandtotal) )
       If $gMode == 0 Then
          $gMode = 1
       EndIf
