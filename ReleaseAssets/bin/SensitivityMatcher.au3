@@ -680,7 +680,7 @@ EndFunc
 
 Func UpdatePartition($limit,$bound)
   Local $error = 1
-     If $bound[1] Then ; no need to check min<max because hotkey already checks and clear contradictions
+     If $bound[1] AND $bound[0] Then
         $error = ( $bound[1] - $bound[0] ) / $bound[1]
      EndIf
   Local $parti = NormalizedPartition( $defaultTurnPeriod * $error )
