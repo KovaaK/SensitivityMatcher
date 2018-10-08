@@ -578,9 +578,9 @@ Func TestMouse($cycle)
          Sleep($delay)
       WEnd
       
-      $gResidual = $gSens * ( $grandtotal - round($grandtotal) )
       If $gMode == 0 Then
          $gMode = 1
+         $gResidual = $gSens * ( $grandtotal - round($grandtotal) )
       EndIf
    EndIf
 EndFunc
