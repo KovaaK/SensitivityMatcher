@@ -680,7 +680,7 @@ EndFunc
 
 Func UpdatePartition($limit,$bound)
   Local $error = 1
-     If $bound[1] AND $bound[1]>=$bound[0] Then
+     If $bound[1] AND ($bound[1] > $bound[0]) Then
         $error = GlobalUncertainty("%") / 100
      EndIf
   Local $parti = NormalizedPartition( $defaultTurnPeriod * $error )
@@ -728,7 +728,7 @@ Func GlobalUncertainty($mode=".")
      ElseIf $mode  == "rev" Then
             $output = Ceiling($gSens*$gSens/($gBounds[1]-$gBounds[0])/360)
      EndIf
-     If $output < 0 Then
+     If $output < 0 OR ($gBounds[1]==0) Then
         Return "infty"
      Else
         Return $output
