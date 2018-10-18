@@ -1,6 +1,6 @@
-## Release Notes
+## Highlights
 
-[version 1.4 highlights]
+[version 1.4]
 
 _New Feature: Measurement Report_
 
