@@ -1,4 +1,4 @@
-## Highlights
+## Release Highlights
 
 [version 1.4]
 
