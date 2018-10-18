@@ -20,6 +20,7 @@ _New: Asks whether user would like to use default binds if specific hotkeys are 
 _New: "Info" button shows contexual instructions depending on selected mode._ \
 _Fix:  Measurement hotkeys now unbinds properly if ini is tweaked while still in measurement mode._ \
 _Fix:  Measurement bounds are no longer lost when swapping yaw and sens; cancelling Save now restores swap options._
+_Fix:  Minor optimization for floating point precision for multi-cycle turns._
 
 ## Download
 
