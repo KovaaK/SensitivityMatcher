@@ -23,7 +23,7 @@ _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and 
 ## Changelog
 _New: Number of cycles bumps up to the (best-case) minimum required to possibly drift one increment given the uncertainty (measurement mode only)._ \
 _New: Added Nudge hotkeys that lets you send individual counts to check if deviation is at least one count \
-(measurement mode only, the residual accumulator does not "know" that you nudged these counts, so be sure to un-nudge to continue testing)._ \
+(measurement mode only)._ \
 _New: Added button to save current inputs to startup values._ \
 _New: Added back the "Custom" item. Upon selection, it makes your yaw equal the current increment._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
