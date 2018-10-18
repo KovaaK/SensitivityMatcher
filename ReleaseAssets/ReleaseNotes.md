@@ -8,7 +8,7 @@ _New Feature: Measurement Report_
 
 _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and Nudge hotkeys_
 
-* Number of multi-cycles auto-bumps up as you gets more and more precision during measurement mode. \
+* Number of multi-cycles auto-bumps up as your uncertainty gets lower and lower during measurement mode. \
 (Only starts to kicks-in when you get _really_ precise)
 * Nudge hotkeys (move one count left/right) to verify whether suspected drift exceeds margin of error. \
 (Residual artifact can drift up to half increment both ways)
