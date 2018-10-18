@@ -21,7 +21,7 @@ _Enhancement (active only in measurement mode): Measurement Cycle Autoscale and 
 [_Go to newest release_](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
 ## Changelog
-_New: Number of cycle bumps up to match the (best-case) minimum needed to possibly drift by one increment._ \
+_New: In measurement mode, # of cycles bumps up to match the (best-case) minimum needed to possibly drift by one increment._ \
 _New: Added Nudge hotkeys that lets you send individual counts to check if deviation is at least one count._ \
 _New: Added button to save current inputs to startup values._ \
 _New: Added back the "Custom" item, upon selection it makes your yaw equal the increment (useful for testing multipliers)_ \
