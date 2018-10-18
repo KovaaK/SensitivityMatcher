@@ -25,7 +25,7 @@ _New: Number of cycles bumps up to the (best-case) minimum required to possibly 
 _New: Added Nudge hotkeys that lets you send individual counts to check if deviation is at least one count \
 (measurement mode only)._ \
 _New: Added button to save current inputs to startup values._ \
-_New: Added back the "Custom" item, upon selection it makes your yaw equal the increment (useful for testing multipliers)_ \
+_New: Added back the "Custom" item. Upon selection, it makes your yaw equal the current increment._ \
 _New: Saved custom yaw now includes uncertainty if obtained from measurement. Info dialogue also shows uncertainty._ \
 _New: Asks whether user would like to use default binds if specific hotkeys are markedly unbound._ \
 _New: "Info" button shows contexual instructions depending on selected mode._ \
