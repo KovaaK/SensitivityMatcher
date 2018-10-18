@@ -93,6 +93,7 @@ Func MakeGUI()
 
 
    ; Initialize all inputs to ini or hardcoded defaults
+   GUICtrlSetData($sYawPresets, LoadYawList($gYawListIni) )
    GUICtrlSetdata($sPartition , IniRead($gSettingIni,"Default","part","959"  ))
    GUICtrlSetdata($sTickRate  , IniRead($gSettingIni,"Default","freq","60"   ))
    GUICtrlSetdata($sCycle     , IniRead($gSettingIni,"Default","cycl","20"   ))
@@ -101,12 +102,6 @@ Func MakeGUI()
    GUICtrlSetData($sIncr      ,     _GetNumberFromString(GUICtrlRead($sSens))*_GetNumberFromstring(GUICtrlread($sYaw)))
    GUICtrlSetData($sCounts    , 360/_GetNumberFromString(GUICtrlRead($sSens))/_GetNumberFromstring(GUICtrlread($sYaw)))
   _GUICtrlEdit_SetSel($sCounts,0,0)
-   GUICtrlSetData($sYawPresets, "Measure any game|" & _
-                                    "Quake/Source|" & _
-                                       "Overwatch|" & _
-                                 "Rainbow6/Reflex|" & _
-                         LoadYawList($gYawListIni)  & _
-                            "< Save current yaw >|" )
 
 
    ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating within the main loop
@@ -442,7 +437,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
      KeybindSetter("disable","measure")                              ; indiscriminately disable measure binds till measure
      Switch $Preset
        Case "Custom"
-            ; vestigial legacy case prior to version 1.1 where there was a dedicated "Custom" entry
+            GUICtrlSetData($sYaw, String($gSens))
        Case "Quake/Source"
             GUICtrlSetData($sYaw, String($yawQuake))
        Case "Overwatch"
@@ -474,9 +469,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
                EndIf
                 $lastYawPresets = GUICtrlRead($sYawPresets)                            ; update preset memory
                _GUICtrlComboBox_ResetContent( $sYawPresets)                            ; clear yaw list to rebuild from ini
-                GUICtrlSetData(               $sYawPresets,                          _ ; reinitialization
-                "Measure any game|"&"Quake/Source|"&"Overwatch|"&"Rainbow6/Reflex|"& _ ; hardcoded list
-                                  LoadYawList($gYawListIni)&"< Save current yaw >|")   ; read yaw list from ini
+                GUICtrlSetData(               $sYawPresets, LoadYawList($gYawListIni)) ; reinitialization
                _GUICtrlComboBox_SelectString( $sYawPresets, "/ "&$lastYawPresets )     ; select the new preset
             Else                                                                       ; if user input name is void
                If $lastYawPresets == "Measure any game" Then                           ; if pre-cancel preset is measure
@@ -739,10 +732,15 @@ EndFunc
 
 Func LoadYawList($sFilePath)
      Local $aYawList = IniReadSectionNames($sFilePath)
-     Local $sYawList = ""
+     Local $sYawList = "Measure any game|" & _
+                           "Quake/Source|" & _
+                              "Overwatch|" & _
+                        "Rainbow6/Reflex|" & _
+                                 "Custom|"
      For   $i = 1 to UBound($aYawList)-1
            $sYawList = $sYawList & "/ " & $aYawList[$i] & "|"
      Next
+           $sYawList = $sYawList  & "< Save current yaw >|"
     Return $sYawList
 EndFunc
 
