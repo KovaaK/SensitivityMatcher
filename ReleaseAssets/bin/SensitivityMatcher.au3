@@ -106,7 +106,7 @@ Func MakeGUI()
 
    ; Initialize Global Variables to UI Inputs. Once initialized, they are individually self-updating within the main loop
    $gSens      = _GetNumberFromString(GuiCtrlRead($sSens)) * _GetNumberFromString(GuiCtrlRead($sYaw))
-   $gDelay     =  Ceiling( 1000 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
+   $gDelay     =  10 * Ceiling( 100 / _GetNumberFromString( GuiCtrlRead($sTickRate) ) )
    $gPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
    $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
    $gResidual  =  0.0
@@ -141,7 +141,7 @@ Func MakeGUI()
 
         Case $sTickRate
              $gResidual  = 0
-             $gDelay     = Ceiling(1000/_GetNumberFromString(GuiCtrlRead($sTickRate)))
+             $gDelay     = 10*Ceiling(100/_GetNumberFromString(GuiCtrlRead($sTickRate)))
 
         Case $sPartition
              $gResidual  = 0
@@ -351,7 +351,7 @@ Func HelpMessage($mode="default")
                               & "------------------------------------------------------------" & @crlf _
                               & "Key bindings can be changed in UserSettings.ini "             & @crlf _
                                                                                                & @crlf _
-                              & "Interval: " & $gDelay & " ms (round up to nearest millisec.)" & @crlf _
+                              & "Interval: " & $gDelay & " ms (round up to nearest 1/10 sec.)" & @crlf _
                               & "Estimated Completion Time for " & $gCycle                             _
                               & " cycles: " & $time & " sec"                                   & @crlf _
                                                                                                & @crlf _
@@ -414,7 +414,7 @@ Func HelpMessage($mode="default")
                               & "------------------------------------------------------------" & @crlf _
                               & "Key bindings can be changed in UserSettings.ini "             & @crlf _
                                                                                                & @crlf _
-                              & "Interval: " & $gDelay & " ms (round up to nearest millisec.)" & @crlf _
+                              & "Interval: " & $gDelay & " ms (round up to nearest 1/10 sec.)" & @crlf _
                               & "Estimated Completion Time for " & $gCycle                             _
                               & " cycles: " & $time & " sec"                                   & @crlf _
                                                                                                & @crlf _
