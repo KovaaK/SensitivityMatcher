@@ -351,7 +351,7 @@ Func HelpMessage($mode="default")
                               & "------------------------------------------------------------" & @crlf _
                               & "Key bindings can be changed in UserSettings.ini "             & @crlf _
                                                                                                & @crlf _
-                              & "Interval: " & $gDelay & " ms (round up to nearest 1/10 sec.)" & @crlf _
+                              & "Interval: " & $gDelay & " ms (round up to nearest 0.01 sec.)" & @crlf _
                               & "Estimated Completion Time for " & $gCycle                             _
                               & " cycles: " & $time & " sec"                                   & @crlf _
                                                                                                & @crlf _
@@ -414,7 +414,7 @@ Func HelpMessage($mode="default")
                               & "------------------------------------------------------------" & @crlf _
                               & "Key bindings can be changed in UserSettings.ini "             & @crlf _
                                                                                                & @crlf _
-                              & "Interval: " & $gDelay & " ms (round up to nearest 1/10 sec.)" & @crlf _
+                              & "Interval: " & $gDelay & " ms (round up to nearest 0.01 sec.)" & @crlf _
                               & "Estimated Completion Time for " & $gCycle                             _
                               & " cycles: " & $time & " sec"                                   & @crlf _
                                                                                                & @crlf _
