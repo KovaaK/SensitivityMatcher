@@ -26,10 +26,10 @@ Global       $gHotkey[8]  =  KeybindSetter("initialize")
 
 Global       $gValid     =  1    ; Keeps track of whether all user inputs are valid numbers or not
 Global       $gMode      = -1    ; Three states of $gMode: -1, 0, and 1, for halt override, in-progress, and ready.
-Global       $gSens      =  1.0
-Global       $gPartition =  127
+Global       $gSens      =  0.022
+Global       $gPartition =  511
 Global       $gDelay     =  10
-Global       $gCycle     =  20
+Global       $gCycle     =  22
 Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
@@ -59,14 +59,14 @@ Func MakeGUI()
 
    Local $sYawPresets = GUICtrlCreateCombo( ""             , 100,   5, 110, 20)
    Local $sSens       = GUICtrlCreateInput( "1"            ,   5,  30,  80, 20)
-   Local $sYaw        = GUICtrlCreateInput( "0.022"        , 100,  30,  95, 20)
-   Local $sIncr       = GUICtrlCreateInput( "0.022"        , 210,  30,  80, 20)
+   Local $sYaw        = GUICtrlCreateInput( $gSens         , 100,  30,  95, 20)
+   Local $sIncr       = GUICtrlCreateInput( $gSens         , 210,  30,  80, 20)
                         GUICtrlSendMsg(     $sIncr  , $EM_SETREADONLY,   1,  0)
-   Local $sCounts     = GUICtrlCreateInput(  360/0.022     , 100, 100,  95, 20)
+   Local $sCounts     = GUICtrlCreateInput( 360/$gSens     , 100, 100,  95, 20)
                         GUICtrlSendMsg(     $sCounts, $EM_SETREADONLY,   1,  0)
-   Local $sPartition  = GUICtrlCreateInput( "511"          , 100, 125,  95, 20)
-   Local $sTickRate   = GUICtrlCreateInput( "100"          , 100, 150,  95, 20)
-   Local $sCycle      = GUICtrlCreateInput( "20"           , 100, 175,  95, 20)
+   Local $sPartition  = GUICtrlCreateInput( $gPartition    , 100, 125,  95, 20)
+   Local $sTickRate   = GUICtrlCreateInput( 1000/$gDelay   , 100, 150,  95, 20)
+   Local $sCycle      = GUICtrlCreateInput( $gCycle        , 100, 175,  95, 20)
    Local $idSave      = GUICtrlCreateButton("Save to Default", 5, 205,  95, 25)
    Local $idHelp      = GUICtrlCreateButton("Info"         , 100, 205,  95, 25)
    Local $idCalc      = GUICtrlCreateButton("Physical Stats...",195,205,95, 25)
@@ -93,14 +93,14 @@ Func MakeGUI()
 
 
    ; Initialize all inputs to ini or hardcoded defaults
-   GUICtrlSetData($sYawPresets, LoadYawList($gYawListIni) )
-   GUICtrlSetdata($sPartition , IniRead($gSettingIni,"Default","part","959"  ))
-   GUICtrlSetdata($sTickRate  , IniRead($gSettingIni,"Default","freq","60"   ))
-   GUICtrlSetdata($sCycle     , IniRead($gSettingIni,"Default","cycl","20"   ))
-   GUICtrlSetData($sYaw       , IniRead($gSettingIni,"Default","yaw" ,"0.022"))
-   GUICtrlSetData($sSens      , IniRead($gSettingIni,"Default","sens","1"    ))
-   GUICtrlSetData($sIncr      ,     _GetNumberFromString(GUICtrlRead($sSens))*_GetNumberFromstring(GUICtrlread($sYaw)))
-   GUICtrlSetData($sCounts    , 360/_GetNumberFromString(GUICtrlRead($sSens))/_GetNumberFromstring(GUICtrlread($sYaw)))
+   GUICtrlSetData( $sYawPresets , LoadYawList($gYawListIni)                                                         )
+   GUICtrlSetdata( $sPartition  , IniRead( $gSettingIni,"Default","part",GUICtrlRead($sPartition) )                 )
+   GUICtrlSetdata( $sTickRate   , IniRead( $gSettingIni,"Default","freq",GUICtrlRead($sTickRate)  )                 )
+   GUICtrlSetdata( $sCycle      , IniRead( $gSettingIni,"Default","cycl",GUICtrlRead($sCycle)     )                 )
+   GUICtrlSetData( $sYaw        , IniRead( $gSettingIni,"Default","yaw" ,GUICtrlRead($sYaw)       )                 )
+   GUICtrlSetData( $sSens       , IniRead( $gSettingIni,"Default","sens",GUICtrlRead($sSens)      )                 )
+   GUICtrlSetData( $sIncr       ,_GetNumberFromstring(GUICtrlread($sYaw))*_GetNumberFromString(GUICtrlRead($sSens)) )
+   GUICtrlSetData( $sCounts     ,                                     360/_GetNumberFromString(GUICtrlRead($sIncr)) )
   _GUICtrlEdit_SetSel($sCounts,0,0)
 
 
