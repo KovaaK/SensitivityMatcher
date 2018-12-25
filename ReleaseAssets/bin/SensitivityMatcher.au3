@@ -8,6 +8,7 @@
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
 #include <StringConstants.au3>
+#include <WindowsConstants.au3>
 
 If _Singleton("Sensitivity Matcher", 1) == 0 Then
     MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
@@ -250,7 +251,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
   Else
       If $idGUICalc == "INITIALIZE" Then
          Local $pos=WinGetPos("Sensitivity Matcher")
-         $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[0]+$pos[2],$pos[1])
+         $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[0]+$pos[2],$pos[1],BitXOR($GUI_SS_DEFAULT_GUI, $WS_MINIMIZEBOX))
          $sInput[0]=GUICtrlCreateInput(                                                  $gSens     , 85,  6, 80, 20)
                     GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
          $sInput[1]=GUICtrlCreateInput(     IniRead($gSettingIni,"Default","cpi",800)               , 85, 30, 80, 20)
