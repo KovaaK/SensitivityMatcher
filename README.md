@@ -1,4 +1,4 @@
-### [ Download Latest Binary.](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
+### [ Download Program Here (not the green button).](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 [![Screenshot 1](https://i.redd.it/42hockvb3f621.png)](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 # Sensitivity Matcher
 
