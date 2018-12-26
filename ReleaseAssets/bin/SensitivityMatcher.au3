@@ -11,7 +11,7 @@
 #include <WindowsConstants.au3>
 
 If _Singleton("Sensitivity Matcher", 1) == 0 Then
-    MsgBox(0, "Warning", "An instance of Sensitivity Matcher is already running.")
+    WinActivate("Sensitivity Matcher")
     Exit
 EndIf
 
