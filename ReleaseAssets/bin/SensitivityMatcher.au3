@@ -41,7 +41,7 @@ Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
 Func MakeGUI()
    Global $idGUI = GUICreate("Sensitivity Matcher", 295, 235,-1,-1,BitXOR($GUI_SS_DEFAULT_GUI, $WS_MINIMIZEBOX))
-
+   GUISetIcon("shell32_16739.ico")
    GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
    GUICtrlCreateLabel( "×"                                 ,  85,  33,  15, 15, $SS_CENTER)
