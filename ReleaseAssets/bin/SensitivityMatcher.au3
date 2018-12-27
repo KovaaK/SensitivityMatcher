@@ -38,7 +38,7 @@ Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
      MakeGUI()
 
 Func MakeGUI()
-   Local $idGUI = GUICreate("Sensitivity Matcher", 295, 235,-1,-1,BitXOR($GUI_SS_DEFAULT_GUI, $WS_MINIMIZEBOX))
+   Global $idGUI = GUICreate("Sensitivity Matcher", 295, 235,-1,-1,BitXOR($GUI_SS_DEFAULT_GUI, $WS_MINIMIZEBOX))
 
    GUICtrlCreateLabel( "Select preset yaw:"                ,   0,   7,  95, 15, $SS_RIGHT )
    GUICtrlCreateLabel( "Sens"                              ,   5,  50,  80, 15, $SS_CENTER)
@@ -208,6 +208,8 @@ Func MakeGUI()
              $idGUICalc = HandyCalculator("INITIALIZE",$lCalculator,$idMsg)
           Else
              GUISetState(@SW_RESTORE,$idGUICalc)
+             GUIDelete($idGUICalc)
+             $idGUICalc="INACTIVE"
           EndIf
 
         Case $idHelp
@@ -251,7 +253,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
   Else
       If $idGUICalc == "INITIALIZE" Then
          Local $pos=WinGetPos("Sensitivity Matcher")
-         $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[0]+$pos[2],$pos[1],BitXOR($GUI_SS_DEFAULT_GUI, $WS_MINIMIZEBOX))
+         $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[2]-8,-49,$WS_CAPTION,$WS_EX_MDICHILD,$idGUI)
          $sInput[0]=GUICtrlCreateInput(                                                  $gSens     , 85,  6, 80, 20)
                     GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
          $sInput[1]=GUICtrlCreateInput(     IniRead($gSettingIni,"Default","cpi",800)               , 85, 30, 80, 20)
