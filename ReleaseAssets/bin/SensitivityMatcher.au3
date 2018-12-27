@@ -71,7 +71,7 @@ Func MakeGUI()
    Local $sTickRate   = GUICtrlCreateInput( 1000/$gDelay   , 100, 150,  95, 20)
    Local $sCycle      = GUICtrlCreateInput( $gCycle        , 100, 175,  95, 20)
    Local $idSave      = GUICtrlCreateButton("Save to Default", 5, 205,  95, 25)
-   Local $idHelp      = GUICtrlCreateButton("Info"         , 100, 205,  95, 25)
+   Local $idHelp      = GUICtrlCreateButton("Instructions" , 100, 205,  95, 25)
    Local $idCalc      = GUICtrlCreateButton("Physical Stats...",195,205,95, 25)
 
 
@@ -399,7 +399,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
        Case Else
             GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
      EndSwitch
-     Return "Info"
+     Return "Instructions"
 EndFunc
 
 Func KeybindSetter($mode,$subset="all")
