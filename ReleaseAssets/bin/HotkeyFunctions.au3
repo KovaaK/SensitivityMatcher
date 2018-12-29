@@ -50,7 +50,7 @@ Func ClearBounds()
      $gResidual  = 0
      $gBounds[0] = 0
      $gBounds[1] = 0
-     $gPartition = NormalizedPartition($defaultTurnPeriod)
+     $gPartition = NormalizedPartition($defaultTurnPeriod,$gSens)
      $gReportFile= CleanupFileName("MeasureReport"&_Now()&".csv")
 EndFunc
 
