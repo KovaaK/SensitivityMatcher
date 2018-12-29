@@ -500,16 +500,16 @@ Func UpdatePartition($limit,$bound)
      If $bound[1] AND ($bound[1] > $bound[0]) Then
         $error = GlobalUncertainty("%") / 100
      EndIf
-  Local $parti = NormalizedPartition( $defaultTurnPeriod * $error , $gSens )
+  Local $parti = NormalizedPartition($gSens, $defaultTurnPeriod*$error, $gDelay)
      If $parti > $limit Then
         $parti = $limit
      EndIf
  Return $parti
 EndFunc
 
-Func NormalizedPartition($turntime,$incre)
+Func NormalizedPartition($incre,$turntime,$delay)
      Local $total = round( 360 / $incre )
-     Local $slice = ceiling( $total * $gDelay / $turntime )
+     Local $slice = ceiling( $total * $delay / $turntime )
         If $slice > $total Then
            $slice = $total
         EndIf
