@@ -12,6 +12,17 @@ Func BoundUncertainty($sens,$bounds,$mode=".")
      EndIf
 EndFunc
 
+Func UpdatePartition($limit,$sens,$bound,$delay)
+  Local $error = 1
+     If $bound[1] AND ($bound[1] > $bound[0]) Then
+        $error = BoundUncertainty($sens,$bound,"%") / 100
+     EndIf
+  Local $parti = NormalizedPartition($sens, $defaultTurnPeriod*$error, $delay)
+     If $parti > $limit Then
+        $parti = $limit
+     EndIf
+ Return $parti
+EndFunc
 
 Func NormalizedPartition($incre,$turntime,$delay)
      Local $total = round( 360 / $incre )
