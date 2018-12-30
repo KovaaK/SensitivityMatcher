@@ -1,20 +1,6 @@
 
 Global Const $defaultTurnPeriod = 1000
 
-Func BoundUncertainty($sens,$bounds,$mode=".")
-     Local  $output = ($bounds[1]-$bounds[0])/2
-     If     $mode  == "%"   Then
-            $output = ($bounds[1]-$bounds[0])*50/$sens
-     ElseIf $mode  == "rev" Then
-            $output = Ceiling($sens*$sens/($bounds[1]-$bounds[0])/360)
-     EndIf
-     If $output < 0 OR ($bounds[1]==0) Then
-        Return "infty"
-     Else
-        Return $output
-     EndIf
-EndFunc
-
 Func UpdatePartition($limit,$sens,$bound,$delay)
   Local $error = 1
      If $bound[1] AND ($bound[1] > $bound[0]) Then
@@ -34,6 +20,20 @@ Func NormalizedPartition($incre,$turntime,$delay)
            $slice = $total
         EndIf
     Return $slice
+EndFunc
+
+Func BoundUncertainty($sens,$bounds,$mode=".")
+     Local  $output = ($bounds[1]-$bounds[0])/2
+     If     $mode  == "%"   Then
+            $output = ($bounds[1]-$bounds[0])*50/$sens
+     ElseIf $mode  == "rev" Then
+            $output = Ceiling($sens*$sens/($bounds[1]-$bounds[0])/360)
+     EndIf
+     If $output < 0 OR ($bounds[1]==0) Then
+        Return "infty"
+     Else
+        Return $output
+     EndIf
 EndFunc
 
 Func CleanupFileName($input)
