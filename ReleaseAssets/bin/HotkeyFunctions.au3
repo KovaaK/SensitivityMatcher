@@ -38,7 +38,7 @@ Func IncreasePolygon()
          "uprbnd:,"&$gBounds[1]&",nxtgss:,"&$gSens&   _
          ",uncrty:+/-,"&BoundUncertainty($gSens,$gBounds)&          _
          ",(+/-"&BoundUncertainty($gSens,$gBounds,"%")&"%),mincycl", _
-                 BoundUncertainty($gSens,$gBounds"rev")             )
+                 BoundUncertainty($gSens,$gBounds,"rev")             )
     Else
          HelpMessage()
     EndIf
