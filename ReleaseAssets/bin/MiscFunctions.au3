@@ -1,3 +1,6 @@
+
+Global Const $defaultTurnPeriod = 1000
+
 Func BoundUncertainty($sens,$bounds,$mode=".")
      Local  $output = ($bounds[1]-$bounds[0])/2
      If     $mode  == "%"   Then
