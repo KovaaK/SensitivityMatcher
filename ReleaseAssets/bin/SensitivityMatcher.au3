@@ -10,6 +10,7 @@
 #include <StringConstants.au3>
 #include <WindowsConstants.au3>
 #include "HotkeyFunctions.au3"
+#include "MiscFunctions.au3"
 #include "HelpMessages.au3"
 
 If _Singleton("Sensitivity Matcher", 1) == 0 Then
