@@ -22,7 +22,6 @@ Global Const $gPi               = 3.14159265358979323846264338327950288419716939
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = 0.018/$gPi
-Global Const $defaultTurnPeriod = 1000
 Global Const $gSettingIni = "UserSettings.Ini"
 Global Const $gYawListIni = "CustomYawList.ini"
 Global       $gReportFile = "MeasureReport.csv"
