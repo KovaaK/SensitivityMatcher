@@ -80,7 +80,7 @@ Func HelpMessage($mode="default")
                               & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
                               & "Current Increment: "      & $gSens      & "°"                 & @crlf _
                               & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
-                              & "Uncertainty: ±" & $error  & "° (±"      & $prcnt & "%)"
+                              & "Uncertainty: ±" & $error  & "° (±"      & $prcnt & "%)"               )
         EndIf
      Else
         MsgBox(0, "Error", "Inputs must be positive numbers")
