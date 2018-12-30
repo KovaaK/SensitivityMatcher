@@ -152,7 +152,7 @@ Func MakeGUI()
              $lPartition = _GetNumberFromString(GuiCtrlRead($sPartition))
              $gPartition = $lPartition
           If $lastYawPresets == "Measure any game" Then
-             $gPartition = UpdatePartition($gPartition,$gBounds)
+             $gPartition = UpdatePartition($gPartition,$gSens,$gBounds,$gDelay)
           EndIf
 
         Case $sSens
@@ -235,7 +235,7 @@ Func MakeGUI()
         _GUICtrlEdit_SetSel( $sIncr  , 0, 0 )
         _GUICtrlEdit_SetSel( $sSens  , 0, 0 )
          If  $lastYawPresets == "Measure any game" Then
-             $gPartition = UpdatePartition( $lPartition , $gBounds )
+             $gPartition = UpdatePartition( $lPartition, $gSens, $gBounds, $gDelay)
           If $gCycle < BoundUncertainty($gSens,$gBounds,"rev") Then
              $gCycle = BoundUncertainty($gSens,$gBounds,"rev")
              GUICtrlSetData($sCycle, $gCycle)
@@ -368,7 +368,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
            _GUICtrlComboBox_InsertString($sYawPresets,"< Swap yaw & sens >",0) ; measure or swap is selected
            _GUICtrlComboBox_SetEditText( $sYawPresets,"Measure any game")      ; set input box to Measure regardless
             If  $Preset == "< Swap yaw & sens >" Then
-                $gPartition = UpdatePartition($gPartition,$gBounds)
+                $gPartition = UpdatePartition($gPartition,$gSens,$gBounds,$gDelay)
                 GUICtrlSetData($sYaw,String(GuiCtrlRead($sSens)))              ; set yaw to sens if swap is selected
             Else                                                               ; ElseIf $Preset is Measure any game
                 GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
@@ -494,18 +494,6 @@ Func TestMouse($cycle)
          $gResidual = $gSens * ( $grandtotal - round($grandtotal) )
       EndIf
    EndIf
-EndFunc
-
-Func UpdatePartition($limit,$bound)
-  Local $error = 1
-     If $bound[1] AND ($bound[1] > $bound[0]) Then
-        $error = BoundUncertainty($gSens,$gBounds,"%") / 100
-     EndIf
-  Local $parti = NormalizedPartition($gSens, $defaultTurnPeriod*$error, $gDelay)
-     If $parti > $limit Then
-        $parti = $limit
-     EndIf
- Return $parti
 EndFunc
 
 
