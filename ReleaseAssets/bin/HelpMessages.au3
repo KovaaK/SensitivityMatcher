@@ -1,6 +1,7 @@
 Func HelpMessage($mode="default")
      If $gValid Then
         Local $error = BoundUncertainty($gSens,$gBounds)
+        Local $prcnt = BoundUncertainty($gSens,$gBounds,"%")
         Local $time  = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
         If    $mode == "measure" Then
             MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
@@ -16,7 +17,7 @@ Func HelpMessage($mode="default")
                               & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
                               & "Current Increment: "      & $gSens      & "°"                 & @crlf _
                               & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
-                              & "Uncertainty: ±" & $error  & "° (±"&50*$error/$gSens&"%)"& @crlf _
+                              & "Uncertainty: ±" & $error  & "° (±"      & $prcnt & "%)"       & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "Precision Measurements (Advanced):"                           & @crlf _
@@ -79,7 +80,7 @@ Func HelpMessage($mode="default")
                               & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
                               & "Current Increment: "      & $gSens      & "°"                 & @crlf _
                               & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
-                              & "Uncertainty: ±" & $error  & "° (±"&50*$error/$gSens&&"%)")
+                              & "Uncertainty: ±" & $error  & "° (±"      & $prcnt & "%)"
         EndIf
      Else
         MsgBox(0, "Error", "Inputs must be positive numbers")
