@@ -1,3 +1,58 @@
+Func KeybindSetter($mode,$subset="all")
+     Local  $size = 8
+     Local  $readval[$size]
+     Local  $default[$size] = [   "!{[}"  ,  "!{]}"  ,  "!{\}"  , _
+                                  "!{-}"  ,  "!{=}"  ,  "!{0}"  , _
+                                  "!{'}"  ,  "!{;}"  ]
+     Local  $keyname[$size] = [ "TurnOnce","TurnAlot","StopTurn", _
+                                "LessTurn","MoreTurn","ClearMem", _
+                                "NudgeFwd","NudgeBkd"] 
+     Local  $fncname[$size] = [ "SingleCycle", _
+                                  "AutoCycle", _
+                                       "Halt", _
+                            "DecreasePolygon", _
+                            "IncreasePolygon", _
+                                "ClearBounds", _
+                                 "NudgeRight", _
+                                  "NudgeLeft" ]     
+     For    $i = 0 to $size-1
+            $readval[$i] = IniRead($gSettingIni,"Hotkeys",$keyname[$i],$default[$i]) 
+     Next
+     Local  $start  = 0
+     Local  $end    = $size-1
+     If     $subset = "measure" Then
+            $start  = 3
+     ElseIf $subset = "turn"    Then
+            $end    = 2
+     EndIf
+     Switch $mode
+       Case "initialize"
+            Return $readval
+       Case "save"
+        For $i = $start To $end
+         If $gHotkey[$i] Then
+            IniWrite($gSettingIni,"Hotkeys",$keyname[$i],$gHotkey[$i]) 
+         EndIf
+        Next
+       Case "disable"
+        For $i = $start to $end
+         If $gHotkey[$i] Then
+            HotKeySet($gHotkey[$i])
+         EndIf
+        Next
+       Case "enable"
+        For $i = $start to $end
+         If $gHotkey[$i] Then
+            HotKeySet($gHotkey[$i],$fncname[$i])
+         ElseIf MsgBox(4,"Hotkeys","The hotkey "&$keyname[$i]&" is unbound."&@crlf& _
+                          "Use default bind of "&$default[$i]&" instead?") == 6 Then
+            $gHotkey[$i] = $default[$i]
+            HotKeySet($gHotkey[$i],$fncname[$i])
+         EndIf
+        Next
+     EndSwitch
+EndFunc
+
 Func DecreasePolygon()
   If     $gMode>0 Then
          $gMode=0
