@@ -64,6 +64,7 @@ Func LoadYawList($sFilePath)
                            "Quake/Source|" & _
                               "Overwatch|" & _
                         "Rainbow6/Reflex|" & _
+                             "Diabotical|" & _
                                  "Custom|"
      For   $i = 1 to UBound($aYawList)-1
            $sYawList = $sYawList & "/ " & $aYawList[$i] & "|"
