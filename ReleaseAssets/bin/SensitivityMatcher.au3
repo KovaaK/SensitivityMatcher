@@ -22,6 +22,7 @@ Global Const $gPi               = 3.14159265358979323846264338327950288419716939
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = 0.018/$gPi
+Global Const $yawDiabotical     = 1/60
 Global Const $gSettingIni = "UserSettings.Ini"
 Global Const $gYawListIni = "CustomYawList.ini"
 Global       $gReportFile = "MeasureReport.csv"
@@ -362,6 +363,8 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
             GUICtrlSetData($sYaw, String($yawOverwatch))
        Case "Rainbow6/Reflex"
             GUICtrlSetData($sYaw, String($yawReflex))
+       Case "Diabotical"
+            GUICtrlSetData($sYaw, String($yawDiabotical))
        Case "Measure any game","< Swap yaw & sens >"
             KeybindSetter("enable","measure")
            _GUICtrlComboBox_DeleteString($sYawPresets,0)                       ; always set first entry to swap when
