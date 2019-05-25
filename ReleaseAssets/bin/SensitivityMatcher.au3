@@ -145,6 +145,7 @@ Func MakeGUI()
         Case $sTickRate
              $gResidual  = 0
              $gDelay     = 10*Ceiling(100/_GetNumberFromString(GuiCtrlRead($sTickRate)))
+             GUICtrlSetData( $sTickRate , 1000/$gDelay )
 
         Case $sPartition
              $gResidual  = 0
