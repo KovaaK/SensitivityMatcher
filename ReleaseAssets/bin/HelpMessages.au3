@@ -27,13 +27,13 @@ Func HelpMessage($mode="default")
                               & "simply visual artifacts of residual angles that cancels itself out "  _
                               & "over many rotations. To positively qualify under/overshoots, the "    _
                               & "deviations must equal or exceed single increment angles. Use the "    _
-                              & "nudge hotkeys in measurement mode to move single increments to check" _
+                              & "jog hotkeys in measurement mode to move single increments to check"   _
                               & " that deviation is at least one count away from origin."      & @crlf _
                                                                                                & @crlf _
-                              & "Press Alt+' (quotation) to nudge one count to the right"      & @crlf _
-                              & "Press Alt+; (semicolon) to nudge one count to the left"       & @crlf _
+                              & "Press Alt+' (quotation) to jog one count to the right"        & @crlf _
+                              & "Press Alt+; (semicolon) to joge one count to the left"        & @crlf _
                                                                                                & @crlf _
-                              & "Remember to un-nudge if you wish to continue cycling. To share your " _
+                              & "Remember to un-jog if you wish to continue cycling. To share your "   _
                               & "measurement results for others to verify, it is recommended that "    _
                               & "at least two measurement sessions with different non-overlapping "    _
                               & "initial values be performed on two separate in-game settings, for a " _
