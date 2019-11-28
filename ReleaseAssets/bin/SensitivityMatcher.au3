@@ -13,6 +13,7 @@
 #include "HotkeyFunctions.au3"
 #include "MiscFunctions.au3"
 #include "HelpMessages.au3"
+#include "RawInput.au3"
 
 If _Singleton("Sensitivity Matcher", 1) == 0 Then
     WinActivate("Sensitivity Matcher")
@@ -39,8 +40,6 @@ Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
 
-Global $g_incidental_measureGUI[10]
-#include "RawInput.au3"
 
     Opt("GUICloseOnESC",0)
      MakeGUI()
