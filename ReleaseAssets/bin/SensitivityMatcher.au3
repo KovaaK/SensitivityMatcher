@@ -1,6 +1,7 @@
 #NoTrayIcon
 #include <Date.au3>
 #include <Misc.au3>
+#include <Math.au3>
 #include <GuiEdit.au3>
 #include <GUIToolTip.au3>
 #include <GUIComboBox.au3>
@@ -18,10 +19,9 @@ If _Singleton("Sensitivity Matcher", 1) == 0 Then
     Exit
 EndIf
 
-Global Const $gPi               = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
-Global Const $yawReflex         = 0.018/$gPi
+Global Const $yawReflex         = 0.0001*$MATH_DEGREES
 Global Const $yawDiabotical     = 1/60
 Global Const $gSettingIni = "UserSettings.Ini"
 Global Const $gYawListIni = "CustomYawList.ini"
@@ -474,6 +474,3 @@ Func TestMouse($cycle)
       EndIf
    EndIf
 EndFunc
-
-
-
