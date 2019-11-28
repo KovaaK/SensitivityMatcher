@@ -12,6 +12,7 @@
 #include <WindowsConstants.au3>
 
 
+Global $g_incidental_measureGUI[10]
 Global $g_yawbuffer = 0
 
 
