@@ -76,6 +76,9 @@ Func MakeGUI()
    Local $idHelp      = GUICtrlCreateButton("Instructions" , 100, 205,  95, 25)
    Local $idCalc      = GUICtrlCreateButton("Physical Stats...",195,205,95, 25)
 
+$g_incidental_recordButton = GUICtrlCreateButton("Record", 213, 4,  78, 23)
+GUICtrlSetState($g_incidental_recordButton,$GUI_DISABLE)
+
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
                        _GUIToolTip_SetDelayTime($hToolTip, $TTDT_AUTOPOP, 30000) ; Set the tooltip to last 30 seconds. If I set this to 60 seconds, it seems to go back to 5.
@@ -410,36 +413,45 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
        Case Else
             GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
      EndSwitch
-     Local $hStatchd = WinGetHandle("Measure Any Game")
-     If @error Then 
-     Else
-         GUIDelete($hStatchd)
-     EndIf
+     DestroyMeasurementStatsWindow()
      Return "Instructions"
+EndFunc
+
+Func DestroyMeasurementStatsWindow()
+     If $g_incidental_measureGUI[0] == "INACTIVE" Then 
+     Else
+         GUIDelete($g_incidental_measureGUI[0])
+         GUICtrlSetState($g_incidental_recordButton,$GUI_DISABLE)
+         $g_incidental_measureGUI[0] = "INACTIVE"
+     EndIf
 EndFunc
 
 
 Func MakeMeasurementStatsWindow()
     $g_incidental_measureGUI[0] = GUICreate("Measure Any Game",205,235,-209,-49,$WS_CAPTION,$WS_EX_MDICHILD,WinGetHandle(""))
-    GUICtrlCreateLabel( "Lower Bound:",   5,5,70,-1)
-    GUICtrlCreateLabel( "Upper Bound:",   5,25,70,-1)
-    GUICtrlCreateLabel( "Uncertainty: ±",   5,45,70,-1)
-    $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,125,-1)
-    $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,125,-1)
-    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds)&"°",75,45,125,-1)
+    GUICtrlCreateLabel( "Lower Bound:",   5,5,70,20)
+    GUICtrlCreateLabel( "Upper Bound:",   5,25,70,20)
+    GUICtrlCreateLabel( "Uncertainty: ±",   5,45,70,20)
+    $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,125,20)
+    $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,125,20)
+    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds)&"°",75,45,125,20)
     $g_incidental_measureGUI[4] = GUICtrlCreateButton("Undershot", 5, 205,  65, 25)
     $g_incidental_measureGUI[5] = GUICtrlCreateButton("Reset", 70, 205,  65, 25)
     $g_incidental_measureGUI[6] = GUICtrlCreateButton("Overshot", 135, 205,  65, 25)
-    $g_incidental_measureGUI[7] = GUICtrlCreateLabel("",75,65,125,25)
-    $g_incidental_measureGUI[8] = GUICtrlCreateLabel("",75,85,125,25)
-    $g_incidental_measureGUI[9] = GUICtrlCreateLabel("",75,105,125,25)
+    $g_incidental_measureGUI[7] = GUICtrlCreateLabel("",75,65,125,20)
+    $g_incidental_measureGUI[8] = GUICtrlCreateLabel("",75,85,125,20)
+    $g_incidental_measureGUI[9] = GUICtrlCreateLabel("",75,105,125,20)
     GUISetState(@SW_SHOW)
+    GUICtrlSetState($g_incidental_recordButton,$GUI_ENABLE)
 EndFunc
 
 Func UpdateMeasurementStatsWindow()
-    GUICtrlSetData($g_incidental_measureGUI[1], $gBounds[0]&"°")
-    GUICtrlSetData($g_incidental_measureGUI[2], $gBounds[1]&"°")
-    GUICtrlSetData($g_incidental_measureGUI[3], BoundUncertainty($gSens,$gBounds)&"°")
+    If $g_incidental_measureGUI[0] == "INACTIVE" Then 
+    Else
+        GUICtrlSetData($g_incidental_measureGUI[1], $gBounds[0]&"°")
+        GUICtrlSetData($g_incidental_measureGUI[2], $gBounds[1]&"°")
+        GUICtrlSetData($g_incidental_measureGUI[3], BoundUncertainty($gSens,$gBounds)&"°")
+    EndIf
 EndFunc
 
 Func EventMeasurementStatsWindow($idMsg)
@@ -452,6 +464,15 @@ Func EventMeasurementStatsWindow($idMsg)
        Case $g_incidental_measureGUI[6]
             DecreasePolygon()
      EndSwitch
+  elseif $idMsg[0] == $g_incidental_recordButton then
+      if GUICtrlRead($g_incidental_recordButton)=="Record" then
+         $g_yawbuffer = 0
+         GUICtrlSetData($g_incidental_measureGUI[9], "0")
+         GUICtrlSetData($g_incidental_recordButton, "Recording...")
+      else
+         if Abs($g_yawbuffer) > 0 then $gSens = 360/Abs($g_yawbuffer)
+         GUICtrlSetData($g_incidental_recordButton, "Record")
+      endif
   endif
 EndFunc
 
