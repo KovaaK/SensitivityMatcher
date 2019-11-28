@@ -65,6 +65,7 @@ Func DecreasePolygon()
       Else
          $gSens      =($gBounds[0] + $gBounds[1]) / 2
       EndIf
+         UpdateMeasurementStatsWindow()
          IniWrite($gReportFile,"Convergence Log",     _
          "lwrbnd:,"&$gBounds[0]&",nxtgss:,"&$gSens&   _
          ",uncrty:+/-,"&BoundUncertainty($gSens,$gBounds)&  _
@@ -89,6 +90,7 @@ Func IncreasePolygon()
       Else
          $gSens      =($gBounds[0] + $gBounds[1]) / 2
       EndIf
+         UpdateMeasurementStatsWindow()
          IniWrite($gReportFile,"Convergence Log",     _
          "uprbnd:,"&$gBounds[1]&",nxtgss:,"&$gSens&   _
          ",uncrty:+/-,"&BoundUncertainty($gSens,$gBounds)&          _
@@ -107,6 +109,7 @@ Func ClearBounds()
      $gBounds[1] = 0
      $gPartition = NormalizedPartition($gSens,$defaultTurnPeriod,$gDelay)
      $gReportFile= CleanupFileName("MeasureReport"&_Now()&".csv")
+     UpdateMeasurementStatsWindow()
 EndFunc
 
 Func NudgeLeft()
