@@ -19,6 +19,7 @@ If _Singleton("Sensitivity Matcher", 1) == 0 Then
     Exit
 EndIf
 
+
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
 Global Const $yawReflex         = _Degree(0.0001)
@@ -38,7 +39,8 @@ Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
 
-Global $g_incidental_measureGUI[6]
+Global $g_incidental_measureGUI[10]
+#include "RawInput.au3"
 
     Opt("GUICloseOnESC",0)
      MakeGUI()
@@ -251,6 +253,7 @@ Func MakeGUI()
       EndIf
 
       HandyCalculator($idGUICalc,$lCalculator,$idMsg)
+      EventMeasurementStatsWindow($idMsg)
       $gMode  = Abs($gMode)       ; if override then ready, if ready or in progress then no change.
       $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
       $idMsg  = GUIGetMsg(1)
@@ -411,7 +414,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
        Case Else
             GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
      EndSwitch
-     Local $hStatchd = WinGetHandle("Measurement Stats")
+     Local $hStatchd = WinGetHandle("Measure Any Game")
      If @error Then 
      Else
          GUIDelete($hStatchd)
@@ -421,13 +424,19 @@ EndFunc
 
 
 Func MakeMeasurementStatsWindow()
-    $g_incidental_measureGUI[0] = GUICreate("Measurement Stats",205,235,-209,-49,$WS_CAPTION,$WS_EX_MDICHILD,WinGetHandle(""))
-    GUICtrlCreateLabel( "Upper Bound:",   5,5,70,-1)
-    GUICtrlCreateLabel( "Lower Bound:",   5,25,70,-1)
+    $g_incidental_measureGUI[0] = GUICreate("Measure Any Game",205,235,-209,-49,$WS_CAPTION,$WS_EX_MDICHILD,WinGetHandle(""))
+    GUICtrlCreateLabel( "Lower Bound:",   5,5,70,-1)
+    GUICtrlCreateLabel( "Upper Bound:",   5,25,70,-1)
     GUICtrlCreateLabel( "Uncertainty: ±",   5,45,70,-1)
     $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,125,-1)
     $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,125,-1)
     $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds)&"°",75,45,125,-1)
+    $g_incidental_measureGUI[4] = GUICtrlCreateButton("Undershot", 5, 205,  65, 25)
+    $g_incidental_measureGUI[5] = GUICtrlCreateButton("Reset", 70, 205,  65, 25)
+    $g_incidental_measureGUI[6] = GUICtrlCreateButton("Overshot", 135, 205,  65, 25)
+    $g_incidental_measureGUI[7] = GUICtrlCreateLabel("",75,65,125,25)
+    $g_incidental_measureGUI[8] = GUICtrlCreateLabel("",75,85,125,25)
+    $g_incidental_measureGUI[9] = GUICtrlCreateLabel("",75,105,125,25)
     GUISetState(@SW_SHOW)
 EndFunc
 
@@ -435,6 +444,19 @@ Func UpdateMeasurementStatsWindow()
     GUICtrlSetData($g_incidental_measureGUI[1], $gBounds[0]&"°")
     GUICtrlSetData($g_incidental_measureGUI[2], $gBounds[1]&"°")
     GUICtrlSetData($g_incidental_measureGUI[3], BoundUncertainty($gSens,$gBounds)&"°")
+EndFunc
+
+Func EventMeasurementStatsWindow($idMsg)
+  if $idMsg[1] == $g_incidental_measureGUI[0] then
+     Switch $idMsg[0]
+       Case $g_incidental_measureGUI[4]
+            IncreasePolygon()
+       Case $g_incidental_measureGUI[5]
+            ClearBounds()
+       Case $g_incidental_measureGUI[6]
+            DecreasePolygon()
+     EndSwitch
+  endif
 EndFunc
 
 Func TestMouse($cycle)
