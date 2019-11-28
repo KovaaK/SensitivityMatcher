@@ -37,6 +37,9 @@ Global       $gCycle     =  22
 Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
+
+Global $g_incidental_measureGUI[6]
+
     Opt("GUICloseOnESC",0)
      MakeGUI()
 
@@ -379,10 +382,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
             Else                                                               ; ElseIf $Preset is Measure any game
                 GUICtrlSetData($sYaw,1)                                        ; set yaw to 1 on measure mode select
                 ClearBounds()                                                  ; as well as clearing bounds
-                Local $par=WinGetHandle("")
-                Local $pos=WinGetPos("")
-                $idGUICalc=GUICreate("Measurement Stats",200,235,-204,-49,$WS_CAPTION,$WS_EX_MDICHILD,$par)
-                GUISetState(@SW_SHOW)
+                MakeMeasurementStatsWindow()
             EndIf
             Return "Advanced Info"
        Case "< Save current yaw >"
@@ -417,6 +417,24 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
          GUIDelete($hStatchd)
      EndIf
      Return "Instructions"
+EndFunc
+
+
+Func MakeMeasurementStatsWindow()
+    $g_incidental_measureGUI[0] = GUICreate("Measurement Stats",210,235,-214,-49,$WS_CAPTION,$WS_EX_MDICHILD,WinGetHandle(""))
+    GUICtrlCreateLabel( "Upper Bound:",   5,5,70,-1)
+    GUICtrlCreateLabel( "Lower Bound:",   5,25,70,-1)
+    GUICtrlCreateLabel( "Uncertainty: ±",   5,45,70,-1)
+    $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0],75,5,130,-1)
+    $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1],75,25,130,-1)
+    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds),75,45,130,-1)
+    GUISetState(@SW_SHOW)
+EndFunc
+
+Func UpdateMeasurementStatsWindow()
+    GUICtrlSetData($g_incidental_measureGUI[1], $gBounds[0]&"°")
+    GUICtrlSetData($g_incidental_measureGUI[2], $gBounds[1]&"°")
+    GUICtrlSetData($g_incidental_measureGUI[3], BoundUncertainty($gSens,$gBounds)&"°")
 EndFunc
 
 Func TestMouse($cycle)
