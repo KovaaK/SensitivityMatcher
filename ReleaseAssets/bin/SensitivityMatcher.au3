@@ -401,6 +401,7 @@ Func YawPresetHandler($lastYawPresets, $sYawPresets, $sYaw, $sSens)
                _GUICtrlComboBox_InsertString( $sYawPresets, "< Swap yaw & sens >", 0 ) ; set to swap
                EndIf
                _GUICtrlComboBox_SetEditText(  $sYawPresets, $lastYawPresets )          ; restore box to last selected
+               Return "Advanced Info"                                                  ; restore button label
             EndIf
        Case Else
             GUICtrlSetData($sYaw,String(IniRead($gYawListIni,StringTrimLeft(GUICtrlRead($sYawPresets),2),"yaw",GuiCtrlRead($sYaw))))
