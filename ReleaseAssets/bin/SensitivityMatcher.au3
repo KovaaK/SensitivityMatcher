@@ -21,7 +21,7 @@ EndIf
 
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
-Global Const $yawReflex         = 0.0001*$MATH_DEGREES
+Global Const $yawReflex         = _Degree(0.0001)
 Global Const $yawDiabotical     = 1/60
 Global Const $gSettingIni = "UserSettings.Ini"
 Global Const $gYawListIni = "CustomYawList.ini"
