@@ -1,3 +1,8 @@
+If _Singleton("Sensitivity Matcher", 1) == 0 Then
+    WinActivate("Sensitivity Matcher")
+    Exit
+EndIf
+
 #NoTrayIcon
 #include <Date.au3>
 #include <Misc.au3>
@@ -14,12 +19,6 @@
 #include "MiscFunctions.au3"
 #include "HelpMessages.au3"
 #include "RawInput.au3"
-
-If _Singleton("Sensitivity Matcher", 1) == 0 Then
-    WinActivate("Sensitivity Matcher")
-    Exit
-EndIf
-
 
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
@@ -38,8 +37,6 @@ Global       $gDelay     =  10
 Global       $gCycle     =  22
 Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
-
-
 
     Opt("GUICloseOnESC",0)
      MakeGUI()
