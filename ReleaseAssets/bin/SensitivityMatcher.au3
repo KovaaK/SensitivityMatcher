@@ -425,9 +425,9 @@ Func MakeMeasurementStatsWindow()
     GUICtrlCreateLabel( "Upper Bound:",   5,5,70,-1)
     GUICtrlCreateLabel( "Lower Bound:",   5,25,70,-1)
     GUICtrlCreateLabel( "Uncertainty: ±",   5,45,70,-1)
-    $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0],75,5,130,-1)
-    $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1],75,25,130,-1)
-    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds),75,45,130,-1)
+    $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,130,-1)
+    $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,130,-1)
+    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds)&"°",75,45,130,-1)
     GUISetState(@SW_SHOW)
 EndFunc
 
