@@ -12,10 +12,12 @@
 #include <WindowsConstants.au3>
 
 
+
+Global $g_incidental_recordButton
 Global $g_incidental_measureGUI[10]
 Global $g_yawbuffer = 0
 
-
+$g_incidental_measureGUI[0] = "INACTIVE"
 
 
 Global $g_hForm = GUICreate('Test ' & StringReplace(@ScriptName, '.au3', '()'), 160, 212, @DesktopWidth - 179, @DesktopHeight - 283, BitOR($WS_CAPTION, $WS_POPUP, $WS_SYSMENU), $WS_EX_TOPMOST)
@@ -36,7 +38,8 @@ GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
 
 Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
     #forceref $iMsg, $wParam
-  If $g_incidental_measureGUI[0] Then
+  If $g_incidental_measureGUI[0] == "INACTIVE" Then
+  Else
     Switch $hWnd
         Case $g_hForm
             Local $tRIM = DllStructCreate($tagRAWINPUTMOUSE)
@@ -47,7 +50,9 @@ Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
                 $g_yawbuffer+=$aData[0]
                 GUICtrlSetData($g_incidental_measureGUI[7], $aData[0])
                 GUICtrlSetData($g_incidental_measureGUI[8], $aData[1])
-                GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
+                if GUICtrlRead($g_incidental_recordButton)=="Recording..." then
+                   GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
+                endif
             EndIf
     EndSwitch
     Return $GUI_RUNDEFMSG
