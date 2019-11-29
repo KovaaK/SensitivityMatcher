@@ -440,9 +440,9 @@ Func MakeMeasurementStatsWindow()
     $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,125,20)
     $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,125,20)
     $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds,"%")&"%",75,45,130,20)
-    $g_incidental_measureGUI[4] = GUICtrlCreateButton("Undershot", 5, 205,  65, 25)
+    $g_incidental_measureGUI[4] = GUICtrlCreateButton("Turn Less", 5, 205,  65, 25)
     $g_incidental_measureGUI[5] = GUICtrlCreateButton("Reset", 70, 205,  65, 25)
-    $g_incidental_measureGUI[6] = GUICtrlCreateButton("Overshot", 135, 205,  65, 25)
+    $g_incidental_measureGUI[6] = GUICtrlCreateButton("Turn More", 135, 205,  65, 25)
     $g_incidental_measureGUI[7] = GUICtrlCreateLabel("",75,65,125,20)
     $g_incidental_measureGUI[8] = GUICtrlCreateLabel("",75,85,125,20)
     GUISetState(@SW_SHOW)
@@ -462,11 +462,11 @@ Func EventMeasurementStatsWindow($idMsg)
   if $idMsg[1] == $g_incidental_measureGUI[0] then
      Switch $idMsg[0]
        Case $g_incidental_measureGUI[4]
-            IncreasePolygon()
+            DecreasePolygon()
        Case $g_incidental_measureGUI[5]
             ClearBounds()
        Case $g_incidental_measureGUI[6]
-            DecreasePolygon()
+            IncreasePolygon()
      EndSwitch
   elseif $idMsg[0] == $g_incidental_recordButton then
       if GUICtrlRead($g_incidental_recordButton)=="Record" then
