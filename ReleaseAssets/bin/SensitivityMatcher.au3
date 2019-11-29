@@ -422,6 +422,9 @@ Func DestroyMeasurementStatsWindow()
      If $g_incidental_measureGUI[0] == "INACTIVE" Then 
      Else
          GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
+         for $i=1 to 8
+             GUICtrlDelete($g_incidental_measureGUI[$i])
+         next
          GUIDelete($g_incidental_measureGUI[0])
          GUICtrlSetData($g_incidental_recordButton, "Record")
          GUICtrlSetState($g_incidental_recordButton,$GUI_DISABLE)
@@ -431,7 +434,7 @@ EndFunc
 
 
 Func MakeMeasurementStatsWindow()
-    $g_incidental_measureGUI[0] = GUICreate("Measure Any Game",205,235,-209,-49,$WS_CAPTION,$WS_EX_MDICHILD,WinGetHandle(""))
+    $g_incidental_measureGUI[0] = GUICreate("Convergence Log",205,235,-209,-49,$WS_CAPTION,$WS_EX_MDICHILD,WinGetHandle(""))
     GUICtrlCreateLabel( "Lower Bound:",  5,5,70,20)
     GUICtrlCreateLabel( "Upper Bound:",  5,25,70,20)
     GUICtrlCreateLabel( "Uncertainty: ±",  5,45,70,20)
@@ -440,9 +443,9 @@ Func MakeMeasurementStatsWindow()
     $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,125,20)
     $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,125,20)
     $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds,"%")&"%",75,45,130,20)
-    $g_incidental_measureGUI[4] = GUICtrlCreateButton("Turn Less", 5, 205,  65, 25)
+    $g_incidental_measureGUI[4] = GUICtrlCreateButton("Less Turn", 5, 205,  65, 25)
     $g_incidental_measureGUI[5] = GUICtrlCreateButton("Reset", 70, 205,  65, 25)
-    $g_incidental_measureGUI[6] = GUICtrlCreateButton("Turn More", 135, 205,  65, 25)
+    $g_incidental_measureGUI[6] = GUICtrlCreateButton("More Turn", 135, 205,  65, 25)
     $g_incidental_measureGUI[7] = GUICtrlCreateLabel("",75,65,125,20)
     $g_incidental_measureGUI[8] = GUICtrlCreateLabel("",75,85,125,20)
     GUISetState(@SW_SHOW)
@@ -474,7 +477,12 @@ Func EventMeasurementStatsWindow($idMsg)
          GUICtrlSetData($g_incidental_measureGUI[9], "0")
          GUICtrlSetData($g_incidental_recordButton, "Recording...")
       else
-         if Abs($g_yawbuffer) > 0 then $gSens = 360/Abs($g_yawbuffer)
+         local $l_yawbuffer = Abs($g_yawbuffer)
+         if $l_yawbuffer > 0 then 
+             if MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
+                $gSens = 360/$l_yawbuffer
+             endif
+         endif
          GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
          GUICtrlSetData($g_incidental_recordButton, "Record")
       endif
