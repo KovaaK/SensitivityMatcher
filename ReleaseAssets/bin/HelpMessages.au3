@@ -59,9 +59,9 @@ Func HelpMessage($mode="default")
                               & "2) Perform rotations in old game to test your estimate."      & @crlf _
                               & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
                                                                                                & @crlf _
-                              & "Increase counts with [Alt][+] if it's undershooting."         & @crlf _
-                              & "Decrease counts with [Alt][ - ] if it's overshooting."          & @crlf _
-                              & "Reset memory with [Alt][ 0 ] if you made a wrong input."        & @crlf _
+                              & "Press [Alt][+] to increase counts if it's undershooting."         & @crlf _
+                              & "Press [Alt][ - ] to decrease counts if it's overshooting."          & @crlf _
+                              & "Press [Alt][ 0 ] to clear memory if you made a wrong input."        & @crlf _
                                                                                                & @crlf _
                               & "The estimate will converge to your exact sensitivity as you set "     _
                               & "measurement bounds with hotkeys. You can then use the measured "      _
