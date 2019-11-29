@@ -48,9 +48,9 @@ Func HelpMessage($mode="default")
                               & "2) Input your sensitivity value from your old game."          & @crlf _
                               & "3) In your new game, adjust its sens until the test matches." & @crlf _
                                                                                                & @crlf _
-                              & "Press [Alt]['] to perform one full revolution."               & @crlf _
-                              & "Press [Alt][;] to perform " & $gCycle & " full revolutions."  & @crlf _
-                              & "Press [Alt][\] to halt and/or clear residuals (realignment)"  & @crlf _
+                              & "Press [Alt][ ' ] (single quote) to perform one full revolution."               & @crlf _
+                              & "Press [Alt][ ; ] (semicolon) to perform " & $gCycle & " full revolutions."  & @crlf _
+                              & "Press [Alt][ \ ] (backslash) to halt and/or clear residuals (realignment)"  & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "If your old game is not listed/yaw is unknown:"               & @crlf _
@@ -60,8 +60,8 @@ Func HelpMessage($mode="default")
                               & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
                                                                                                & @crlf _
                               & "Increase counts with [Alt][+] if it's undershooting."         & @crlf _
-                              & "Decrease counts with [Alt][-] if it's overshooting."          & @crlf _
-                              & "Reset memory with [Alt][0] if you made a wrong input."        & @crlf _
+                              & "Decrease counts with [Alt][ - ] if it's overshooting."          & @crlf _
+                              & "Reset memory with [Alt][ 0 ] if you made a wrong input."        & @crlf _
                                                                                                & @crlf _
                               & "The estimate will converge to your exact sensitivity as you set "     _
                               & "measurement bounds with hotkeys. You can then use the measured "      _
