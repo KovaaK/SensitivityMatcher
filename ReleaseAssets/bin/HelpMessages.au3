@@ -30,8 +30,8 @@ Func HelpMessage($mode="default")
                               & "jog hotkeys in measurement mode to move single increments to check"   _
                               & " that deviation is at least one count away from origin."      & @crlf _
                                                                                                & @crlf _
-                              & "Press Alt+> to jog one count to the right"                    & @crlf _
-                              & "Press Alt+< to jog one count to the left"                     & @crlf _
+                              & "Press [Alt][>] to jog one count to the right"                 & @crlf _
+                              & "Press [Alt][<] to jog one count to the left"                  & @crlf _
                                                                                                & @crlf _
                               & "Remember to un-jog if you wish to continue cycling. To share your "   _
                               & "measurement results for others to verify, it is recommended that "    _
@@ -48,9 +48,9 @@ Func HelpMessage($mode="default")
                               & "2) Input your sensitivity value from your old game."          & @crlf _
                               & "3) In your new game, adjust its sens until the test matches." & @crlf _
                                                                                                & @crlf _
-                              & "Press Alt+[ to perform one full revolution."                  & @crlf _
-                              & "Press Alt+] to perform " & $gCycle & " full revolutions."     & @crlf _
-                              & "Press Alt+\ to halt and/or clear residuals (for realignment)" & @crlf _
+                              & "Press [Alt]['] to perform one full revolution."               & @crlf _
+                              & "Press [Alt][;] to perform " & $gCycle & " full revolutions."  & @crlf _
+                              & "Press [Alt][L] to halt and/or clear residuals (realignment)"  & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "If your old game is not listed/yaw is unknown:"               & @crlf _
@@ -59,9 +59,9 @@ Func HelpMessage($mode="default")
                               & "2) Perform rotations in old game to test your estimate."      & @crlf _
                               & "3) Use the following hotkeys to adjust the estimate."         & @crlf _
                                                                                                & @crlf _
-                              & "Increase counts with Alt+= if it's undershooting."            & @crlf _
-                              & "Decrease counts with Alt+- if it's overshooting."             & @crlf _
-                              & "Clear all memory with Alt+0 if you made a wrong input."       & @crlf _
+                              & "Increase counts with [Alt][+] if it's undershooting."         & @crlf _
+                              & "Decrease counts with [Alt][-] if it's overshooting."          & @crlf _
+                              & "Reset memory with [Alt][0] if you made a wrong input."        & @crlf _
                                                                                                & @crlf _
                               & "The estimate will converge to your exact sensitivity as you set "     _
                               & "measurement bounds with hotkeys. You can then use the measured "      _
