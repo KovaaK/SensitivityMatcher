@@ -16,6 +16,7 @@
 Global $g_incidental_recordButton
 Global $g_incidental_measureGUI[10]
 Global $g_yawbuffer = 0
+Global $g_isRecording = 0
 
 $g_incidental_measureGUI[0] = "INACTIVE"
 
@@ -50,7 +51,7 @@ Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
                 $aData[1] = DllStructGetData($tRIM, 'LastY')
                 GUICtrlSetData($g_incidental_measureGUI[7], $aData[0])
                 GUICtrlSetData($g_incidental_measureGUI[8], $aData[1])
-                if GUICtrlRead($g_incidental_recordButton)=="Recording..." then
+                if $g_isRecording = 1 then
                    $g_yawbuffer+=$aData[0]
                    GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
                 endif
