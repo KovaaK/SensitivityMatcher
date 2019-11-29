@@ -50,7 +50,7 @@ Func HelpMessage($mode="default")
                                                                                                & @crlf _
                               & "Press [Alt]['] to perform one full revolution."               & @crlf _
                               & "Press [Alt][;] to perform " & $gCycle & " full revolutions."  & @crlf _
-                              & "Press [Alt][L] to halt and/or clear residuals (realignment)"  & @crlf _
+                              & "Press [Alt][\] to halt and/or clear residuals (realignment)"  & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "If your old game is not listed/yaw is unknown:"               & @crlf _
