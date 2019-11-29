@@ -479,7 +479,7 @@ Func EventMeasurementStatsWindow($idMsg)
       else
          local $l_yawbuffer = Abs($g_yawbuffer)
          if $l_yawbuffer > 0 then 
-             if MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
+             if $idMsg[1] == "HOTKEY" or MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
                 $gSens = 360/$l_yawbuffer
              endif
          endif
