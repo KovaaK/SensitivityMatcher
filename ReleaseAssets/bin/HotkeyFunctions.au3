@@ -6,7 +6,7 @@ Func KeybindSetter($mode,$subset="all")
                                   "!{.}"  ,  "!{,}"  ]
      Local  $keyname[$size] = [ "TurnOnce","TurnAlot","StopTurn", _
                                 "LessTurn","MoreTurn","ClearMem", _
-                                "NudgeFwd","NudgeBkd"] 
+                                "JogRight","JogLeft"] 
      Local  $fncname[$size] = [ "SingleCycle", _
                                   "AutoCycle", _
                                        "Halt", _
