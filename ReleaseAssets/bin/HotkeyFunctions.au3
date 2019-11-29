@@ -1,7 +1,7 @@
 Func KeybindSetter($mode,$subset="all")
      Local  $size = 8
      Local  $readval[$size]
-     Local  $default[$size] = [   "!{'}"  ,  "!{;}"  ,  "!{l}"  , _
+     Local  $default[$size] = [   "!{'}"  ,  "!{;}"  ,  "!{\}"  , _
                                   "!{-}"  ,  "!{=}"  ,  "!{0}"  , _
                                   "!{.}"  ,  "!{,}"  ]
      Local  $keyname[$size] = [ "TurnOnce","TurnAlot","StopTurn", _
