@@ -78,6 +78,7 @@ Func MakeGUI()
 
 $g_incidental_recordButton = GUICtrlCreateButton("Record", 213, 4,  78, 23)
 GUICtrlSetState($g_incidental_recordButton,$GUI_DISABLE)
+$g_incidental_measureGUI[9]=$sCounts
 
 
    Local $hToolTip    =_GUIToolTip_Create(0)                                     ; default tooltip
@@ -429,12 +430,11 @@ EndFunc
 
 Func MakeMeasurementStatsWindow()
     $g_incidental_measureGUI[0] = GUICreate("Measure Any Game",205,235,-209,-49,$WS_CAPTION,$WS_EX_MDICHILD,WinGetHandle(""))
-    GUICtrlCreateLabel( "Lower Bound:",   5,5,70,20)
-    GUICtrlCreateLabel( "Upper Bound:",   5,25,70,20)
-    GUICtrlCreateLabel( "Uncertainty: ±",   5,45,70,20)
-    GUICtrlCreateLabel( "Last Delta X:",   5,65,70,20)
-    GUICtrlCreateLabel( "Last Delta Y:",   5,85,70,20)
-    GUICtrlCreateLabel( "Recorded:",   5,105,70,20)
+    GUICtrlCreateLabel( "Lower Bound:",  5,5,70,20)
+    GUICtrlCreateLabel( "Upper Bound:",  5,25,70,20)
+    GUICtrlCreateLabel( "Uncertainty: ±",  5,45,70,20)
+    GUICtrlCreateLabel( "Last Delta X:",  5,65,70,20)
+    GUICtrlCreateLabel( "Last Delta Y:",  5,85,70,20)
     $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,125,20)
     $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,125,20)
     $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds,"%")&"%",75,45,125,20)
@@ -443,7 +443,6 @@ Func MakeMeasurementStatsWindow()
     $g_incidental_measureGUI[6] = GUICtrlCreateButton("Overshot", 135, 205,  65, 25)
     $g_incidental_measureGUI[7] = GUICtrlCreateLabel("",75,65,125,20)
     $g_incidental_measureGUI[8] = GUICtrlCreateLabel("",75,85,125,20)
-    $g_incidental_measureGUI[9] = GUICtrlCreateLabel("",75,105,125,20)
     GUISetState(@SW_SHOW)
     GUICtrlSetState($g_incidental_recordButton,$GUI_ENABLE)
 EndFunc
@@ -474,6 +473,7 @@ Func EventMeasurementStatsWindow($idMsg)
          GUICtrlSetData($g_incidental_recordButton, "Recording...")
       else
          if Abs($g_yawbuffer) > 0 then $gSens = 360/Abs($g_yawbuffer)
+         GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
          GUICtrlSetData($g_incidental_recordButton, "Record")
       endif
   endif
