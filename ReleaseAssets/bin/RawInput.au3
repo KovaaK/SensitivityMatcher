@@ -39,6 +39,7 @@ GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
 Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
     #forceref $iMsg, $wParam
   If $g_incidental_measureGUI[0] == "INACTIVE" Then
+    Return $GUI_RUNDEFMSG
   Else
     Switch $hWnd
         Case $g_hForm
