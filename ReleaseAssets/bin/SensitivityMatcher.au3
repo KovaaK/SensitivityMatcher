@@ -469,6 +469,8 @@ Func EventMeasurementStatsWindow($idMsg)
          GUICtrlSetData($g_incidental_recordButton, "Recording...")
          if $idMsg[1] == "HOTKEY" then Beep(330,100)
       else
+         GUICtrlSetData($g_incidental_recordButton, "Record")
+         Sleep(1)
          local $l_yawbuffer = Abs($g_yawbuffer)
          if $l_yawbuffer > 0 then 
              if $idMsg[1] == "HOTKEY" then
@@ -482,7 +484,6 @@ Func EventMeasurementStatsWindow($idMsg)
              Beep(220,100)
          endif
          GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
-         GUICtrlSetData($g_incidental_recordButton, "Record")
       endif
   elseif $idMsg[1] == $g_incidental_measureGUI[0] then
      Switch $idMsg[0]
