@@ -30,8 +30,8 @@ Func HelpMessage($mode="default")
                               & "jog hotkeys in measurement mode to move single increments to check"   _
                               & " that deviation is at least one count away from origin."      & @crlf _
                                                                                                & @crlf _
-                              & "Press Alt+' (quotation) to jog one count to the right"        & @crlf _
-                              & "Press Alt+; (semicolon) to jog one count to the left"         & @crlf _
+                              & "Press Alt+> to jog one count to the right"                    & @crlf _
+                              & "Press Alt+< to jog one count to the left"                     & @crlf _
                                                                                                & @crlf _
                               & "Remember to un-jog if you wish to continue cycling. To share your "   _
                               & "measurement results for others to verify, it is recommended that "    _
