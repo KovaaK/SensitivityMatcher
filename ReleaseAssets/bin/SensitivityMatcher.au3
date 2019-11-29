@@ -469,9 +469,10 @@ Func EventMeasurementStatsWindow($idMsg)
          GUICtrlSetData($g_incidental_measureGUI[9], "0")
          GUICtrlSetData($g_incidental_recordButton, "Recording...")
          if $idMsg[1] == "HOTKEY" then Beep(330,100)
+         Sleep(10)
       else
          $g_isRecording = 0
-         Sleep(1)
+         Sleep(10)
          local $l_yawbuffer = Abs($g_yawbuffer)
          if $l_yawbuffer > 0 then 
              if $idMsg[1] == "HOTKEY" then
