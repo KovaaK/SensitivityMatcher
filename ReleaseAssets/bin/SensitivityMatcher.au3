@@ -437,7 +437,7 @@ Func MakeMeasurementStatsWindow()
     GUICtrlCreateLabel( "Recorded:",   5,105,70,20)
     $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,125,20)
     $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,125,20)
-    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds)&"°",75,45,125,20)
+    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds,"%")&"%",75,45,125,20)
     $g_incidental_measureGUI[4] = GUICtrlCreateButton("Undershot", 5, 205,  65, 25)
     $g_incidental_measureGUI[5] = GUICtrlCreateButton("Reset", 70, 205,  65, 25)
     $g_incidental_measureGUI[6] = GUICtrlCreateButton("Overshot", 135, 205,  65, 25)
@@ -453,7 +453,7 @@ Func UpdateMeasurementStatsWindow()
     Else
         GUICtrlSetData($g_incidental_measureGUI[1], $gBounds[0]&"°")
         GUICtrlSetData($g_incidental_measureGUI[2], $gBounds[1]&"°")
-        GUICtrlSetData($g_incidental_measureGUI[3], BoundUncertainty($gSens,$gBounds)&"°")
+        GUICtrlSetData($g_incidental_measureGUI[3], BoundUncertainty($gSens,$gBounds,"%")&"%")
     EndIf
 EndFunc
 
