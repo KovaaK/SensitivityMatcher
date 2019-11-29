@@ -268,7 +268,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          Local $pos=WinGetPos("Sensitivity Matcher")
          $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[2]-8,-49,$WS_CAPTION,$WS_EX_MDICHILD,$idGUI)
          $sInput[0]=GUICtrlCreateInput(                                                  $gSens     , 85,  6, 80, 20)
-                    GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
+         GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
          $sInput[1]=GUICtrlCreateInput(     IniRead($gSettingIni,"Default","cpi",800)               , 85, 30, 80, 20)
          $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20, 85, 75, 20)
          $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105, 85, 75, 20)
@@ -462,7 +462,29 @@ Func UpdateMeasurementStatsWindow()
 EndFunc
 
 Func EventMeasurementStatsWindow($idMsg)
-  if $idMsg[1] == $g_incidental_measureGUI[0] then
+  if $idMsg[0] == $g_incidental_recordButton then
+      if GUICtrlRead($g_incidental_recordButton)=="Record" then
+         $g_yawbuffer = 0
+         GUICtrlSetData($g_incidental_measureGUI[9], "0")
+         GUICtrlSetData($g_incidental_recordButton, "Recording...")
+         if $idMsg[1] == "HOTKEY" then Beep(330,100)
+      else
+         local $l_yawbuffer = Abs($g_yawbuffer)
+         if $l_yawbuffer > 0 then 
+             if $idMsg[1] == "HOTKEY" then
+                $gSens = 360/$l_yawbuffer
+                Beep(330,75)
+                Beep(220,100)
+             elseif MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
+                $gSens = 360/$l_yawbuffer
+             endif
+         elseif $idMsg[1] == "HOTKEY" then 
+             Beep(220,100)
+         endif
+         GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
+         GUICtrlSetData($g_incidental_recordButton, "Record")
+      endif
+  elseif $idMsg[1] == $g_incidental_measureGUI[0] then
      Switch $idMsg[0]
        Case $g_incidental_measureGUI[4]
             DecreasePolygon()
@@ -471,21 +493,6 @@ Func EventMeasurementStatsWindow($idMsg)
        Case $g_incidental_measureGUI[6]
             IncreasePolygon()
      EndSwitch
-  elseif $idMsg[0] == $g_incidental_recordButton then
-      if GUICtrlRead($g_incidental_recordButton)=="Record" then
-         $g_yawbuffer = 0
-         GUICtrlSetData($g_incidental_measureGUI[9], "0")
-         GUICtrlSetData($g_incidental_recordButton, "Recording...")
-      else
-         local $l_yawbuffer = Abs($g_yawbuffer)
-         if $l_yawbuffer > 0 then 
-             if $idMsg[1] == "HOTKEY" or MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
-                $gSens = 360/$l_yawbuffer
-             endif
-         endif
-         GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
-         GUICtrlSetData($g_incidental_recordButton, "Record")
-      endif
   endif
 EndFunc
 
