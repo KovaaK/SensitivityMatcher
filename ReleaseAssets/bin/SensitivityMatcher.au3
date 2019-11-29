@@ -421,7 +421,9 @@ EndFunc
 Func DestroyMeasurementStatsWindow()
      If $g_incidental_measureGUI[0] == "INACTIVE" Then 
      Else
+         GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
          GUIDelete($g_incidental_measureGUI[0])
+         GUICtrlSetData($g_incidental_recordButton, "Record")
          GUICtrlSetState($g_incidental_recordButton,$GUI_DISABLE)
          $g_incidental_measureGUI[0] = "INACTIVE"
      EndIf
@@ -437,7 +439,7 @@ Func MakeMeasurementStatsWindow()
     GUICtrlCreateLabel( "Last Delta Y:",  5,85,70,20)
     $g_incidental_measureGUI[1] = GUICtrlCreateLabel($gBounds[0]&"°",75,5,125,20)
     $g_incidental_measureGUI[2] = GUICtrlCreateLabel($gBounds[1]&"°",75,25,125,20)
-    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds,"%")&"%",75,45,125,20)
+    $g_incidental_measureGUI[3] = GUICtrlCreateLabel(BoundUncertainty($gSens,$gBounds,"%")&"%",75,45,130,20)
     $g_incidental_measureGUI[4] = GUICtrlCreateButton("Undershot", 5, 205,  65, 25)
     $g_incidental_measureGUI[5] = GUICtrlCreateButton("Reset", 70, 205,  65, 25)
     $g_incidental_measureGUI[6] = GUICtrlCreateButton("Overshot", 135, 205,  65, 25)
