@@ -1,12 +1,12 @@
 Func KeybindSetter($mode,$subset="all")
-     Local  $size = 8
+     Local  $size = 9
      Local  $readval[$size]
      Local  $default[$size] = [   "!{'}"  ,  "!{;}"  ,  "!{\}"  , _
                                   "!{-}"  ,  "!{=}"  ,  "!{0}"  , _
-                                  "!{.}"  ,  "!{,}"  ]
+                                  "!{.}"  ,  "!{,}"  ,  "!{/}"]
      Local  $keyname[$size] = [ "TurnOnce","TurnAlot","StopTurn", _
                                 "LessTurn","MoreTurn","ClearMem", _
-                                "JogRight","JogLeft"] 
+                                "JogRight","JogLeft","ToggleRec"] 
      Local  $fncname[$size] = [ "SingleCycle", _
                                   "AutoCycle", _
                                        "Halt", _
@@ -14,7 +14,8 @@ Func KeybindSetter($mode,$subset="all")
                             "IncreasePolygon", _
                                 "ClearBounds", _
                                  "NudgeRight", _
-                                  "NudgeLeft" ]     
+                                  "NudgeLeft", _
+                            "RecordYawToggle"  ]     
      For    $i = 0 to $size-1
             $readval[$i] = IniRead($gSettingIni,"Hotkeys",$keyname[$i],$default[$i]) 
      Next
@@ -148,5 +149,14 @@ Func Halt()
   If $gMode > -1 Then
      $gMode = -1
      $gResidual = 0
+  EndIf
+EndFunc
+
+Func RecordYawToggle()
+  If $gMode = 1 Then
+     $gMode = 0
+     local $idMsg[2] = [$g_incidental_recordButton,"HOTKEY"]
+     EventMeasurementStatsWindow($idMsg)
+     $gMode = 1
   EndIf
 EndFunc
