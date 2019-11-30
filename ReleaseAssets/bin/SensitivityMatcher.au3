@@ -502,7 +502,7 @@ EndFunc
 
 Func EventMeasurementStatsWindow($idMsg)
   if $idMsg[0] == $g_incidental_recordButton then
-      if $g_isRecording = 0 then
+      if $g_isRecording == 0 then
          $g_yawbuffer = 0
          $g_isRecording = 1
          GUICtrlSetData($g_incidental_measureGUI[9], "0")
