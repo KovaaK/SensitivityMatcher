@@ -21,6 +21,6 @@ _Enhancement: Convergence Log window during Measurement Mode_
 [_Go to newest release_](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
 ## Changelog
-_Revert: removed the autocycle scaling added in 1.4 -- too unintuitive of a hidden mechanic_ \
-_New: Changed default hotkeys for tuning and jogging counts._ \
-_Fix: bug._ 
+_Revert: removed the autocycle scaling that was added in 1.4 -- too hidden of a mechanic_ \
+_New: changed default hotkeys for tuning and jogging counts. See helptext._ \
+_New: activating/deactivating rawinput recording with hotkeys will make beeps, whereas with buttons it instead will show a confirmation dialog._ 
