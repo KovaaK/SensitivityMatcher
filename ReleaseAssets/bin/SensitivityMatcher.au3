@@ -535,7 +535,7 @@ Func EventMeasurementStatsWindow($idMsg)
        Case $g_incidental_measureGUI[6]
             IncreasePolygon()
        Case $g_incidental_measureGUI[7]
-           _ArrayDisplay($gHistory, "Table")
+           _ArrayDisplay($gHistory, "Table", UBound($gHistory)>1 ? "1:" : "")
      EndSwitch
   endif
 EndFunc
