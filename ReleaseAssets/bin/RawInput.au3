@@ -40,7 +40,6 @@ GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
 Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
     #forceref $iMsg, $wParam
   If $g_incidental_measureGUI[0] == "INACTIVE" Then
-    Return $GUI_RUNDEFMSG
   Else
     Switch $hWnd
         Case $g_hForm
@@ -49,14 +48,12 @@ Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
                 Local $aData[2]
                 $aData[0] = DllStructGetData($tRIM, 'LastX')
                 $aData[1] = DllStructGetData($tRIM, 'LastY')
-                GUICtrlSetData($g_incidental_measureGUI[7], $aData[0])
-                GUICtrlSetData($g_incidental_measureGUI[8], $aData[1])
                 if $g_isRecording = 1 then
                    $g_yawbuffer+=$aData[0]
                    GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
                 endif
             EndIf
     EndSwitch
-    Return $GUI_RUNDEFMSG
   EndIf
+  Return $GUI_RUNDEFMSG
 EndFunc   ;==>WM_INPUT
