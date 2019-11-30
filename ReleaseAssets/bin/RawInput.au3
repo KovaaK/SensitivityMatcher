@@ -48,7 +48,7 @@ Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
                 Local $aData[2]
                 $aData[0] = DllStructGetData($tRIM, 'LastX')
                 $aData[1] = DllStructGetData($tRIM, 'LastY')
-                if $g_isRecording = 1 then
+                if $g_isRecording == 1 then
                    $g_yawbuffer+=$aData[0]
                    GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
                 endif
