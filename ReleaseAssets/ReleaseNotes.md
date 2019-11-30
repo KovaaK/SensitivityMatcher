@@ -23,4 +23,4 @@ _Enhancement: Convergence Log window during Measurement Mode_
 ## Changelog
 _Revert: removed the autocycle scaling that was added in 1.4 -- too hidden of a mechanic_ \
 _New: changed default hotkeys for tuning and jogging counts. See helptext._ \
-_New: activating/deactivating rawinput recording with hotkeys will make beeps, whereas with buttons it instead will show a confirmation dialog._ 
+_New: script will make distinct beeps when activating/deactivating rawinput recording with hotkeys. Activating with GUI button will show a confirmation dialog instead._ 
