@@ -2,14 +2,16 @@
 
 [version 1.5]
 
-_New Feature: Rawinput recording_
+_New Feature: Rawinput recording (Measurement Mode only)_
 
-* In Measurement Mode, you can now speed up the initial setup of upper and lower bounds estimates by capturing you mouse turn via the Record feature (default hotkey is `[Alt][/]` to toggle recording). Make a rotation in-game with slight over- or undershoots, then confirming them as lower/upper limits using the hotkeys or the new GUI buttons. This gets you straight to the fine-tuning stage with the turn-repeater function.
+* In Measurement Mode, you can now speed up the initial setup of upper and lower bounds estimates by capturing you mouse turn via the Record feature (default hotkey is `[Alt][/]` to toggle recording). 
+* Make a rotation in-game with slight over- or undershoots, then confirming them as lower/upper limits using the hotkeys or the new GUI buttons. This gets you straight to the fine-tuning stage with the Turn-Repeater function.
 
-_Enhancement: Convergence Log window & Bound adjustment buttons_
+_Enhancement: Convergence Log window during Measurement Mode_
 
-* Point 1
-* Point 2
+* Graphically show the convergence progress of your Turn-Capture function.
+* Added buttons for the Estimate-tuning for those who prefer clicking instead of hotkeys.
+* Added button to display the convergence history.
 
 ## Download
 
@@ -20,5 +22,5 @@ _Enhancement: Convergence Log window & Bound adjustment buttons_
 
 ## Changelog
 _Revert: removed the autocycle scaling added in 1.4 -- too unintuitive of a hidden mechanic_ \
-_New: feature._ \
+_New: Changed default hotkeys for tuning and jogging counts._ \
 _Fix: bug._ 
