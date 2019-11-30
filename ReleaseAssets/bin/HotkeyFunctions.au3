@@ -1,12 +1,15 @@
+#include <Array.au3>
+Global $gHistory[1] = [0]
+
 Func KeybindSetter($mode,$subset="all")
      Local  $size = 9
      Local  $readval[$size]
      Local  $default[$size] = [   "!{'}"  ,  "!{;}"  ,  "!{\}"  , _
                                   "!{-}"  ,  "!{=}"  ,  "!{0}"  , _
-                                  "!{.}"  ,  "!{,}"  ,  "!{/}"]
+                                  "!{.}"  ,  "!{,}"  ,  "!{/}"    ]
      Local  $keyname[$size] = [ "TurnOnce","TurnAlot","StopTurn", _
                                 "LessTurn","MoreTurn","ClearMem", _
-                                "JogRight","JogLeft","ToggleRec"] 
+                                "JogRight","JogLeft","ToggleRec"  ] 
      Local  $fncname[$size] = [ "SingleCycle", _
                                   "AutoCycle", _
                                        "Halt", _
@@ -60,6 +63,7 @@ Func DecreasePolygon()
     If   $gValid  Then
          $gResidual  = 0
          $gBounds[0] = $gSens
+         _ArrayAdd($gHistory, $gSens)
       If $gBounds[1] < $gBounds[0] Then
          $gBounds[1] = 0
          $gSens      = $gBounds[0] * 2
@@ -85,6 +89,7 @@ Func IncreasePolygon()
     If   $gValid  Then
          $gResidual  = 0
          $gBounds[1] = $gSens
+         _ArrayAdd($gHistory, $gSens)
       If $gBounds[1] < $gBounds[0] Then
          $gBounds[0] = 0
          $gSens      = $gBounds[1] / 2
@@ -105,6 +110,8 @@ Func IncreasePolygon()
 EndFunc
 
 Func ClearBounds()
+     UpdateMeasurementStatsWindow("CLEAR")
+     Global $gHistory[1] = [0]
      $gResidual  = 0
      $gBounds[0] = 0
      $gBounds[1] = 0
