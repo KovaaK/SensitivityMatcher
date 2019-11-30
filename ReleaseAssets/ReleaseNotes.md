@@ -2,11 +2,11 @@
 
 [version 1.5]
 
-_New Feature: Feature_
+_New Feature: Rawinput recording_
 
-* explanation.
+* In Measurement Mode, you can now speed up the initial setup of upper and lower bounds estimates by capturing you mouse turn via the Record feature (default hotkey is `[Alt][/]` to toggle recording). Make a rotation in-game with slight over- or undershoots, then confirming them as lower/upper limits using the hotkeys or the new GUI buttons. This gets you straight to the fine-tuning stage with the turn-repeater function.
 
-_Enhancement: Enhance_
+_Enhancement: Convergence Log window & Bound adjustment buttons_
 
 * Point 1
 * Point 2
@@ -19,6 +19,6 @@ _Enhancement: Enhance_
 [_Go to newest release_](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
 ## Changelog
+_Revert: removed the autocycle scaling added in 1.4 -- too unintuitive of a hidden mechanic_ \
 _New: feature._ \
-_Fix: bug._ \
-_Revert: removed autocycle scaling -- too unintuitive of a hidden mechanic_
+_Fix: bug._ 
