@@ -421,9 +421,10 @@ Func DestroyMeasurementStatsWindow()
          for $i=1 to 8
              GUICtrlDelete($g_incidental_measureGUI[$i])
          next
-         GUIDelete($g_incidental_measureGUI[0])
+         $g_isRecording = 0
          GUICtrlSetData($g_incidental_recordButton, "Record")
          GUICtrlSetState($g_incidental_recordButton,$GUI_DISABLE)
+         GUIDelete($g_incidental_measureGUI[0])
          $g_incidental_measureGUI[0] = "INACTIVE"
      EndIf
 EndFunc
@@ -501,7 +502,7 @@ EndFunc
 
 Func EventMeasurementStatsWindow($idMsg)
   if $idMsg[0] == $g_incidental_recordButton then
-      if GUICtrlRead($g_incidental_recordButton)=="Record" then
+      if $g_isRecording = 0 then
          $g_yawbuffer = 0
          $g_isRecording = 1
          GUICtrlSetData($g_incidental_measureGUI[9], "0")
