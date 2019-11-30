@@ -11,7 +11,7 @@ _Enhancement: Convergence Log window during Measurement Mode_
 
 * Graphically show the convergence progress of your Turn-Capture function.
 * Added Estimate-adjustment buttons for those who prefer them over hotkeys.
-* Added button to display the convergence history.
+* Added button to display the convergence history as a table.
 
 _Usability Change: Default hotkeys of some commands have been changed_
 * Turn once: `Alt+[` --> `Alt+'` (single quote)
