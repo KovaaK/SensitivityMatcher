@@ -1,7 +1,11 @@
+#include <Array.au3>
 Global $g_incidental_recordButton
 Global $g_incidental_measureGUI[10]
 Global $g_yawbuffer = 0
 Global $g_isRecording = 0
+Global $gHistory[1] = [0]
+
+
 
 $g_incidental_measureGUI[0] = "INACTIVE"
 
@@ -33,7 +37,7 @@ Func MakeMeasurementStatsWindow()
     $g_incidental_measureGUI[5] = GUICtrlCreateButton("Reset", 70, 205,  65, 25)
     $g_incidental_measureGUI[6] = GUICtrlCreateButton("Go Farther", 135, 205,  65, 25)
     $g_incidental_measureGUI[7] = GUICtrlCreateButton("Table", 164, 179,  35, 20)
-    $g_incidental_measureGUI[8] = GUICtrlCreateGraphic(5,65,195,135,0x07)
+    $g_incidental_measureGUI[8] = GUICtrlCreateGraphic(5,65,195,135, 0x07)
     GUICtrlSetBkColor($g_incidental_measureGUI[8], 0xffffff)
     GUISetState(@SW_SHOW)
     GUICtrlSetState($g_incidental_recordButton,$GUI_ENABLE)
