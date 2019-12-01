@@ -29,12 +29,18 @@ GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
 
 Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
     #forceref $iMsg, $wParam
-  If $g_incidental_measureGUI[0] == "INACTIVE" or $g_isRecording == 0 Then
-  ElseIf $hWnd == $g_hForm then
+  If $hWnd == $g_hForm Then
       Local $tRIM = DllStructCreate($tagRAWINPUTMOUSE)
       If _WinAPI_GetRawInputData($lParam, $tRIM, DllStructGetSize($tRIM), $RID_INPUT) Then
-          $g_yawbuffer += DllStructGetData($tRIM, 'LastX')
-          GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
+          Local $mouseDelta[2] = [ DllStructGetData($tRIM, 'LastX') , DllStructGetData($tRIM, 'LastY') ]
+          If $g_isRecording Then  
+             $g_yawbuffer += $mouseDelta[0]
+             GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
+          EndIf
+          If $g_isCalibratingCPI Then
+             $g_mousePathBuffer[0] += $mouseDelta[0]
+             $g_mousePathBuffer[1] += $mouseDelta[1]
+          EndIf
       EndIf
   EndIf
   Return $GUI_RUNDEFMSG
