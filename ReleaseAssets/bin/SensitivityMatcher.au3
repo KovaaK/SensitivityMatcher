@@ -137,13 +137,9 @@ $g_incidental_measureGUI[9]=$sCounts
    While 1
       Switch $idMsg[0]
         Case $GUI_EVENT_CLOSE
-             Switch $idMsg[1]
-               Case $idGUI
-                    exit
-               Case $idGUICalc
-                    GUIDelete($idGUICalc)
-                    $idGUICalc="INACTIVE"
-             EndSwitch
+             If $idMsg[1] == $idGUI then
+                exit
+             EndIf
              
         Case $sCycle
              $gResidual  = 0
