@@ -134,13 +134,8 @@ $g_incidental_measureGUI[9]=$sCounts
 
    GUISetState(@SW_SHOW)
    KeybindSetter("enable","turn")
-   While 1
-      Switch $idMsg[0]
-        Case $GUI_EVENT_CLOSE
-             If $idMsg[1] == $idGUI then
-                exit
-             EndIf
-             
+   Do
+      Switch $idMsg[0]             
         Case $sCycle
              $gResidual  = 0
              $gCycle     = _GetNumberFromString(GuiCtrlRead($sCycle))
@@ -248,8 +243,14 @@ $g_incidental_measureGUI[9]=$sCounts
       EventMeasurementStatsWindow($idMsg)
       $gMode  = Abs($gMode)       ; if override then ready, if ready or in progress then no change.
       $gValid = InputsValid($sSens, $sPartition, $sYaw, $sTickRate, $sCycle)
-      $idMsg  = GUIGetMsg(1)
-   WEnd
+   Until GetEvent($idMsg)
+EndFunc
+
+Func GetEvent(ByRef $idMsg)
+     $idMsg = GUIGetMsg(1)
+  If $idMsg[0] == $GUI_EVENT_CLOSE and $idMsg[1]==$idGUI Then
+     Return 1
+  EndIf
 EndFunc
 
 Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
