@@ -21,8 +21,8 @@ _Usability Change: Default hotkeys of some commands have been changed_
 
 ## Download
 
-[**SensitivityMatcher_exe.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.5/SensitivityMatcher_exe.zip) \
-[**SensitivityMatcher_a3x.zip**](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.5/SensitivityMatcher_a3x.zip) (Use this instead if .exe is triggering false positives)
+[**SensitivityMatcher_exe.zip** (64bit)](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.5/SensitivityMatcher_exe.zip) \
+[**SensitivityMatcher_a3x.zip** (32bit)](https://github.com/KovaaK/SensitivityMatcher/releases/download/1.5/SensitivityMatcher_a3x.zip) (Use this instead if .exe is triggering false positives)
 
 [_Go to newest release_](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
