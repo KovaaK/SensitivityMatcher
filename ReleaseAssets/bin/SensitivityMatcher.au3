@@ -297,10 +297,10 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
                          _GUIToolTip_AddTool($hToolTip, 0, "Centimeter Per Revolution = rev/(incre*CPI)*2.54", $hCcm)
          Local $hCin    = GUICtrlGetHandle($sInput[5])
                          _GUIToolTip_AddTool($hToolTip, 0, "Inch Per Revolution = rev/(incre*CPI)", $hCin)
+         GUISetState(@SW_SHOW)
          For $i = 0 to 5
             _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
          Next
-         GUISetState(@SW_SHOW)
          GUICtrlSetState($sInput[1],$GUI_FOCUS)
       EndIf
       Local  $cpi = _GetNumberFromString( GUICtrlRead($sInput[1]) )
