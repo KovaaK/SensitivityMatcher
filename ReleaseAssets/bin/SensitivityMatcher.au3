@@ -129,7 +129,7 @@ $g_incidental_measureGUI[9]=$sCounts
    Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, passed to UpdatePartition to clip the NormalizedPartition result
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-   Local $lCalculator[7]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
+   Local $lCalculator[8]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
    
 
    GUISetState(@SW_SHOW)
@@ -259,26 +259,27 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
   Else
       If $idGUICalc == "INITIALIZE" Then
          Local $pos=WinGetPos("Sensitivity Matcher")
-         $idGUICalc=GUICreate("Physical Sensitivity",200,220,$pos[2]-8,-49,$WS_CAPTION,$WS_EX_MDICHILD,$idGUI)
+         $idGUICalc=GUICreate("Physical Sensitivity",200,235,$pos[2]-8,-49,$WS_CAPTION,$WS_EX_MDICHILD,$idGUI)
          $sInput[0]=GUICtrlCreateInput(                                                  $gSens     , 85,  6, 80, 20)
          GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
          $sInput[1]=GUICtrlCreateInput(     IniRead($gSettingIni,"Default","cpi",800)               , 85, 30, 80, 20)
-         $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20, 85, 75, 20)
-         $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105, 85, 75, 20)
-         $sInput[4]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens*2.54, 20,150, 75, 20)
-         $sInput[5]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens     ,105,150, 75, 20)
-         $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,190,130)
+         $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20,105, 75, 20)
+         $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105,105, 75, 20)
+         $sInput[4]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens*2.54, 20,170, 75, 20)
+         $sInput[5]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens     ,105,170, 75, 20)
+         $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,208,130)
+         $sInput[7]=GUICtrlCreateButton("Calibrate Mouse CPI", 45,53,110,23)
          GUICtrlCreateLabel("Virtual factor:",10,9,75,15,$SS_RIGHT)
          GUICtrlCreateLabel("Physical factor:",10,33,75,15,$SS_RIGHT)
          GUICtrlCreateLabel("deg",170,9,35,15,$SS_LEFT)
          GUICtrlCreateLabel("CPI",170,33,35,15,$SS_LEFT)
-         GUICtrlCreateGraphic(10,55,180,2,$SS_SUNKEN)
-         GUICtrlCreateLabel("Curvature",10,65,180,15,$SS_CENTER)
-         GUICtrlCreateLabel("deg/mm",20,105,75,15,$SS_CENTER)
-         GUICtrlCreateLabel("MPI",105,105,75,15,$SS_CENTER)
-         GUICtrlCreateLabel("Circumference",10,130,180,15,$SS_CENTER)
-         GUICtrlCreateLabel("cm/rev",20,170,75,15,$SS_CENTER)
-         GUICtrlCreateLabel("in/rev",105,170,75,15,$SS_CENTER)
+         GUICtrlCreateGraphic(10,80,180,2,$SS_SUNKEN)
+         GUICtrlCreateLabel("Curvature",10,85,180,15,$SS_CENTER)
+         GUICtrlCreateLabel("deg/mm",20,125,75,15,$SS_CENTER)
+         GUICtrlCreateLabel("MPI",105,125,75,15,$SS_CENTER)
+         GUICtrlCreateLabel("Circumference",10,150,180,15,$SS_CENTER)
+         GUICtrlCreateLabel("cm/rev",20,190,75,15,$SS_CENTER)
+         GUICtrlCreateLabel("in/rev",105,190,75,15,$SS_CENTER)
          Local $hToolTip=_GUIToolTip_Create(0)
                          _GUIToolTip_SetDelayTime($hToolTip, $TTDT_AUTOPOP, 30000)
                          _GUIToolTip_SetDelayTime($hToolTip, $TTDT_RESHOW, 500)
@@ -331,6 +332,28 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
           For $i = 2 to 5
               GUICtrlSendMsg($sInput[$i],$EM_SETREADONLY,$readonly,0)
           Next
+        Case $sInput[7]
+          if $g_isCalibratingCPI then
+             Local $deltaMouse = $g_mousePathBuffer
+             Local $calibratedCPI = Sqrt(($deltaMouse[0]*$deltaMouse[0]) + ($deltaMouse[1]*$deltaMouse[1]))/5
+             GUICtrlSetData($sInput[7], "Calibrate Mouse CPI")
+             if MsgBox(260,"", "You moved (" & $deltaMouse[0] & ", " & $deltaMouse[1] & ") over 5 inches." & @crlf & @crlf _
+                        & "This gives " & $calibratedCPI & " CPI." & @crlf & @crlf _
+                        & "Confirm entry?" ) == 6 then
+                $cpi=$calibratedCPI
+                GUICtrlSetData($sInput[1],$cpi)
+                If $lock == $GUI_UNCHECKED Then
+                   $idMsg[0] = -1
+                Else
+                   $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
+                EndIf
+             endif
+          else 
+             GUICtrlSetData($sInput[7], "Move 5 inches..." )
+             $g_mousePathBuffer[0] = 0
+             $g_mousePathBuffer[1] = 0
+          endif
+          $g_isCalibratingCPI = not $g_isCalibratingCPI
       EndSwitch
       If $idMsg[0] == -1 Then
             GUICtrlSetData($sInput[0],String(    $gSens          ))
