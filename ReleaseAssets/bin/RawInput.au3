@@ -39,21 +39,14 @@ GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
 
 Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
     #forceref $iMsg, $wParam
-  If $g_incidental_measureGUI[0] == "INACTIVE" Then
-  Else
-    Switch $hWnd
-        Case $g_hForm
-            Local $tRIM = DllStructCreate($tagRAWINPUTMOUSE)
-            If _WinAPI_GetRawInputData($lParam, $tRIM, DllStructGetSize($tRIM), $RID_INPUT) Then
-                Local $aData[2]
-                $aData[0] = DllStructGetData($tRIM, 'LastX')
-                $aData[1] = DllStructGetData($tRIM, 'LastY')
-                if $g_isRecording == 1 then
-                   $g_yawbuffer+=$aData[0]
-                   GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
-                endif
-            EndIf
-    EndSwitch
+  If $g_incidental_measureGUI[0] == "INACTIVE" or $g_isRecording == 0 Then
+  ElseIf $hWnd == $g_hForm then
+      Local $tRIM = DllStructCreate($tagRAWINPUTMOUSE)
+      If _WinAPI_GetRawInputData($lParam, $tRIM, DllStructGetSize($tRIM), $RID_INPUT) Then
+          Local $aData[2] = [DllStructGetData($tRIM, 'LastX') , DllStructGetData($tRIM, 'LastY')]
+          $g_yawbuffer+=$aData[0]
+          GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
+      EndIf
   EndIf
   Return $GUI_RUNDEFMSG
 EndFunc   ;==>WM_INPUT
