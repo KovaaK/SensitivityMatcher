@@ -11,16 +11,6 @@
 #include <WinAPISysWin.au3>
 #include <WindowsConstants.au3>
 
-
-
-Global $g_incidental_recordButton
-Global $g_incidental_measureGUI[10]
-Global $g_yawbuffer = 0
-Global $g_isRecording = 0
-
-$g_incidental_measureGUI[0] = "INACTIVE"
-
-
 Global $g_hForm = GUICreate('Test ' & StringReplace(@ScriptName, '.au3', '()'), 160, 212, @DesktopWidth - 179, @DesktopHeight - 283, BitOR($WS_CAPTION, $WS_POPUP, $WS_SYSMENU), $WS_EX_TOPMOST)
 
 
