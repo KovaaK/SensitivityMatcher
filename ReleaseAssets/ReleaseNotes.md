@@ -9,9 +9,9 @@ _New Feature: Rawinput recording (Measurement Mode only)_
 
 _Enhancement: Convergence Log window during Measurement Mode_
 
-* Added Graph showing convergence progress of your Turn-Capture function.
-* Added Estimate-adjustment buttons for those who prefer them over hotkeys.
-* Added button to display the convergence history as a table.
+* Graph showing convergence progress of your Turn-Capture function.
+* Estimate-adjustment buttons for those who prefer them over hotkeys.
+* Button to display the convergence history as a table.
 
 _Usability Change: Default hotkeys of some commands have been changed_
 * Turn once: `Alt+[` --> `Alt+'` (single quote)
