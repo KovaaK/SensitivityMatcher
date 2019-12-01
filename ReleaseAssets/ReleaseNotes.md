@@ -4,7 +4,7 @@
 
 _New Feature: Rawinput recording (Measurement Mode only)_
 
-* In Measurement Mode, you can now speed up initial setup of upper/lower bound estimates using your mouse instead. (default hotkey is `[Alt][/]` to toggle recording)
+* In Measurement Mode, you can now speed up initial setup of upper/lower bound estimates using your mouse instead (default hotkey is `[Alt][/]` to toggle recording).
 * Record a rotation in-game with slight over- or undershoots, then assign them as lower/upper limits using hotkeys or the new GUI buttons. This gets you straight to the fine-tuning Turn-Repeater stage.
 
 _Enhancement: Convergence Log window during Measurement Mode_
