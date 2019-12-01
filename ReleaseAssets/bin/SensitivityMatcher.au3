@@ -515,7 +515,7 @@ Func EventMeasurementStatsWindow($idMsg)
          if $l_yawbuffer > 0 then 
              if $idMsg[1] == "HOTKEY" then
                 $gSens = 360/$l_yawbuffer
-                Beep(330,75)
+                Beep(330,100)
                 Beep(220,100)
              elseif MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
                 $gSens = 360/$l_yawbuffer
