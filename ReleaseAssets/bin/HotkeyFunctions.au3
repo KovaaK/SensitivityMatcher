@@ -58,7 +58,7 @@ Func KeybindSetter($mode,$subset="all")
 EndFunc
 
 Func DecreasePolygon()
-  If     $gMode>0 Then
+  If     $gMode>0 and $g_isRecording==0 Then
          $gMode=0
     If   $gValid  Then
          $gResidual  = 0
@@ -84,7 +84,7 @@ Func DecreasePolygon()
 EndFunc
 
 Func IncreasePolygon()
-  If     $gMode>0 Then
+  If     $gMode>0 and $g_isRecording==0 Then
          $gMode=0
     If   $gValid  Then
          $gResidual  = 0
