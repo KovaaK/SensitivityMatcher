@@ -43,8 +43,7 @@ Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
   ElseIf $hWnd == $g_hForm then
       Local $tRIM = DllStructCreate($tagRAWINPUTMOUSE)
       If _WinAPI_GetRawInputData($lParam, $tRIM, DllStructGetSize($tRIM), $RID_INPUT) Then
-          Local $aData[2] = [DllStructGetData($tRIM, 'LastX') , DllStructGetData($tRIM, 'LastY')]
-          $g_yawbuffer+=$aData[0]
+          $g_yawbuffer += DllStructGetData($tRIM, 'LastX')
           GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
       EndIf
   EndIf
