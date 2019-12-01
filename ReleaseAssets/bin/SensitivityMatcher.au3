@@ -525,6 +525,7 @@ Func EventMeasurementStatsWindow($idMsg)
          endif
          GUICtrlSetData($g_incidental_recordButton, "Record")
          GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
+        _GUICtrlEdit_SetSel($g_incidental_measureGUI[9],0,0)
       endif
   elseif $idMsg[1] == $g_incidental_measureGUI[0] then
      Switch $idMsg[0]
