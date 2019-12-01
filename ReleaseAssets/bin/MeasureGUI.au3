@@ -1,26 +1,29 @@
 #include <Array.au3>
 Global $g_incidental_recordButton
 Global $g_incidental_measureGUI[10]
+       $g_incidental_measureGUI[0] = "INACTIVE"
+Global $g_isRecording = false
+Global $g_isCalibratingCPI = false
 Global $g_yawbuffer = 0
-Global $g_isRecording = 0
+Global $g_mousePathBuffer[2] = [0,0]
 Global $gHistory[1] = [0]
 
 
 
-$g_incidental_measureGUI[0] = "INACTIVE"
 
 Func DestroyMeasurementStatsWindow()
      If $g_incidental_measureGUI[0] == "INACTIVE" Then 
      Else
-         GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
          for $i=1 to 8
              GUICtrlDelete($g_incidental_measureGUI[$i])
          next
-         $g_isRecording = 0
-         GUICtrlSetData($g_incidental_recordButton, "Record")
-         GUICtrlSetState($g_incidental_recordButton,$GUI_DISABLE)
          GUIDelete($g_incidental_measureGUI[0])
          $g_incidental_measureGUI[0] = "INACTIVE"
+         $g_isRecording = false
+         GUICtrlSetData($g_incidental_recordButton, "Record")
+         GUICtrlSetState($g_incidental_recordButton,$GUI_DISABLE)
+         GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
+        _GUICtrlEdit_SetSel($g_incidental_measureGUI[9], 0, 0 )
      EndIf
 EndFunc
 
@@ -96,25 +99,28 @@ Func DrawMeasurementStatsGraph($mode)
 EndFunc
 
 Func EventMeasurementStatsWindow($idMsg)
-  if $idMsg[0] == $g_incidental_recordButton then
-      if $g_isRecording == 0 then
-         $g_isRecording = 1
+  if $g_incidental_measureGUI[0] == "INACTIVE" then
+  elseif $idMsg[0] == $g_incidental_recordButton then
+      Local $tempPtr = $g_incidental_measureGUI[0] ; save the pointer of the measureGUI window
+      $g_incidental_measureGUI[0] = "INACTIVE"     ; prevent this function from being executed by hotkey until it has completed
+      $g_isRecording = not $g_isRecording
+      if $g_isRecording then
          $g_yawbuffer = 0
          GUICtrlSetData($g_incidental_measureGUI[9], "0")
          GUICtrlSetData($g_incidental_recordButton, "Recording...")
          if $idMsg[1] == "HOTKEY" then Beep(330,100)
-         Sleep(10)
       else
-         $g_isRecording = 0
-         Sleep(10)
+         Sleep(10)                                 ; give time for the rawinput thread to stop touching yawbuffer before performing the following actions
          local $l_yawbuffer = Abs($g_yawbuffer)
          if $l_yawbuffer > 0 then 
              if $idMsg[1] == "HOTKEY" then
                 $gSens = 360/$l_yawbuffer
                 Beep(330,100)
                 Beep(220,100)
-             elseif MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
-                $gSens = 360/$l_yawbuffer
+             else
+                 if MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
+                    $gSens = 360/$l_yawbuffer
+                 endif
              endif
          elseif $idMsg[1] == "HOTKEY" then 
              Beep(220,100)
@@ -123,6 +129,7 @@ Func EventMeasurementStatsWindow($idMsg)
          GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
         _GUICtrlEdit_SetSel($g_incidental_measureGUI[9],0,0)
       endif
+      $g_incidental_measureGUI[0] = $tempPtr       ; release the unique execution blocking 
   elseif $idMsg[1] == $g_incidental_measureGUI[0] then
      Switch $idMsg[0]
        Case $g_incidental_measureGUI[4]
