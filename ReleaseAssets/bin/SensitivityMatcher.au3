@@ -125,7 +125,6 @@ $g_incidental_measureGUI[9]=$sCounts
    ; Declare adhoc local variables outside the loop
    Local $idMsg[2]       = [$sYaw,$idGUI]            ; Variable to save GUIGetMsg(1).  Initialized to "detect change in Yaw input box from main GUI".
    Local $idGUICalc      = "INACTIVE"                ; Handle of stats calculator. When not open, manually set to "INACTIVE" so it won't execute anything
-   Local $idGUIMeasure   = "INACTIVE"                ; Handle of measurement stat. When not open, manually set to "INACTIVE" so it won't execute anything
    Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, passed to UpdatePartition to clip the NormalizedPartition result
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
