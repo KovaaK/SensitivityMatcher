@@ -16,8 +16,8 @@ Func KeybindSetter($mode,$subset="all")
                             "DecreasePolygon", _
                             "IncreasePolygon", _
                                 "ClearBounds", _
-                                 "NudgeRight", _
-                                  "NudgeLeft", _
+                                   "JogRight", _
+                                    "JogLeft", _
                             "RecordYawToggle"  ]     
      For    $i = 0 to $size-1
             $readval[$i] = IniRead($gSettingIni,"Hotkeys",$keyname[$i],$default[$i]) 
@@ -120,7 +120,7 @@ Func ClearBounds()
      UpdateMeasurementStatsWindow()
 EndFunc
 
-Func NudgeLeft()
+Func JogLeft()
   If $gMode = 1 Then
      $gMode = 0
     _MouseMovePlus(-1,0)
@@ -128,7 +128,7 @@ Func NudgeLeft()
   EndIf
 EndFunc
 
-Func NudgeRight()
+Func JogRight()
   If $gMode = 1 Then
      $gMode = 0
     _MouseMovePlus(1,0)
