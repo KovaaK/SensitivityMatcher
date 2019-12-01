@@ -1,4 +1,4 @@
-# [ Download Sensitivity Matcher (not the green button).](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
+# [ Download Sensitivity Matcher (NOT the green button).](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 [![Screenshot 1](https://i.redd.it/wlnn08wa1w141.png)](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
 
