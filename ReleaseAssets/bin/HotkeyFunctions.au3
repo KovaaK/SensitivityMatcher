@@ -1,6 +1,3 @@
-#include <Array.au3>
-Global $gHistory[1] = [0]
-
 Func KeybindSetter($mode,$subset="all")
      Local  $size = 9
      Local  $readval[$size]
