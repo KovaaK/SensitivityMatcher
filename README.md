@@ -14,7 +14,7 @@ Press `Alt` `'` to perform one full revolution.
 
 Press `Alt` `;` to perform multiple full revolutions.
 
-Press `Alt` `\` to halt (and clear residuals).
+Press `Alt` `\` to halt (also clears residuals).
 
 &nbsp;
 
