@@ -14,10 +14,10 @@ _Enhancement: Convergence Log window during Measurement Mode_
 * Button to display the convergence history as a table (in addition to the detailed log file output).
 
 _Usability Change: Default hotkeys of some commands have been changed_
-* Turn once: ~~`Alt`~~ ~~`[`~~ `Alt` `'` (single quote)
-* Turn a lot: ~~`Alt`~~ ~~`]`~~ `Alt` `;`
-* Jog left: ~~`Alt`~~ ~~`;`~~ `Alt` `<`
-* Jog right: ~~`Alt`~~ ~~`'`~~ `Alt` `>`
+* Turn once: ~~`Alt` `[`~~ to `Alt` `'` (single quote)
+* Turn a lot: ~~`Alt` `]`~~ to `Alt` `;`
+* Jog left: ~~`Alt` `;`~~ to `Alt` `<`
+* Jog right: ~~`Alt` `'`~~ to `Alt` `>`
 
 ## Download
 
