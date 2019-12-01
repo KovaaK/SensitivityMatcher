@@ -16,8 +16,8 @@ _Enhancement: Convergence Log window during Measurement Mode_
 _Usability Change: Default hotkeys of some commands have been changed_
 * Turn once: ~~`Alt [`~~ changed to `Alt` `'` (single quote)
 * Turn a lot: ~~`Alt ]`~~ cahnged to `Alt` `;`
-* Jog left: ~~`Alt ;`~~ changed to `Alt` `<`
 * Jog right: ~~`Alt '`~~ changed to `Alt` `>`
+* Jog left: ~~`Alt ;`~~ changed to `Alt` `<`
 
 ## Download
 
