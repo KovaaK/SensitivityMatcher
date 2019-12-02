@@ -375,9 +375,11 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          Next
       EndIf
     if $g_isCalibratingCPI then
-       Local $deltaMouse = $g_mousePathBuffer
-       Local $calibratedCPI = Sqrt(($deltaMouse[0]*$deltaMouse[0]) + ($deltaMouse[1]*$deltaMouse[1]))/5
-       GUICtrlSetData($sInput[8], round($calibratedCPI) )
+       Local $labeldelta = $g_mousePathBuffer
+       Local $labelCPI = round(Sqrt(($labeldelta[0]*$labeldelta[0]) + ($labeldelta[1]*$labeldelta[1]))/5)
+       if _GetNumberFromString(GUICtrlRead($sInput[8]))<>$labelCPI then
+          GUICtrlSetData($sInput[8], $labelCPI )
+       endif
     endif
     Return $idGUICalc
   EndIf
