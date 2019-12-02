@@ -2,14 +2,7 @@
 Global $g_incidental_recordButton
 Global $g_incidental_measureGUI[10]
        $g_incidental_measureGUI[0] = "INACTIVE"
-Global $g_isRecording = false
-Global $g_isCalibratingCPI = false
-Global $g_yawbuffer = 0
-Global $g_mousePathBuffer[2] = [0,0]
 Global $gHistory[1] = [0]
-
-
-
 
 Func DestroyMeasurementStatsWindow()
      If $g_incidental_measureGUI[0] == "INACTIVE" Then 
@@ -26,7 +19,6 @@ Func DestroyMeasurementStatsWindow()
         _GUICtrlEdit_SetSel($g_incidental_measureGUI[9], 0, 0 )
      EndIf
 EndFunc
-
 
 Func MakeMeasurementStatsWindow()
     $g_incidental_measureGUI[0] = GUICreate("Convergence Log",205,235,-209,-49,$WS_CAPTION,$WS_EX_MDICHILD,WinGetHandle(""))
@@ -54,6 +46,56 @@ Func UpdateMeasurementStatsWindow($mode=0)
         GUICtrlSetData($g_incidental_measureGUI[3], BoundUncertainty($gSens,$gBounds,"%")&"%")
         DrawMeasurementStatsGraph($mode)
     EndIf
+EndFunc
+
+Func EventMeasurementStatsWindow($idMsg)
+  if $g_incidental_measureGUI[0] == "INACTIVE" then
+  elseif $idMsg[0] == $g_incidental_recordButton then
+      Local $tempPtr = $g_incidental_measureGUI[0] ; save the pointer of the measureGUI window
+      $g_incidental_measureGUI[0] = "INACTIVE"     ; lock this function from being executed by hotkey until it has completed
+      if $g_isRecording then
+         $g_isRecording = not $g_isRecording
+         local $l_yawbuffer = $g_yawbuffer                          ; store the finalized reference value
+         GUICtrlSetData($g_incidental_measureGUI[9], $l_yawbuffer)  ; show the finalized yawbuffer value
+         $l_yawbuffer = Abs($l_yawbuffer)                           ; only want magnitude of counts
+         if $l_yawbuffer > 0 then                                   ; check if any counts have been recorded
+             if $idMsg[1] == "HOTKEY" then                          ; play sound if ended by hotkey
+                $gSens = 360/$l_yawbuffer
+                Beep(330,100)
+                Beep(220,100)
+             elseif MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
+                $gSens = 360/$l_yawbuffer                           ; if not ended by hotkey, show dialog to confirm entry before committing
+             endif
+         elseif $idMsg[1] == "HOTKEY" then                          ; play sound if ended by hotkey with no count recorded
+             Beep(220,100)
+         endif
+         GUICtrlSetData($g_incidental_recordButton, "Record")       ; restore button text to normal status
+         GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
+        _GUICtrlEdit_SetSel($g_incidental_measureGUI[9],0,0)
+      else
+         $g_yawbuffer = 0                                           ; clear buffer first before activating
+         $g_isRecording = not $g_isRecording                        ; toggle rawinput state
+         GUICtrlSetData($g_incidental_measureGUI[9], "0")           ; initialize recorded count display
+         GUICtrlSetData($g_incidental_recordButton, "Recording...") ; change button text to show recording status
+         if $idMsg[1] == "HOTKEY" then Beep(330,100)                ; play the commencement beep only if activated by hotkey
+      endif
+      $g_incidental_measureGUI[0] = $tempPtr       ; release the execution lock
+  elseif $idMsg[1] == $g_incidental_measureGUI[0] then
+     Switch $idMsg[0]
+       Case $g_incidental_measureGUI[4]
+            DecreasePolygon()
+       Case $g_incidental_measureGUI[5]
+            ClearBounds()
+       Case $g_incidental_measureGUI[6]
+            IncreasePolygon()
+       Case $g_incidental_measureGUI[7]
+           _ArrayDisplay($gHistory, "Table", UBound($gHistory)>1 ? "1:" : "")
+     EndSwitch
+  else
+    if $g_isRecording then                                            ; if no relelvant events but is in measure mode, only then check if recording is active
+       GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)      ; live update the displayed counts
+    endif
+  endif
 EndFunc
 
 Func DrawMeasurementStatsGraph($mode)
@@ -96,50 +138,4 @@ Func DrawMeasurementStatsGraph($mode)
 
   AutoItSetOption ( "GUICoordMode", 1 )     
   GUICtrlSetGraphic($g_incidental_measureGUI[8], $GUI_GR_REFRESH)
-EndFunc
-
-Func EventMeasurementStatsWindow($idMsg)
-  if $g_incidental_measureGUI[0] == "INACTIVE" then
-  elseif $idMsg[0] == $g_incidental_recordButton then
-      Local $tempPtr = $g_incidental_measureGUI[0] ; save the pointer of the measureGUI window
-      $g_incidental_measureGUI[0] = "INACTIVE"     ; prevent this function from being executed by hotkey until it has completed
-      $g_isRecording = not $g_isRecording
-      if $g_isRecording then
-         $g_yawbuffer = 0
-         GUICtrlSetData($g_incidental_measureGUI[9], "0")
-         GUICtrlSetData($g_incidental_recordButton, "Recording...")
-         if $idMsg[1] == "HOTKEY" then Beep(330,100)
-      else
-         Sleep(10)                                 ; give time for the rawinput thread to stop touching yawbuffer before performing the following actions
-         local $l_yawbuffer = Abs($g_yawbuffer)
-         if $l_yawbuffer > 0 then 
-             if $idMsg[1] == "HOTKEY" then
-                $gSens = 360/$l_yawbuffer
-                Beep(330,100)
-                Beep(220,100)
-             else
-                 if MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
-                    $gSens = 360/$l_yawbuffer
-                 endif
-             endif
-         elseif $idMsg[1] == "HOTKEY" then 
-             Beep(220,100)
-         endif
-         GUICtrlSetData($g_incidental_recordButton, "Record")
-         GUICtrlSetData($g_incidental_measureGUI[9], String( 360/$gSens))
-        _GUICtrlEdit_SetSel($g_incidental_measureGUI[9],0,0)
-      endif
-      $g_incidental_measureGUI[0] = $tempPtr       ; release the unique execution blocking 
-  elseif $idMsg[1] == $g_incidental_measureGUI[0] then
-     Switch $idMsg[0]
-       Case $g_incidental_measureGUI[4]
-            DecreasePolygon()
-       Case $g_incidental_measureGUI[5]
-            ClearBounds()
-       Case $g_incidental_measureGUI[6]
-            IncreasePolygon()
-       Case $g_incidental_measureGUI[7]
-           _ArrayDisplay($gHistory, "Table", UBound($gHistory)>1 ? "1:" : "")
-     EndSwitch
-  endif
 EndFunc
