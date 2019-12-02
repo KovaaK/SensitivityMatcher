@@ -76,6 +76,7 @@ Func DecreasePolygon()
     Else
          HelpMessage()
     EndIf
+    sleep(10)
     $gMode=1
   EndIf
 EndFunc
@@ -102,6 +103,7 @@ Func IncreasePolygon()
     Else
          HelpMessage()
     EndIf
+    sleep(10)
     $gMode=1
   EndIf
 EndFunc
