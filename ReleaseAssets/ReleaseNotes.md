@@ -6,6 +6,7 @@ _New Feature: Rawinput recording (Measurement Mode only)_
 
 * In Measurement Mode, you can now speed up initial setup of upper/lower bound estimates using your mouse instead (default hotkey is `[Alt][/]` to toggle recording).
 * Record a rotation in-game with slight over- or undershoots, then assign them to lower/upper limits using hotkeys or the new GUI buttons. This gets you straight to the fine-tuning Turn-Repeater stage.
+* The physical sensitivity calculator now includes a CPI calibration feature to take advantage of the rawinput capability.
 
 _Enhancement: Convergence Log window during Measurement Mode_
 
@@ -29,4 +30,5 @@ _Usability Change: Default hotkeys of some commands have been changed_
 ## Changelog
 _Revert: removed the autocycle scaling that was added in 1.4 -- too hidden of a mechanic_ \
 _New: changed default hotkeys for tuning and jogging counts. See helptext._ \
+_New: changing the cpi field will now immediately save to ini._ \
 _New: script will make distinct beeps when activating/deactivating rawinput recording with hotkeys. Activating with GUI button will show a confirmation dialog instead._ 
