@@ -298,16 +298,17 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
                          _GUIToolTip_AddTool($hToolTip, 0, "Centimeter Per Revolution = rev/(incre*CPI)*2.54", $hCcm)
          Local $hCin    = GUICtrlGetHandle($sInput[5])
                          _GUIToolTip_AddTool($hToolTip, 0, "Inch Per Revolution = rev/(incre*CPI)", $hCin)
+         GUICtrlSetState($sInput[1],$GUI_FOCUS)
          GUISetState(@SW_SHOW)
          For $i = 0 to 5
             _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
          Next
-         GUICtrlSetState($sInput[1],$GUI_FOCUS)
       EndIf
       Local  $cpi = _GetNumberFromString( GUICtrlRead($sInput[1]) )
       Local  $lock=  GUICtrlRead($sInput[6])
       Switch $idMsg[0]
         Case $sInput[1]
+          IniWrite($gSettingIni,"Default","cpi",$cpi)
           If $lock == $GUI_UNCHECKED Then
              $idMsg[0] = -1
           Else
@@ -345,6 +346,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
                         & "Confirm entry?" ) == 6 then
                 $cpi=$calibratedCPI
                 GUICtrlSetData($sInput[1],$cpi)
+                IniWrite($gSettingIni,"Default","cpi",$cpi)
                 If $lock == $GUI_UNCHECKED Then
                    $idMsg[0] = -1
                 Else
