@@ -55,7 +55,7 @@ Func EventMeasurementStatsWindow($idMsg)
       Local $tempPtr = $g_incidental_measureGUI[0] ; save the pointer of the measureGUI window
       $g_incidental_measureGUI[0] = "INACTIVE"     ; lock this function from being executed by hotkey until it has completed
       if $g_isRecording then
-         $g_isRecording = not $g_isRecording                        ; first thing is stop recording
+         $g_isRecording = not $g_isRecording                        ; stop recording first
          local $l_yawbuffer = $g_yawbuffer                          ; store the finalized reference value
          GUICtrlSetData($g_incidental_measureGUI[9], $l_yawbuffer)  ; show the finalized yawbuffer value
          $l_yawbuffer = Abs($l_yawbuffer)                           ; only want magnitude of counts
@@ -92,10 +92,8 @@ Func EventMeasurementStatsWindow($idMsg)
        Case $g_incidental_measureGUI[7]
            _ArrayDisplay($gHistory, "Table", UBound($gHistory)>1 ? "1:" : "")
      EndSwitch
-  else
-    if $g_isRecording then                                            ; if no relelvant events but is in measure mode, only then check if recording is active
-       GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)      ; live update the displayed counts
-    endif
+  elseif $g_isRecording then                                        ; if no relelvant events but is in measure mode, only then check if recording is active
+     GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)      ; live update the displayed counts
   endif
 EndFunc
 
