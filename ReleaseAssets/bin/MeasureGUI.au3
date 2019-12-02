@@ -63,7 +63,7 @@ Func EventMeasurementStatsWindow($idMsg)
                 $gSens = 360/$l_yawbuffer
                 Beep(330,100)
                 Beep(220,100)
-             elseif MsgBox(260,"Write to increment","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
+             elseif MsgBox(260,"","Recorded "&$l_yawbuffer&" counts for one revolution, confirm entry?")==6 then
                 $gSens = 360/$l_yawbuffer                           ; if not ended by hotkey, show dialog to confirm entry before committing
              endif
          elseif $idMsg[1] == "HOTKEY" then                          ; play sound if ended by hotkey with no count recorded
