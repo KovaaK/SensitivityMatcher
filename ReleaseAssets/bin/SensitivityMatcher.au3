@@ -337,7 +337,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
              Local $deltaMouse = $g_mousePathBuffer
              Local $calibratedCPI = Sqrt(($deltaMouse[0]*$deltaMouse[0]) + ($deltaMouse[1]*$deltaMouse[1]))/5
              GUICtrlSetData($sInput[7], "Calibrate Mouse CPI")
-             if MsgBox(260,"", "You moved (" & $deltaMouse[0] & ", " & $deltaMouse[1] & ") in 5 inches." & @crlf & @crlf _
+             if MsgBox(260,"", "You moved {" & $deltaMouse[0] & ", " & $deltaMouse[1] & "} counts over 5 inches or 127 mm." & @crlf & @crlf _
                         & "This gives " & $calibratedCPI & " CPI." & @crlf & @crlf _
                         & "Confirm entry?" ) == 6 then
                 $cpi=$calibratedCPI
