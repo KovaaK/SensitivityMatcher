@@ -161,6 +161,7 @@ Func RecordYawToggle()
      $gMode = 0
      local $idMsg[2] = [$g_incidental_recordButton,"HOTKEY"]
      EventMeasurementStatsWindow($idMsg)
+     sleep(10)
      $gMode = 1
   EndIf
 EndFunc
