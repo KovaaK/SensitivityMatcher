@@ -11,6 +11,11 @@
 #include <WinAPISysWin.au3>
 #include <WindowsConstants.au3>
 
+Global $g_isRecording = false
+Global $g_isCalibratingCPI = false
+Global $g_yawbuffer = 0
+Global $g_mousePathBuffer[2] = [0,0]
+
 Global $g_hForm = GUICreate('Test ' & StringReplace(@ScriptName, '.au3', '()'), 160, 212, @DesktopWidth - 179, @DesktopHeight - 283, BitOR($WS_CAPTION, $WS_POPUP, $WS_SYSMENU), $WS_EX_TOPMOST)
 
 
@@ -35,7 +40,6 @@ Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
           Local $mouseDelta[2] = [ DllStructGetData($tRIM, 'LastX') , DllStructGetData($tRIM, 'LastY') ]
           If $g_isRecording Then  
              $g_yawbuffer += $mouseDelta[0]
-             GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)
           EndIf
           If $g_isCalibratingCPI Then
              $g_mousePathBuffer[0] += $mouseDelta[0]
