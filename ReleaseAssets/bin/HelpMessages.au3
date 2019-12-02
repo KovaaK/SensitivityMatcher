@@ -32,6 +32,7 @@ Func HelpMessage($mode="default")
                                                                                                & @crlf _
                               & "Press [Alt][>] to jog one count to the right"                 & @crlf _
                               & "Press [Alt][<] to jog one count to the left"                  & @crlf _
+                              & "Press [Alt][ / ] to toggle recording of initial guesses."     & @crlf _
                                                                                                & @crlf _
                               & "Remember to un-jog if you wish to continue cycling. To share your "   _
                               & "measurement results for others to verify, it is recommended that "    _
