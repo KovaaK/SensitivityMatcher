@@ -129,7 +129,7 @@ $g_incidental_measureGUI[9]=$sCounts
    Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, passed to UpdatePartition to clip the NormalizedPartition result
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-   Local $lCalculator[8]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
+   Local $lCalculator[9]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
    
 
    GUISetState(@SW_SHOW)
@@ -213,6 +213,7 @@ $g_incidental_measureGUI[9]=$sCounts
              GUISetState(@SW_RESTORE,$idGUICalc)
              GUIDelete($idGUICalc)
              $idGUICalc="INACTIVE"
+             $g_isCalibratingCPI = false
           EndIf
 
         Case $idHelp
@@ -269,6 +270,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $sInput[5]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens     ,105,170, 75, 20)
          $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,208,130)
          $sInput[7]=GUICtrlCreateButton("Calibrate Mouse CPI", 45,53,110,23)
+         $sInput[8]=GUICtrlCreateLabel("", 10,58,35,15,$SS_RIGHT)
          GUICtrlCreateLabel("Game (DAC):",10,9,70,15,$SS_RIGHT)
          GUICtrlCreateLabel("Mouse (ADC):",10,33,70,15,$SS_RIGHT)
          GUICtrlCreateLabel("deg",170,9,35,15,$SS_LEFT)
@@ -337,6 +339,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
              Local $deltaMouse = $g_mousePathBuffer
              Local $calibratedCPI = Sqrt(($deltaMouse[0]*$deltaMouse[0]) + ($deltaMouse[1]*$deltaMouse[1]))/5
              GUICtrlSetData($sInput[7], "Calibrate Mouse CPI")
+             GUICtrlSetData($sInput[8], "" )
              if MsgBox(260,"", "You moved {" & $deltaMouse[0] & ", " & $deltaMouse[1] & "} counts over 5 inches or 127 mm." & @crlf & @crlf _
                         & "This gives " & $calibratedCPI & " CPI." & @crlf & @crlf _
                         & "Confirm entry?" ) == 6 then
@@ -371,6 +374,11 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
             _GUICtrlEdit_SetSel($sInput[$i], 0, 0 )
          Next
       EndIf
+    if $g_isCalibratingCPI then
+       Local $deltaMouse = $g_mousePathBuffer
+       Local $calibratedCPI = Sqrt(($deltaMouse[0]*$deltaMouse[0]) + ($deltaMouse[1]*$deltaMouse[1]))/5
+       GUICtrlSetData($sInput[8], round($calibratedCPI) )
+    endif
     Return $idGUICalc
   EndIf
 EndFunc
