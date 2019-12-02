@@ -54,7 +54,7 @@ Func EventMeasurementStatsWindow($idMsg)
       Local $tempPtr = $g_incidental_measureGUI[0] ; save the pointer of the measureGUI window
       $g_incidental_measureGUI[0] = "INACTIVE"     ; lock this function from being executed by hotkey until it has completed
       if $g_isRecording then
-         $g_isRecording = not $g_isRecording
+         $g_isRecording = not $g_isRecording                        ; first thing is stop recording
          local $l_yawbuffer = $g_yawbuffer                          ; store the finalized reference value
          GUICtrlSetData($g_incidental_measureGUI[9], $l_yawbuffer)  ; show the finalized yawbuffer value
          $l_yawbuffer = Abs($l_yawbuffer)                           ; only want magnitude of counts
@@ -74,10 +74,10 @@ Func EventMeasurementStatsWindow($idMsg)
         _GUICtrlEdit_SetSel($g_incidental_measureGUI[9],0,0)
       else
          $g_yawbuffer = 0                                           ; clear buffer first before activating
-         $g_isRecording = not $g_isRecording                        ; toggle rawinput state
          GUICtrlSetData($g_incidental_measureGUI[9], "0")           ; initialize recorded count display
          GUICtrlSetData($g_incidental_recordButton, "Recording...") ; change button text to show recording status
          if $idMsg[1] == "HOTKEY" then Beep(330,100)                ; play the commencement beep only if activated by hotkey
+         $g_isRecording = not $g_isRecording                        ; toggle rawinput state only after everything is set
       endif
       $g_incidental_measureGUI[0] = $tempPtr       ; release the execution lock
   elseif $idMsg[1] == $g_incidental_measureGUI[0] then
