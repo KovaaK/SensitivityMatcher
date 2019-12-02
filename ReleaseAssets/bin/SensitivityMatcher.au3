@@ -263,8 +263,8 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $sInput[0]=GUICtrlCreateInput(                                                  $gSens     , 85,  6, 80, 20)
          GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
          $sInput[1]=GUICtrlCreateInput(     IniRead($gSettingIni,"Default","cpi",800)               , 85, 30, 80, 20)
-         $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20,105, 75, 20)
-         $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105,105, 75, 20)
+         $sInput[2]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens/25.4, 20,107, 75, 20)
+         $sInput[3]=GUICtrlCreateInput(    _GetNumberFromString(GUICtrlRead($sInput[1]))*$gSens*60  ,105,107, 75, 20)
          $sInput[4]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens*2.54, 20,170, 75, 20)
          $sInput[5]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens     ,105,170, 75, 20)
          $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,208,130)
@@ -274,9 +274,9 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          GUICtrlCreateLabel("deg",170,9,35,15,$SS_LEFT)
          GUICtrlCreateLabel("CPI",170,33,35,15,$SS_LEFT)
          GUICtrlCreateGraphic(10,80,180,2,$SS_SUNKEN)
-         GUICtrlCreateLabel("Curvature",10,85,180,15,$SS_CENTER)
-         GUICtrlCreateLabel("deg/mm",20,125,75,15,$SS_CENTER)
-         GUICtrlCreateLabel("MPI",105,125,75,15,$SS_CENTER)
+         GUICtrlCreateLabel("Curvature",10,87,180,15,$SS_CENTER)
+         GUICtrlCreateLabel("deg/mm",20,127,75,15,$SS_CENTER)
+         GUICtrlCreateLabel("MPI",105,127,75,15,$SS_CENTER)
          GUICtrlCreateLabel("Circumference",10,150,180,15,$SS_CENTER)
          GUICtrlCreateLabel("cm/rev",20,190,75,15,$SS_CENTER)
          GUICtrlCreateLabel("in/rev",105,190,75,15,$SS_CENTER)
@@ -347,6 +347,8 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
                 Else
                    $gSens    =      _GetNumberFromString( GUICtrlRead($sInput[3]) ) / $cpi / 60
                 EndIf
+             else
+                ; restore cpi
              endif
           else 
              GUICtrlSetData($sInput[7], "Move 5 inches..." )
