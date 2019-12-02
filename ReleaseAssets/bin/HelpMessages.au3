@@ -25,8 +25,8 @@ Func HelpMessage($mode="default")
                               & "Press [Alt][ 0 ] to clear memory if you made a wrong input."  & @crlf _
                                                                                                & @crlf _
                               & "Under/overshoot drifts can take many cycles to become observable. "   _
-                              & "Quantization artifacts can cause slight shifts up to +/- 0.5 count "  _
-                              & "that snaps back periodically over many rotations. To positively "     _
+                              & "Quantization artifacts can cause phantom shifts up to +/- 0.5 count " _
+                              & "that will snap back periodically over many rotations. To positively " _
                               & "qualify under/overshoots, the deviations must equal or exceed +/- 1 " _
                               & "angle increments. Use Jog hotkeys to move single incements to check " _
                               & "that deviations are at least one count away from origin."     & @crlf _
