@@ -118,7 +118,7 @@ Func ClearBounds()
 EndFunc
 
 Func JogLeft()
-  If $gMode = 1 Then
+  If $gMode > 0 Then
      $gMode = 0
     _MouseMovePlus(-1,0)
      $gMode = 1
@@ -126,7 +126,7 @@ Func JogLeft()
 EndFunc
 
 Func JogRight()
-  If $gMode = 1 Then
+  If $gMode > 0 Then
      $gMode = 0
     _MouseMovePlus(1,0)
      $gMode = 1
@@ -157,10 +157,50 @@ Func Halt()
 EndFunc
 
 Func RecordYawToggle()
-  If $gMode = 1 Then
+  If $gMode > 0 Then
      $gMode = 0
      local $idMsg[2] = [$g_incidental_recordButton,"HOTKEY"]
      EventMeasurementStatsWindow($idMsg)
      $gMode = 1
   EndIf
+EndFunc
+
+
+
+Func TestMouse($cycle)
+   If $gMode > 0 Then           ; three states of $gMode: -1, 0, 1. A 0 means in-progress and exits the command without doing anything.
+      $gMode = 0                ; -1 means manual override and is checked for before performing every operation, 1 means all is good to go.
+
+      $partition  = $gPartition
+      $delay      = $gDelay
+      $turn       = 0.0
+      $totalcount = 1
+      $grandtotal = (($cycle*360)+$gResidual)/$gSens
+
+      While $cycle > 0
+            $cycle         = $cycle - 1
+            $turn          = 360                                               ; one revolution in deg
+            $totalcount    = ( $turn + $gResidual ) / ( $gSens )               ; partitioned by user-defined increments
+            $totalcount    = Round( $totalcount )                              ; round to nearest integer
+            $gResidual     = ( $turn + $gResidual ) - ( $gSens * $totalcount ) ; save the residual angles
+         While $totalcount > $partition
+            If $gMode < 0 Then
+               ExitLoop
+            EndIf
+            _MouseMovePlus($partition,0)
+            $totalcount = $totalcount - $partition
+            Sleep($delay)
+         WEnd
+         If $gMode < 0 Then
+            ExitLoop
+         EndIf
+        _MouseMovePlus($totalcount,0) ; do the leftover
+         Sleep($delay)
+      WEnd
+      
+      If $gMode == 0 Then
+         $gMode = 1
+         $gResidual = $gSens * ( $grandtotal - round($grandtotal) )
+      EndIf
+   EndIf
 EndFunc
