@@ -2,7 +2,7 @@
 [![Screenshot 1](https://i.redd.it/3vmnm6ne3i241.png)](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
 
-This script lets you match your mouse sensitivity between any 3D games directly and much more precisely than any paywalled calculators.
+This script lets you match your mouse sensitivity between any 3D games directly, and much more accurately than any paywalled calculators.
 
 Run the script, then:
 
