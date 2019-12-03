@@ -51,13 +51,16 @@ EndFunc
 
 Func EventMeasurementStatsWindow($idMsg)
   if $g_incidental_measureGUI[0] == "INACTIVE" then
+     return
   elseif $idMsg[0] == $g_incidental_recordButton then
       Local $tempPtr = $g_incidental_measureGUI[0] ; save the pointer of the measureGUI window
       $g_incidental_measureGUI[0] = "INACTIVE"     ; lock this function from being executed by hotkey until it has completed
+      if $tempPtr == "INACTIVE" then return        ; double check for edge cases of async hijack
       if $g_isRecording then
          $g_isRecording = not $g_isRecording                        ; stop recording first
          local $l_yawbuffer = $g_yawbuffer                          ; store the finalized reference value
          GUICtrlSetData($g_incidental_measureGUI[9], $l_yawbuffer)  ; show the finalized yawbuffer value
+         sleep(10)                                                  ; give a pause to make sure the value is fixated a bit
          $l_yawbuffer = Abs($l_yawbuffer)                           ; only want magnitude of counts
          if $l_yawbuffer > 0 then                                   ; check if any counts have been recorded
              if $idMsg[1] == "HOTKEY" then                          ; play sound if ended by hotkey
@@ -93,7 +96,7 @@ Func EventMeasurementStatsWindow($idMsg)
            _ArrayDisplay($gHistory, "Table", UBound($gHistory)>1 ? "1:" : "")
      EndSwitch
   elseif $g_isRecording then                                        ; if no relelvant events but is in measure mode, only then check if recording is active
-     GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer)      ; live update the displayed counts
+     GUICtrlSetData($g_incidental_measureGUI[9], $g_yawbuffer&"..."); live update the displayed counts
   endif
 EndFunc
 
