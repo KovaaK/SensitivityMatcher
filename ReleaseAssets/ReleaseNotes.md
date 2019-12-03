@@ -4,15 +4,14 @@
 
 _New Feature: Rawinput recording_
 
-* In Measurement Mode, you can now speed up initial setup of upper/lower bound estimates using your mouse instead (default hotkey is `[Alt][/]` to toggle recording).
-* Record a rotation in-game with slight over- or undershoots, then mark them using hotkeys or the new GUI buttons for the fine-tuner. This quickly narrows down the range and gets you straight to the convergence stage.
-* This feature is also great for helping new FPS players find a comfortable initial sensitivity, just record two 180 swipes that you can do comfortably and the corresponding setting is calculated.
+* In Measurement Mode, you can now set up the initial guesses for upper/lower bound much quicker using your mouse instead (default hotkey is `[Alt][/]` to toggle recording). Just record rotations in-game with slight over- or undershoots and mark them accordingly. This immediately narrows down the range, you can then use the repeater and fine-tuner to further converge.
+* This feature is also great for helping new FPS players find a comfortable first sensitivity, just record two 180° swipes that you can do comfortably, and the corresponding setting is calculated.
 * The physical sensitivity calculator now also includes a CPI calibration feature to take advantage of the rawinput capability.
 
 _Enhancement: Convergence Log window during Measurement Mode_
 
 * Graph showing convergence progress of your Turn-Capture function.
-* Estimate-adjustment buttons for those who prefer them over hotkeys.
+* GUI button for the fine-tuner function, for those who prefer them over hotkeys.
 * Button to display the convergence history as a table (in addition to the detailed log file output).
 
 _Usability Change: Default hotkeys of some commands have been changed_
