@@ -109,14 +109,13 @@ Func IncreasePolygon()
 EndFunc
 
 Func ClearBounds()
-     UpdateMeasurementStatsWindow("CLEAR")
-     Global $gHistory[1] = [0]
      $gResidual  = 0
      $gBounds[0] = 0
      $gBounds[1] = 0
      $gPartition = NormalizedPartition($gSens,$defaultTurnPeriod,$gDelay)
      $gReportFile= CleanupFileName("MeasureReport"&_Now()&".csv")
-     UpdateMeasurementStatsWindow()
+     UpdateMeasurementStatsWindow("CLEAR")
+     Global $gHistory[1] = [0]
 EndFunc
 
 Func JogLeft()
