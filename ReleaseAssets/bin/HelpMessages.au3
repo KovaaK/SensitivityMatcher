@@ -17,12 +17,12 @@ Func HelpMessage($mode="default")
                               & "Precision Measurements (Advanced):"                           & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "1) Record a rotation with slight overshoot as inital guess."  & @crlf _
-                              & "2) Report overshoot with hotkey. Do the same for undershoot." & @crlf _
-                              & "3) Keep tweaking estimates using the fine-tuner w/ repeater." & @crlf _
+                              & "2) Mark as overshoot. Repeat the process for an undershoot."  & @crlf _
+                              & "3) Keep narrowing down estimates by testing w/ the repeater." & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][+] to increase counts if it's undershooting."     & @crlf _
                               & "Press [Alt][ - ] to decrease counts if it's overshooting."    & @crlf _
-                              & "Press [Alt][ 0 ] to clear memory if you made a wrong input."  & @crlf _
+                              & "Press [Alt][ 0 ] to clear memory if you made a wrong mark."   & @crlf _
                                                                                                & @crlf _
                               & "Under/overshoot drifts can take many cycles to become observable. "   _
                               & "Quantization artifacts can cause phantom shifts up to +/- 0.5 count " _
@@ -71,11 +71,11 @@ Func HelpMessage($mode="default")
                               & "------------------------------------------------------------" & @crlf _
                               & "1) Select ''Measure any game'' to enable measurement."        & @crlf _
                               & "2) Perform rotations in old game to test your estimate."      & @crlf _
-                              & "3) Use the following hotkeys to fine tune the estimate."      & @crlf _
+                              & "3) Use the following hotkeys to narrow down the estimate."    & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][+] to increase counts if it's undershooting."     & @crlf _
                               & "Press [Alt][ - ] to decrease counts if it's overshooting."    & @crlf _
-                              & "Press [Alt][ 0 ] to clear memory if you made a wrong input."  & @crlf _
+                              & "Press [Alt][ 0 ] to clear memory if you made a wrong mark."   & @crlf _
                                                                                                & @crlf _
                               & "The estimate will converge to your exact sensitivity as you narrow "  _
                               & "down the range with hotkeys. You can then use the measured "          _
