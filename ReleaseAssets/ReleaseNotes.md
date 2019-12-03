@@ -2,6 +2,12 @@
 
 [version 1.5]
 
+_Usability Change: Default hotkeys of some commands have been changed_
+* Turn once: ~~`Alt [`~~ changed to `Alt` `'` (single quote)
+* Turn a lot: ~~`Alt ]`~~ cahnged to `Alt` `;`
+* Jog right: ~~`Alt '`~~ changed to `Alt` `>`
+* Jog left: ~~`Alt ;`~~ changed to `Alt` `<`
+
 _New Feature: Rawinput recording_
 
 * In Measurement Mode, you can now set up upper/lower initial guesses more quickly using your mouse instead (default hotkey is `[Alt][/]` to toggle recording). 
@@ -14,12 +20,6 @@ _Enhancement: Convergence Log window during Measurement Mode_
 * Graph showing convergence progress of your Turn-Capture function.
 * GUI buttons for the fine-tuner function, for those who prefer them over hotkeys.
 * Display the convergence history as a table (in addition to the detailed log file output).
-
-_Usability Change: Default hotkeys of some commands have been changed_
-* Turn once: ~~`Alt [`~~ changed to `Alt` `'` (single quote)
-* Turn a lot: ~~`Alt ]`~~ cahnged to `Alt` `;`
-* Jog right: ~~`Alt '`~~ changed to `Alt` `>`
-* Jog left: ~~`Alt ;`~~ changed to `Alt` `<`
 
 ## Download
 
