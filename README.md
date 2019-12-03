@@ -38,6 +38,3 @@ Press `Alt` `0` to start over if you made a wrong correction.
 With this script, sub-increment accuracy is preserved between rotations, rapidly quenching the uncertainty with each cycle. This means that the script can measure any base yaw to high degree of precision by monitoring for drifts over many cycles.
 
 You no longer need to trust paywalled calculators that derive their measurement from single-rotation estimates approximated by integer counts, which amplifies their measurement error multiplicatively with each successive turn.
-
-
-[![Screenshot 2](https://i.redd.it/324p9wyf3i241.png)](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
