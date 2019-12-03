@@ -18,8 +18,8 @@ Press `Alt` `\` to halt (also clears residuals).
 
 &nbsp;
 
-If the game that you are coming from is not listed, the script can also measure your old sensitivity.\
-Select "Measure any game" and go into the game you wish to export your sensitivity from, then:
+If the game that you are coming from is not listed, the script can also capture your old sensitivity.\
+Select "Measure any game" and go into the game from which you wish to export your sensitivity, then:
 
 1) Aim at a precise marker in game, then press the Record hotkey to record your mouse movement
 2) Use your mouse to turn 360 degrees aiming back to marker, and press the hotkey again to stop recording.
