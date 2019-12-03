@@ -23,7 +23,7 @@ Func HelpMessage($mode="default")
                               & "3) Use the fine-tuner hotkeys to fine-tune your estimates."   & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][ / ] to start/finish recording."                  & @crlf _
-                              & "Press [Alt][+] to increase counts if repeater undershoot."    & @crlf _
+                              & "Press [Alt][+] to increase counts if repeater undershoots."   & @crlf _
                               & "Press [Alt][ - ] to decrease counts if repeater overshoots."  & @crlf _
                               & "Press [Alt][ 0 ] to clear memory if you made a wrong mark."   & @crlf _
                                                                                                & @crlf _
@@ -88,7 +88,7 @@ Func HelpMessage($mode="default")
                               & "3) Use the fine-tuner hotkeys to fine-tune your estimates."   & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][ / ] to start/finish recording."                  & @crlf _
-                              & "Press [Alt][+] to increase counts if repeater undershoot."    & @crlf _
+                              & "Press [Alt][+] to increase counts if repeater undershoots."   & @crlf _
                               & "Press [Alt][ - ] to decrease counts if repeater overshoots."  & @crlf _
                               & "Press [Alt][ 0 ] to clear memory if you made a wrong mark."   & @crlf _
                                                                                                & @crlf _
