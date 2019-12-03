@@ -8,7 +8,7 @@ Run the script, then:
 
 1) Select the preset/game that you are coming from.
 2) Input your sensitivity value from your old game.
-3) In your new game, adjust its setting until the repeater makes precise full turns in game.
+3) In your new game, adjust its setting until the repeater make exact turns in game with no drift.
 
 Press `Alt` `"` to perform one full revolution.
 
