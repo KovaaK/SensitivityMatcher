@@ -8,7 +8,7 @@ Run the script, then:
 
 1) Select the preset/game that you are coming from.
 2) Input your sensitivity value from your old game.
-3) In your new game, adjust the in-game setting until the repeater makes a precise rotation.
+3) In your new game, adjust the in-game setting until the repeater makes exact rotations even over many cycles.
 
 Press `Alt` `"` to perform one full revolution.
 
