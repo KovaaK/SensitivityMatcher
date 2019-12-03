@@ -10,9 +10,9 @@ Run the script, then:
 2) Input your sensitivity value from your old game.
 3) In your new game, adjust its sens until the test matches.
 
-Press `Alt` `'` to perform one full revolution.
+Press `Alt` `"` to perform one full revolution.
 
-Press `Alt` `;` to perform multiple full revolutions.
+Press `Alt` `Shift` `"` to perform multiple full revolutions.
 
 Press `Alt` `\` to halt (also clears residuals).
 
