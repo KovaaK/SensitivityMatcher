@@ -9,7 +9,7 @@ Func HelpMessage($mode="default")
                               & "------------------------------------------------------------" & @crlf _
                               & "1) Select the preset/game that you are coming from."          & @crlf _
                               & "2) Input your sensitivity value from your old game."          & @crlf _
-                              & "3) In your new game, adjust its sens until the test matches." & @crlf _
+                              & "3) In your new game, adjust its sens until repeater matches." & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][ ' ] (single quote) to send one turn."            & @crlf _
                               & "Press [Alt][ ; ] (semicolon) to send " & $gCycle & " turns."  & @crlf _
@@ -74,7 +74,7 @@ Func HelpMessage($mode="default")
                               & "------------------------------------------------------------" & @crlf _
                               & "1) Select the preset/game that you are coming from."          & @crlf _
                               & "2) Input your sensitivity value from your old game."          & @crlf _
-                              & "3) In your new game, adjust its sens until the test matches." & @crlf _
+                              & "3) In your new game, adjust its sens until repeater matches." & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][ ' ] (single quote) to send one turn."            & @crlf _
                               & "Press [Alt][ ; ] (semicolon) to send " & $gCycle & " turns."  & @crlf _
