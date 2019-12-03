@@ -12,8 +12,8 @@ _New Feature: Rawinput recording_
 _Enhancement: Convergence Log window during Measurement Mode_
 
 * Graph showing convergence progress of your Turn-Capture function.
-* GUI button for the fine-tuner function, for those who prefer them over hotkeys.
-* Button to display the convergence history as a table (in addition to the detailed log file output).
+* GUI buttons for the fine-tuner function, for those who prefer them over hotkeys.
+* Display the convergence history as a table (in addition to the detailed log file output).
 
 _Usability Change: Default hotkeys of some commands have been changed_
 * Turn once: ~~`Alt [`~~ changed to `Alt` `'` (single quote)
