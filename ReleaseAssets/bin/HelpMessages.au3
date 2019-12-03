@@ -7,11 +7,14 @@ Func HelpMessage($mode="default")
             MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
                               & "Capture Unknown Sensitivity (Quick):"                         & @crlf _
                               & "------------------------------------------------------------" & @crlf _
-                              & "1) Press the Record hotkey and turn 360deg with your mouse."  & @crlf _
-                              & "2) Prese hotkey again to finish. Avoid any erroneous motion." & @crlf _
-                              & "3) You can now match other games to your saved sensitivity."  & @crlf _
+                              & "1) Press the Record hotkey and make a turn with your mouse."  & @crlf _
+                              & "2) Press hotkey again to finish. Avoid any erroneous motion." & @crlf _
+                              & "3) You can now match this to other games using the repeater." & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][ / ] to start/finish Recording."                  & @crlf _
+                              & "Press [Alt][ ' ] (single quote) to send one turn."            & @crlf _
+                              & "Press [Alt][ ; ] (semicolon) to send " & $gCycle & " turns."  & @crlf _
+                              & "Press [Alt][ \ ] (backslash) to halt (also clears residual)." & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "Precision Measurements (Advanced):"                           & @crlf _
@@ -62,15 +65,15 @@ Func HelpMessage($mode="default")
                               & "2) Input your sensitivity value from your old game."          & @crlf _
                               & "3) In your new game, adjust its sens until the test matches." & @crlf _
                                                                                                & @crlf _
-                              & "Press [Alt][ ' ] (single quote) to perform one full turn."    & @crlf _
-                              & "Press [Alt][ ; ] (semicolon) to perform "& $gCycle &" turns." & @crlf _
+                              & "Press [Alt][ ' ] (single quote) to send one turn."            & @crlf _
+                              & "Press [Alt][ ; ] (semicolon) to send " & $gCycle & " turns."  & @crlf _
                               & "Press [Alt][ \ ] (backslash) to halt (also clears residual)." & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "If your old game is not listed/yaw is unknown:"               & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "1) Select ''Measure any game'' to enable fine-tuner hotkeys." & @crlf _
-                              & "2) Perform rotations in your old game to test the estimates." & @crlf _
+                              & "2) Perform rotations in your old game to test your estimate." & @crlf _
                               & "3) Use the following hotkeys to narrow down your estimates."  & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][+] to increase counts if it's undershooting."     & @crlf _
