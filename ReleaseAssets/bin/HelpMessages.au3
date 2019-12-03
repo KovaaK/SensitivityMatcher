@@ -12,7 +12,7 @@ Func HelpMessage($mode="default")
                               & "3) In your new game, adjust its sens until repeater matches." & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][ ' ] (single quote) to send one turn."            & @crlf _
-                              & "Press [Alt][ ; ] (semicolon) to send " & $gCycle & " turns."  & @crlf _
+                              & "Press [Alt][Shift][ ' ] to send " & $gCycle & " turns."       & @crlf _
                               & "Press [Alt][ \ ] (backslash) to halt (also clears residual)." & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
@@ -77,7 +77,7 @@ Func HelpMessage($mode="default")
                               & "3) In your new game, adjust its sens until repeater matches." & @crlf _
                                                                                                & @crlf _
                               & "Press [Alt][ ' ] (single quote) to send one turn."            & @crlf _
-                              & "Press [Alt][ ; ] (semicolon) to send " & $gCycle & " turns."  & @crlf _
+                              & "Press [Alt][Shift][ ' ] to send " & $gCycle & " turns."       & @crlf _
                               & "Press [Alt][ \ ] (backslash) to halt (also clears residual)." & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
