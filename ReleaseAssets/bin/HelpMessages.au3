@@ -11,9 +11,9 @@ Func HelpMessage($mode="default")
                               & "2) Input your sensitivity value from your old game."          & @crlf _
                               & "3) In your new game, adjust its sens until repeater matches." & @crlf _
                                                                                                & @crlf _
-                              & "Press [Alt][ ' ] (single quote) to send one turn."            & @crlf _
-                              & "Press [Alt][Shift][ ' ] to send " & $gCycle & " turns."       & @crlf _
-                              & "Press [Alt][ \ ] (backslash) to halt (also clears residual)." & @crlf _
+                              & "Press [Alt][ '' ] (quotation mark) to send one turn."         & @crlf _
+                              & "Press [Alt][Shift][ '' ] to send " & $gCycle & " turns."      & @crlf _
+                              & "Press [Alt][ \ ] to halt (also clears residual)."             & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "To capture sensitivity manually if your game isn't listed:"   & @crlf _
@@ -76,9 +76,9 @@ Func HelpMessage($mode="default")
                               & "2) Input your sensitivity value from your old game."          & @crlf _
                               & "3) In your new game, adjust its sens until repeater matches." & @crlf _
                                                                                                & @crlf _
-                              & "Press [Alt][ ' ] (single quote) to send one turn."            & @crlf _
-                              & "Press [Alt][Shift][ ' ] to send " & $gCycle & " turns."       & @crlf _
-                              & "Press [Alt][ \ ] (backslash) to halt (also clears residual)." & @crlf _
+                              & "Press [Alt][ '' ] (quotation mark) to send one turn."         & @crlf _
+                              & "Press [Alt][Shift][ '' ] to send " & $gCycle & " turns."      & @crlf _
+                              & "Press [Alt][ \ ] to halt (also clears residual)."             & @crlf _
                                                                                                & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "To capture sensitivity manually if your game isn't listed:"   & @crlf _
