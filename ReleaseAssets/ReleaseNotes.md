@@ -1,6 +1,7 @@
 ## Release Highlights
-
 [version 1.5]
+
+[![Screenshot](https://i.redd.it/324p9wyf3i241.png)](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
 _Usability Change: Default hotkeys of some commands have been changed_
 * Turn once: ~~`Alt [`~~ changed to `Alt` `'` (single quote)
