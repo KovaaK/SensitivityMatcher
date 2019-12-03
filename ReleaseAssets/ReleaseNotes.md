@@ -4,8 +4,8 @@
 
 _New Feature: Rawinput recording_
 
-* In Measurement Mode, you can now set up the initial guesses for upper/lower bound much quicker using your mouse instead (default hotkey is `[Alt][/]` to toggle recording). Just record rotations in-game with slight over- or undershoots and mark them accordingly. This immediately narrows down the range, you can then use the repeater and fine-tuner to further converge.
-* This feature is also great for helping new FPS players find a comfortable first sensitivity, just record two 180° swipes that you can do comfortably, and the corresponding setting is calculated.
+* In Measurement Mode, you can now set up the initial guesses for upper/lower bound much quicker using your mouse instead (default hotkey is `[Alt][/]` to toggle recording). Just record rotations with slight over- or undershoots and mark them accordingly. This immediately narrows down the range, from then on you can further converge the measurement with the repeater.
+* This feature is also great for quickly helping new FPS players find a comfortable initial sensitivity, just record two 180° swipes that you can do comfortably, and the corresponding setting is calculated.
 * The physical sensitivity calculator now also includes a CPI calibration feature to take advantage of the rawinput capability.
 
 _Enhancement: Convergence Log window during Measurement Mode_
