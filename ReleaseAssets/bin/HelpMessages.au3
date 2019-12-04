@@ -64,9 +64,9 @@ Func HelpMessage($mode="default")
                               & " cycles: " & $time & " sec"                                   & @crlf _
                                                                                                & @crlf _
                               & "Current Residual Angle: " & $gResidual  & "°"                 & @crlf _
-                              & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
-                              & "Current Increment: "      & $gSens      & "°"                 & @crlf _
                               & "Current Upper Bound: "    & $gBounds[1] & "°"                 & @crlf _
+                              & "Current Increment: "      & $gSens      & "°"                 & @crlf _
+                              & "Current Lower Bound: "    & $gBounds[0] & "°"                 & @crlf _
                               & "Uncertainty: ±" & $error  & "° (±"      & $prcnt & "%)"               )
         Else
             MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
