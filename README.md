@@ -28,9 +28,9 @@ Select "Measure any game" and go into the game from which you wish to export you
 
 Press `Alt` `/` to start/finish recording.
 
-Press `Alt` `+` to correct overshoots.
+Press `Alt` `+` to correct undershoots.
 
-Press `Alt` `-` to correct undershoots.
+Press `Alt` `-` to correct overshoots.
 
 Press `Alt` `0` to restart if you made a wrong correction.    
 
