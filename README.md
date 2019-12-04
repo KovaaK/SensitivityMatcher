@@ -10,9 +10,9 @@ Run the script, then:
 2) Input your sensitivity value from your old game.
 3) In your new game, adjust its setting until the repeater make exact turns in game with no drift.
 
-Press `Alt` `"` to perform one full revolution.
+Press `Alt` `Backspace` to perform one full revolution.
 
-Press `Alt` `Shift` `"` to perform multiple full revolutions.
+Press `Alt` `Shift` `Backspace` to perform multiple full revolutions.
 
 Press `Alt` `\` to halt (also clears the residual angles).
 
