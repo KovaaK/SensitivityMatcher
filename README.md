@@ -23,7 +23,7 @@ Select "Measure any game" and go into the game from which you wish to export you
 
 1) Aim at a precise marker in game, then press the Record hotkey to record your mouse movement
 2) Use your mouse to turn 360 degrees aiming back to marker, and press the hotkey again to stop recording.
-3) Use the Repeater hotkeys to check its accuracy, correct over/undershoots with the fine tuner hotkeys
+3) Use the repeater hotkeys to check its accuracy, correct over/undershoots with the fine tuner hotkeys
 4) You can now match the captured sensitivity to any game, simply select the game from presets to show the right value, or use the repeater and adjust the in-game value manually if it's not listed in the presets.
 
 Press `Alt` `/` to start/finish recording.
