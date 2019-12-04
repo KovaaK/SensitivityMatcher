@@ -99,7 +99,7 @@ $g_incidental_measureGUI[9]=$sCounts
    Local $hTickRate   = GUICtrlGetHandle($sTickRate)
                        _GUIToolTip_AddTool($hToolTip, 0, "How many times per second to send mouse movements. Make sure this isn't higher than your framerate, especially for non-rawinput games.", $hTickRate)
    Local $hCycle      = GUICtrlGetHandle($sCycle)
-                       _GUIToolTip_AddTool($hToolTip, 0, "How many full revolutions to perform when  pressing the multicycle hotkey.", $hCycle)
+                       _GUIToolTip_AddTool($hToolTip, 0, "How many full revolutions to perform when pressing the multicycle hotkey.", $hCycle)
 
 
    ; Initialize all inputs to ini or hardcoded defaults
