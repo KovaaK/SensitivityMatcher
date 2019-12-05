@@ -298,6 +298,8 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
                          _GUIToolTip_AddTool($hToolTip, 0, "cm per revolution = 2.54 * 360°/(incre*CPI)", $hCcm)
          Local $hCin    = GUICtrlGetHandle($sInput[5])
                          _GUIToolTip_AddTool($hToolTip, 0, "inch per revolution = 360°/(incre*CPI)", $hCin)
+         Local $hCal    = GUICtrlGetHandle($sInput[7])
+                         _GUIToolTip_AddTool($hToolTip, 0, "Click to start recording mouse movement, then press space to finish the measurement.", $hCal)
          GUICtrlSetState($sInput[1],$GUI_FOCUS)
          GUISetState(@SW_SHOW)
          For $i = 0 to 5
