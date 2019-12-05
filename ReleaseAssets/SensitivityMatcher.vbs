@@ -1,5 +1,3 @@
-Set WshShell = WScript.CreateObject("WScript.Shell")
-
 Dim Executable, Script, Command
 
 Executable = false
@@ -25,6 +23,7 @@ Else If FileExists("bin\SensitivityMatcher.au3") Then
 End If
 
 If Executable AND Script Then
+   Set WshShell = WScript.CreateObject("WScript.Shell")
    WshShell.Run Command
 End If
 
