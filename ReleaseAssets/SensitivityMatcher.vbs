@@ -1,19 +1,31 @@
 Set WshShell = WScript.CreateObject("WScript.Shell")
+
+Dim Executable, Script, Command
+
+Executable = false
+Script = false
+Command = ""
+
 If FileExists("bin\AutoIt3.exe") Then
-   If FileExists("bin\SensitivityMatcher.a3x") Then
-      WshShell.Run "bin\AutoIt3.exe bin\SensitivityMatcher.a3x"
-   Else If FileExists("bin\SensitivityMatcher.au3") Then
-           WshShell.Run "bin\AutoIt3.exe bin\SensitivityMatcher.au3"
-        End If
-   End If
+   Executable = true
+   Command = "bin\AutoIt3.exe "
 Else If FileExists("bin\AutoIt3_x64.exe") Then
-        If FileExists("bin\SensitivityMatcher.a3x") Then
-           WshShell.Run "bin\AutoIt3_x64.exe bin\SensitivityMatcher.a3x"
-        Else If FileExists("bin\SensitivityMatcher.au3") Then
-                WshShell.Run "bin\AutoIt3_x64.exe bin\SensitivityMatcher.au3"
-             End If
-        End If
+        Executable = true
+        Command = "bin\AutoIt3_x64.exe "
      End If
+End If
+
+If FileExists("bin\SensitivityMatcher.a3x") Then
+   Script = true
+   Command = Command + "bin\SensitivityMatcher.a3x"
+Else If FileExists("bin\SensitivityMatcher.au3") Then
+        Script = true
+        Command = Command + "bin\SensitivityMatcher.au3"
+     End If
+End If
+
+If Executable AND Script Then
+   WshShell.Run Command
 End If
 
 Function FileExists(FilePath)
