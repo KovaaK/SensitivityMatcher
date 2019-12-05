@@ -18,7 +18,7 @@ _New Feature: Rawinput recording_
 
 _Enhancement: Convergence Log window during Measurement Mode_
 
-* Graph showing convergence progress of your Turn-Capture function.
+* Graph showing convergence progress of your estimate tuning.
 * GUI buttons for the fine-tuner function, for those who prefer them over hotkeys.
 * Display the convergence history as a table (in addition to the detailed log file output).
 
