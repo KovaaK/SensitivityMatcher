@@ -16,7 +16,7 @@ Global $g_isCalibratingCPI = false
 Global $g_yawbuffer = 0
 Global $g_mousePathBuffer[2] = [0,0]
 
-Global $g_hForm = GUICreate('Test ' & StringReplace(@ScriptName, '.au3', '()'), 160, 212, @DesktopWidth - 179, @DesktopHeight - 283, BitOR($WS_CAPTION, $WS_POPUP, $WS_SYSMENU), $WS_EX_TOPMOST)
+Global Const $g_hForm = GUICreate("")
 
 
 Local	 $tRID = DllStructCreate($tagRAWINPUTDEVICE)
@@ -30,7 +30,6 @@ _WinAPI_RegisterRawInputDevices($tRID)
 
 ; Register WM_INPUT message
 GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
-
 
 Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
     #forceref $iMsg, $wParam
