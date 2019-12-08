@@ -111,6 +111,7 @@ $g_incidental_measureGUI[9]=$sCounts
    
    SetupRawinput($idGUI)
    GUISetState(@SW_SHOW)
+   FirstLaunchCheck()
    KeybindSetter("enable","turn")
    Do
       Switch $idMsg[0]             
