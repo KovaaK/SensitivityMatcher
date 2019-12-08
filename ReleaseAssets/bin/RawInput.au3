@@ -16,8 +16,7 @@ Global $g_isCalibratingCPI = false
 Global $g_yawbuffer = 0
 Global $g_mousePathBuffer[2] = [0,0]
 
-Global Const $g_hForm = GUICreate("")
-SetupRawinput()
+Global $g_hForm
 
 Func RawinputCallback($tRIM)
      Local $mouseDelta[2] = [ DllStructGetData($tRIM, 'LastX') , DllStructGetData($tRIM, 'LastY') ]
@@ -30,12 +29,13 @@ Func RawinputCallback($tRIM)
      EndIf
 EndFunc
 
-Func SetupRawinput()
+Func SetupRawinput($l_hForm)
+   $g_hForm = $l_hForm
    Local $tRID = DllStructCreate($tagRAWINPUTDEVICE)
    DllStructSetData($tRID, 'UsagePage', 0x01) ; Generic Desktop Controls
    DllStructSetData($tRID, 'Usage', 0x02) ; Mouse
    DllStructSetData($tRID, 'Flags', $RIDEV_INPUTSINK)
-   DllStructSetData($tRID, 'hTarget', $g_hForm)
+   DllStructSetData($tRID, 'hTarget', $l_hForm)
    _WinAPI_RegisterRawInputDevices($tRID)
    GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
 EndFunc
