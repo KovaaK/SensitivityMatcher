@@ -109,9 +109,9 @@ $g_incidental_measureGUI[9]=$sCounts
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
    Local $lCalculator[9]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
    
+   FirstLaunchCheck()
    SetupRawinput($idGUI)
    GUISetState(@SW_SHOW)
-   FirstLaunchCheck()
    KeybindSetter("enable","turn")
    Do
       Switch $idMsg[0]             
