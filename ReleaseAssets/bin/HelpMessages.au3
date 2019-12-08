@@ -1,21 +1,4 @@
-Func HelpMessage($mode="default")
-     If $gValid Then
-        Local $error = BoundUncertainty($gSens,$gBounds)
-        Local $prcnt = BoundUncertainty($gSens,$gBounds,"%")
-        Local $time  = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
-        If    $mode == "measure" Then
-            MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
-                              & "To match your old sensitivity to a new game:"                 & @crlf _
-                              & "------------------------------------------------------------" & @crlf _
-                              & "1) Select the preset/game that you are coming from."          & @crlf _
-                              & "2) Input your sensitivity value from your old game."          & @crlf _
-                              & "3) In your new game, adjust its sens until repeater matches." & @crlf _
-                                                                                               & @crlf _
-                              & "Press [Alt][Backspace] to send one turn."                     & @crlf _
-                              & "Press [Alt][Shift][Backspace] to send " & $gCycle & " turns." & @crlf _
-                              & "Press [Alt][ \ ] to halt (also clears residual)."             & @crlf _
-                                                                                               & @crlf _
-                              & "------------------------------------------------------------" & @crlf _
+Global const $how_to_capture =  "------------------------------------------------------------" & @crlf _
                               & "To capture sensitivity manually if your game isn't listed:"   & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "1) Select ''Measure any game'' to enable capture function."   & @crlf _
@@ -31,7 +14,8 @@ Func HelpMessage($mode="default")
                               & "gradually narrow down its range. You can then use the measured "      _
                               & "sensitivity and match your new game to it."                   & @crlf _
                                                                                                & @crlf _
-                              & "------------------------------------------------------------" & @crlf _
+
+Global const $how_to_measure =  "------------------------------------------------------------" & @crlf _
                               & "Making precision measurements:"                               & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                               & "1) Record a rotation with slight overshoot as initial guess." & @crlf _
@@ -54,6 +38,25 @@ Func HelpMessage($mode="default")
                               & "contradictions between the MeasureReport files (located at root "     _
                               & "directory of the script.)"                                    & @crlf _
                                                                                                & @crlf _
+
+Func HelpMessage($mode="default")
+     If $gValid Then
+        Local $error = BoundUncertainty($gSens,$gBounds)
+        Local $prcnt = BoundUncertainty($gSens,$gBounds,"%")
+        Local $time  = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
+        If    $mode == "measure" Then
+            MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
+                              & "To match your old sensitivity to a new game:"                 & @crlf _
+                              & "------------------------------------------------------------" & @crlf _
+                              & "1) Select the preset/game that you are coming from."          & @crlf _
+                              & "2) Input your sensitivity value from your old game."          & @crlf _
+                              & "3) In your new game, adjust its sens until repeater matches." & @crlf _
+                                                                                               & @crlf _
+                              & "Press [Alt][Backspace] to send one turn."                     & @crlf _
+                              & "Press [Alt][Shift][Backspace] to send " & $gCycle & " turns." & @crlf _
+                              & "Press [Alt][ \ ] to halt (also clears residual)."             & @crlf _
+                                                                                               & @crlf _
+                              & $how_to_capture & $how_to_measure _
                               & "------------------------------------------------------------" & @crlf _
                               & "Additional Info:"                                             & @crlf _
                               & "------------------------------------------------------------" & @crlf _
@@ -80,22 +83,7 @@ Func HelpMessage($mode="default")
                               & "Press [Alt][Shift][Backspace] to send " & $gCycle & " turns." & @crlf _
                               & "Press [Alt][ \ ] to halt (also clears residual)."             & @crlf _
                                                                                                & @crlf _
-                              & "------------------------------------------------------------" & @crlf _
-                              & "To capture sensitivity manually if your game isn't listed:"   & @crlf _
-                              & "------------------------------------------------------------" & @crlf _
-                              & "1) Select ''Measure any game'' to enable capture function."   & @crlf _
-                              & "2) Record a precise turn in game, then check using repeater." & @crlf _
-                              & "3) Use the fine-tuner hotkeys to fine-tune your estimates."   & @crlf _
-                                                                                               & @crlf _
-                              & "Press [Alt][ / ] to start/finish recording."                  & @crlf _
-                              & "Press [Alt][+] to increase counts if repeater undershoots."   & @crlf _
-                              & "Press [Alt][ - ] to decrease counts if repeater overshoots."  & @crlf _
-                              & "Press [Alt][ 0 ] to clear memory if you made a wrong mark."   & @crlf _
-                                                                                               & @crlf _
-                              & "The estimates will converge to your exact sensitivity as you "        _
-                              & "gradually narrow down its range. You can then use the measured "      _
-                              & "sensitivity and match your new game to it."                   & @crlf _
-                                                                                               & @crlf _
+                              & $how_to_capture _
                               & "------------------------------------------------------------" & @crlf _
                               & "Additional Info:"                                             & @crlf _
                               & "------------------------------------------------------------" & @crlf _
