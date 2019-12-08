@@ -21,7 +21,7 @@ Func DestroyMeasurementStatsWindow()
 EndFunc
 
 Func MakeMeasurementStatsWindow()
-    $g_incidental_measureGUI[0] = GUICreate("Convergence Log",205,235,-209,-49,$WS_CAPTION,BitOR($WS_EX_MDICHILD,$WS_EX_TOOLWINDOW),WinGetHandle(""))
+    $g_incidental_measureGUI[0] = GUICreate("Convergence Log",205,235,-209,-49,$WS_CAPTION,BitOR($WS_EX_MDICHILD,$WS_EX_TOOLWINDOW),$idGUI)
     GUICtrlCreateLabel( "Upper Bound:",  5,5,70,20)
     GUICtrlCreateLabel( "Lower Bound:",  5,25,70,20)
     GUICtrlCreateLabel( "Uncertainty: ±",  5,45,70,20)
