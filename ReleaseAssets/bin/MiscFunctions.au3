@@ -1,6 +1,14 @@
 
 Global Const $defaultTurnPeriod = 1000
 
+Func FirstLaunchCheck()
+  if IniRead($gSettingIni,"FirstLaunch","Read1.5",0)==1 then
+  else
+     HelpMessage()
+     IniWrite($gSettingIni,"FirstLaunch","Read1.5",1)
+  endif
+EndFunc
+
 Func UpdatePartition($limit,$sens,$bound,$delay)
   Local $error = 1
      If $bound[1] AND ($bound[1] > $bound[0]) Then
