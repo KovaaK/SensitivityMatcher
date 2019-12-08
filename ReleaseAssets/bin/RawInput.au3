@@ -17,34 +17,36 @@ Global $g_yawbuffer = 0
 Global $g_mousePathBuffer[2] = [0,0]
 
 Global Const $g_hForm = GUICreate("")
+SetupRawinput()
 
+Func RawinputCallback($tRIM)
+     Local $mouseDelta[2] = [ DllStructGetData($tRIM, 'LastX') , DllStructGetData($tRIM, 'LastY') ]
+     If $g_isRecording Then  
+        $g_yawbuffer += $mouseDelta[0]
+     EndIf
+     If $g_isCalibratingCPI Then
+        $g_mousePathBuffer[0] += $mouseDelta[0]
+        $g_mousePathBuffer[1] += $mouseDelta[1]
+     EndIf
+EndFunc
 
-Local	 $tRID = DllStructCreate($tagRAWINPUTDEVICE)
-DllStructSetData($tRID, 'UsagePage', 0x01) ; Generic Desktop Controls
-DllStructSetData($tRID, 'Usage', 0x02) ; Mouse
-DllStructSetData($tRID, 'Flags', $RIDEV_INPUTSINK)
-DllStructSetData($tRID, 'hTarget', $g_hForm)
-
-; Register HID input to obtain row input from mice
-_WinAPI_RegisterRawInputDevices($tRID)
-
-; Register WM_INPUT message
-GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
+Func SetupRawinput()
+   Local $tRID = DllStructCreate($tagRAWINPUTDEVICE)
+   DllStructSetData($tRID, 'UsagePage', 0x01) ; Generic Desktop Controls
+   DllStructSetData($tRID, 'Usage', 0x02) ; Mouse
+   DllStructSetData($tRID, 'Flags', $RIDEV_INPUTSINK)
+   DllStructSetData($tRID, 'hTarget', $g_hForm)
+   _WinAPI_RegisterRawInputDevices($tRID)
+   GUIRegisterMsg($WM_INPUT, 'WM_INPUT')
+EndFunc
 
 Func WM_INPUT($hWnd, $iMsg, $wParam, $lParam)
     #forceref $iMsg, $wParam
   If $hWnd == $g_hForm Then
       Local $tRIM = DllStructCreate($tagRAWINPUTMOUSE)
       If _WinAPI_GetRawInputData($lParam, $tRIM, DllStructGetSize($tRIM), $RID_INPUT) Then
-          Local $mouseDelta[2] = [ DllStructGetData($tRIM, 'LastX') , DllStructGetData($tRIM, 'LastY') ]
-          If $g_isRecording Then  
-             $g_yawbuffer += $mouseDelta[0]
-          EndIf
-          If $g_isCalibratingCPI Then
-             $g_mousePathBuffer[0] += $mouseDelta[0]
-             $g_mousePathBuffer[1] += $mouseDelta[1]
-          EndIf
+          RawinputCallback($tRIM)
       EndIf
   EndIf
   Return $GUI_RUNDEFMSG
-EndFunc   ;==>WM_INPUT
+EndFunc
