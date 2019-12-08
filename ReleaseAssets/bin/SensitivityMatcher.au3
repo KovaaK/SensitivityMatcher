@@ -1,25 +1,4 @@
-If _Singleton("Sensitivity Matcher", 1) == 0 Then
-    WinActivate("Sensitivity Matcher")
-    Exit
-EndIf
-
-#NoTrayIcon
-#include <Date.au3>
-#include <Misc.au3>
-#include <Math.au3>
-#include <GuiEdit.au3>
-#include <GUIToolTip.au3>
-#include <GUIComboBox.au3>
-#include <EditConstants.au3>
-#include <GUIConstantsEx.au3>
-#include <StaticConstants.au3>
-#include <StringConstants.au3>
-#include <WindowsConstants.au3>
-#include "HotkeyFunctions.au3"
-#include "MiscFunctions.au3"
-#include "HelpMessages.au3"
-#include "MeasureGUI.au3"
-#include "RawInput.au3"
+#include "Header.au3"
 
 Global Const $yawQuake          = 0.022
 Global Const $yawOverwatch      = 0.0066
@@ -39,8 +18,7 @@ Global       $gCycle     =  22
 Global       $gResidual  =  0.0  ; Residual accumulator
 Global       $gBounds[2] = [0,0] ; Upper/lower bounds of increment
 
-    Opt("GUICloseOnESC",0)
-     MakeGUI()
+MakeGUI()
 
 Func MakeGUI()
    Global $idGUI = GUICreate("Sensitivity Matcher", 295, 235,-1,-1,BitXOR($GUI_SS_DEFAULT_GUI, $WS_MINIMIZEBOX))
