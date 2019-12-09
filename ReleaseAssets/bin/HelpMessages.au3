@@ -8,7 +8,7 @@ Global const $how_to_capture =  "-----------------------------------------------
                               & "Press [Alt][ / ] to start/finish recording."                  & @crlf _
                               & "Press [Alt][+] to increase counts if repeater undershoots."   & @crlf _
                               & "Press [Alt][ - ] to decrease counts if repeater overshoots."  & @crlf _
-                              & "Press [Alt][ 0 ] to clear memory if you made a wrong mark."   & @crlf _
+                              & "Press [Alt][ 0 ] to clear memory if you made a wrong tweak."  & @crlf _
                                                                                                & @crlf _
                               & "The estimates will converge to your exact sensitivity as you "        _
                               & "gradually narrow down its range. You can then use the measured "      _
