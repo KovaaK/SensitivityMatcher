@@ -13,7 +13,7 @@ Global const $how_to_capture =  "-----------------------------------------------
                               & "The estimates will converge to your exact sensitivity as you "        _
                               & "gradually narrow down its range. You can then use the measured "      _
                               & "sensitivity and match your new game to it."                   & @crlf _
-                                                                                               & @crlf _
+                                                                                               & @crlf
 
 Global const $how_to_measure =  "------------------------------------------------------------" & @crlf _
                               & "Making precision measurements:"                               & @crlf _
@@ -37,14 +37,30 @@ Global const $how_to_measure =  "-----------------------------------------------
                               & "with different initial values and check that there are no "           _
                               & "contradictions between the MeasureReport files (located at root "     _
                               & "directory of the script.)"                                    & @crlf _
+                                                                                               & @crlf
+
+Global const $how_to_welcome =  "------------------------------------------------------------" & @crlf _
+                              & "Welcome to Sensitivity Matcher v1.5!"                         & @crlf _
+                              & "------------------------------------------------------------" & @crlf _
                                                                                                & @crlf _
+                              & "IMPORTANT NOTICE: some default hotkeys are changed in v1.5:"  & @crlf _
+                                                                                               & @crlf _
+                              & "Single rotation is now [Alt][Backspace]"                      & @crlf _
+                              & "Multi-rotation is now [Alt][Shift][Backspace]"                & @crlf _
+                                                                                               & @crlf _
+                              & "Check your keybinds in UserSettings.ini and make sure they do not "   _
+                              & "coincide with existing in-game binds."                        & @crlf _
+                                                                                               & @crlf _
+                              & "Access helptext anytime by clicking on ''Instructions''."
 
 Func HelpMessage($mode="default")
      If $gValid Then
         Local $error = BoundUncertainty($gSens,$gBounds)
         Local $prcnt = BoundUncertainty($gSens,$gBounds,"%")
         Local $time  = round($gCycle*$gDelay*(int(360/$gSens/$gPartition)+1)/1000)
-        If    $mode == "measure" Then
+        If $mode == "welcome" Then
+            MsgBox(0, "First time use", $how_to_welcome)
+        ElseIf $mode == "measure" Then
             MsgBox(0, "Info",   "------------------------------------------------------------" & @crlf _
                               & "To match your old sensitivity to a new game:"                 & @crlf _
                               & "------------------------------------------------------------" & @crlf _
