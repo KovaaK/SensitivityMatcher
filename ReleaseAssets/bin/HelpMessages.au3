@@ -43,7 +43,7 @@ Global const $how_to_welcome =  "-----------------------------------------------
                               & "Welcome to Sensitivity Matcher v1.5!"                         & @crlf _
                               & "------------------------------------------------------------" & @crlf _
                                                                                                & @crlf _
-                              & "IMPORTANT NOTICE: some default hotkeys are changed in v1.5:"  & @crlf _
+                              & "IMPORTANT NOTICE - some default hotkeys are changed in v1.5:" & @crlf _
                                                                                                & @crlf _
                               & "Single rotation is now [Alt][Backspace]"                      & @crlf _
                               & "Multi-rotation is now [Alt][Shift][Backspace]"                & @crlf _
