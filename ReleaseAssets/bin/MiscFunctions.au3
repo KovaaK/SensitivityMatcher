@@ -4,7 +4,7 @@ Global Const $defaultTurnPeriod = 1000
 Func FirstLaunchCheck()
   if IniRead($gSettingIni,"FirstLaunch","Read1.5",0)==1 then
   else
-     HelpMessage()
+     HelpMessage("welcome")
      IniWrite($gSettingIni,"FirstLaunch","Read1.5",1)
   endif
 EndFunc
