@@ -13,7 +13,7 @@ _New Feature: Rawinput recording_
 _New Feature: Chatbot command generator_
 
 * Copy your newly measured sens into your Nightbot !sens commands with the click of a button! 
-* Just click on "Share" in the physical stats calculator, a text summarizing your settings will be generated and copied to clipboard
+* Just click on "Share" in the physical stats calculator, a text summarizing your settings will be generated.
 * It will conveniently include your game-specific sensitivity value, your mouse cpi, and the physical sensitivity values representing your overall setting.
 
 _Usability Change: Default hotkeys of some commands have been changed_
