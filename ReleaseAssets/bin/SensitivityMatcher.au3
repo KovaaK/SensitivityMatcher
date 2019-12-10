@@ -107,7 +107,7 @@ $g_incidental_measureGUI[9]=$sCounts
    Local $lPartition     = $gPartition               ; Local copy of user-entered partition value, passed to UpdatePartition to clip the NormalizedPartition result
    Local $lastgSens      = $gSens                    ; Keeps track of whether there was an event that changed gSens outside of the main loop. This can happen either by hotkeys in Measurement Mode or by tweaking the Physical Sensitivities in the calc window
    Local $lastYawPresets = GUICtrlRead($sYawPresets) ; Used by Case "<save current yaw>" to keep track of yawpreset state prior to the most recent yawpreset event, so that in the event the user cancels after selecting <save current yaw>, it restores the yaw preset that was last selected.
-   Local $lCalculator[9]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
+   Local $lCalculator[10]                             ; ByRef handles for HandyCalc. Never addressed directly in loop.
    
    FirstLaunchCheck()
    SetupRawinput($idGUI)
@@ -203,6 +203,22 @@ $g_incidental_measureGUI[9]=$sCounts
           EndIf
 
       EndSwitch
+      
+      If $idGUICalc == "INACTIVE" Then
+      Else
+        if $idMsg[0] == $lCalculator[8] then
+          Local $chatbot_string = InputBox("Chat Bot Command - Click OK to Copy", _
+                                                                             " ", _
+                                                                  "My sens is " & _
+                    0.001*round(1000*_GetNumberFromString(GUICtrlRead($lCalculator[2]))) & "deg/mm (" & _
+                      0.01*round(100*_GetNumberFromString(GUICtrlRead($lCalculator[4]))) & "cm/rev) at " & _
+                               round(_GetNumberFromString(GUICtrlRead($lCalculator[1]))) & "cpi -- " & _
+                                                       GUICtrlRead($sYawPresets) & " " & GUICtrlRead($sSens), _
+                                                                  "",495,1)
+          If $chatbot_string then ClipPut($chatbot_string)
+        endif
+      EndIf
+
 
       If $lastgSens <> $gSens Then
          $lastgSens =  $gSens
@@ -239,6 +255,17 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
   Else
       If $idGUICalc == "INITIALIZE" Then
          $idGUICalc=GUICreate("Physical Sensitivity",200,235,293,-49,$WS_CAPTION,BitOR($WS_EX_MDICHILD,$WS_EX_TOOLWINDOW),$idGUI)
+         GUICtrlCreateLabel("Game (DAC):",10,9,70,15,$SS_RIGHT)
+         GUICtrlCreateLabel("Mouse (ADC):",10,33,70,15,$SS_RIGHT)
+         GUICtrlCreateLabel("deg",170,9,35,15,$SS_LEFT)
+         GUICtrlCreateLabel("CPI",170,33,35,15,$SS_LEFT)
+         GUICtrlCreateGraphic(10,80,180,2,$SS_SUNKEN)
+         GUICtrlCreateLabel("Aim Curvature",50,87,100,15,$SS_CENTER)
+         GUICtrlCreateLabel("deg/mm",20,127,75,15,$SS_CENTER)
+         GUICtrlCreateLabel("MPI",105,127,75,15,$SS_CENTER)
+         GUICtrlCreateLabel("Turn Circumference",10,150,180,15,$SS_CENTER)
+         GUICtrlCreateLabel("cm/rev",20,190,75,15,$SS_CENTER)
+         GUICtrlCreateLabel("in/rev",105,190,75,15,$SS_CENTER)
          $sInput[0]=GUICtrlCreateInput(                                                  $gSens     , 85,  6, 80, 20)
          GUICtrlSendMsg($sInput[0],$EM_SETREADONLY,1,0)
          $sInput[1]=GUICtrlCreateInput(     IniRead($gSettingIni,"Default","cpi",800)               , 85, 30, 80, 20)
@@ -248,18 +275,8 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
          $sInput[5]=GUICtrlCreateInput(360/_GetNumberFromString(GUICtrlRead($sInput[1]))/$gSens     ,105,170, 75, 20)
          $sInput[6]=GUICtrlCreateCheckbox("Lock physical sensitivity", 35,208,130)
          $sInput[7]=GUICtrlCreateButton("Calibrate Mouse CPI", 45,53,110,23)
-         $sInput[8]=GUICtrlCreateLabel("", 10,58,35,15,$SS_RIGHT)
-         GUICtrlCreateLabel("Game (DAC):",10,9,70,15,$SS_RIGHT)
-         GUICtrlCreateLabel("Mouse (ADC):",10,33,70,15,$SS_RIGHT)
-         GUICtrlCreateLabel("deg",170,9,35,15,$SS_LEFT)
-         GUICtrlCreateLabel("CPI",170,33,35,15,$SS_LEFT)
-         GUICtrlCreateGraphic(10,80,180,2,$SS_SUNKEN)
-         GUICtrlCreateLabel("Aim Curvature",10,87,180,15,$SS_CENTER)
-         GUICtrlCreateLabel("deg/mm",20,127,75,15,$SS_CENTER)
-         GUICtrlCreateLabel("MPI",105,127,75,15,$SS_CENTER)
-         GUICtrlCreateLabel("Turn Circumference",10,150,180,15,$SS_CENTER)
-         GUICtrlCreateLabel("cm/rev",20,190,75,15,$SS_CENTER)
-         GUICtrlCreateLabel("in/rev",105,190,75,15,$SS_CENTER)
+         $sInput[8]=GUICtrlCreateButton("Share",163,72,32,19)
+         $sInput[9]=GUICtrlCreateLabel("", 10,58,35,15,$SS_RIGHT)
          Local $hToolTip=_GUIToolTip_Create(0)
                          _GUIToolTip_SetDelayTime($hToolTip, $TTDT_AUTOPOP, 30000)
                          _GUIToolTip_SetDelayTime($hToolTip, $TTDT_RESHOW, 500)
@@ -320,7 +337,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
              Local $deltaMouse = $g_mousePathBuffer
              Local $calibratedCPI = Sqrt(($deltaMouse[0]*$deltaMouse[0]) + ($deltaMouse[1]*$deltaMouse[1]))/5
              GUICtrlSetData($sInput[7], "Calibrate Mouse CPI")
-             GUICtrlSetData($sInput[8], "" )
+             GUICtrlSetData($sInput[9], "" )
              if $calibratedCPI>0 and MsgBox(260,"", "You moved {" & $deltaMouse[0] & ", " & $deltaMouse[1] & "} counts over 5 inches or 127 mm." & @crlf & @crlf _
                         & "This gives " & $calibratedCPI & " CPI." & @crlf & @crlf _
                         & "Confirm entry?" ) == 6 then
@@ -340,7 +357,7 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
              $g_mousePathBuffer[0] = 0
              $g_mousePathBuffer[1] = 0
           endif
-          $g_isCalibratingCPI = not $g_isCalibratingCPI
+          $g_isCalibratingCPI = not $g_isCalibratingCPI          
       EndSwitch
       If $idMsg[0] == -1 Then
             GUICtrlSetData($sInput[0],String(    $gSens          ))
@@ -359,8 +376,8 @@ Func HandyCalculator($idGUICalc, ByRef $sInput, $idMsg)
       if $g_isCalibratingCPI then
          Local $labeldelta = $g_mousePathBuffer
          Local $labelCPI = round(Sqrt(($labeldelta[0]*$labeldelta[0]) + ($labeldelta[1]*$labeldelta[1]))/5)
-         if _GetNumberFromString(GUICtrlRead($sInput[8]))<>$labelCPI then
-             GUICtrlSetData($sInput[8], $labelCPI )
+         if _GetNumberFromString(GUICtrlRead($sInput[9]))<>$labelCPI then
+             GUICtrlSetData($sInput[9], $labelCPI )
          endif
       endif
     Return $idGUICalc
