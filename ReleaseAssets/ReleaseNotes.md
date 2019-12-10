@@ -12,7 +12,8 @@ _New Feature: Rawinput recording_
 
 _New Feature: Chatbot command generator_
 
-* Copy your newly measured sensitivity into your Nightbot commands with the click of a button! Just click on "share" and it will generate the text string summarizing all your current settings.
+* Copy your newly measured sens into your Nightbot !sens commands with the click of a button! 
+* Just click on "share" and it will generate the text string summarizing all your current settings.
 
 _Usability Change: Default hotkeys of some commands have been changed_
 * Turn once: ~~`Alt [`~~ changed to `Alt` `Backspace`
