@@ -1,7 +1,7 @@
 ## Release Highlights
 [version 1.5]
 
-[![Screenshot](https://i.redd.it/j9bvynml6y341.png)](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
+[![Screenshot](https://i.redd.it/dsb94rga7y341.png)](https://github.com/KovaaK/SensitivityMatcher/releases/latest)
 
 _New Feature: Rawinput recording_
 
