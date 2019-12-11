@@ -204,16 +204,15 @@ $g_incidental_measureGUI[9]=$sCounts
 
       EndSwitch
       
-      If $idGUICalc == "INACTIVE" Then
-      Else
+      If not ($idGUICalc == "INACTIVE") Then
         if $idMsg[0] == $lCalculator[8] then
           Local $chatbot_string = InputBox("Chat Bot Command - Click OK to Copy", _
                                                                              " ", _
                                                                   "My sens is " & _
                     0.001*round(1000*_GetNumberFromString(GUICtrlRead($lCalculator[2]))) & "deg/mm (" & _
                       0.01*round(100*_GetNumberFromString(GUICtrlRead($lCalculator[4]))) & "cm/rev) at " & _
-                               round(_GetNumberFromString(GUICtrlRead($lCalculator[1]))) & "cpi -- " & _
-                                                       GUICtrlRead($sYawPresets) & " " & GUICtrlRead($sSens), _
+                               round(_GetNumberFromString(GUICtrlRead($lCalculator[1]))) & "cpi, <" & _
+                                                       GUICtrlRead($sYawPresets) & "> " & GUICtrlRead($sSens), _
                                                                   "",495,1)
           If $chatbot_string then ClipPut($chatbot_string)
         endif
